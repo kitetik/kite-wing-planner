@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -265,7 +266,7 @@ const CAT_GEM = {
 const OWNERS  = ["Suzanne","Robbie","Both","Robert Wing"];
 const MONTHS  = ["Apr 2026","May 2026","Jun 2026","Jul 2026","Aug 2026","Sep 2026"];
 const CATS    = Object.keys(CAT_GEM);
-const VIEWS   = [["dashboard","Dashboard"],["april","April"],["chat","✦ Assistant"],["tasks","All Tasks"],["robbie","Robbie"],["diy","DIY"]];
+const VIEWS   = [["dashboard","Dashboard"],["april","April"],["gantt","◈ Gantt"],["chat","✦ Assistant"],["tasks","All Tasks"],["robbie","Robbie"],["diy","DIY"]];
 const HINTS   = ["mark bus booking as done","add task: call Columbia Tent re payment due date","what's left for Robbie?","mark Kirby task as in progress","add task: order deck lumber this week"];
 
 const SEED = [
@@ -584,6 +585,300 @@ function renderTasks() {
   `;
 }
 
+
+
+
+// ── GANTT ─────────────────────────────────────────────────────────
+function renderGantt() {
+  // 26 weeks: Apr 6 → Sep 28 2026
+  const START = new Date("2026-04-06");
+  const WEEKS = [];
+  for (let i = 0; i < 26; i++) {
+    const d = new Date(START);
+    d.setDate(START.getDate() + i * 7);
+    WEEKS.push({
+      label: d.toLocaleString("en-US",{month:"short"}) + " " + d.getDate(),
+      month: d.toLocaleString("en-US",{month:"short"}),
+    });
+  }
+
+  // Month spans for header
+  const monthSpans = [];
+  let curM = null;
+  WEEKS.forEach((w,i) => {
+    if (!curM || curM.month !== w.month) {
+      if (curM) monthSpans.push(curM);
+      curM = { month: w.month, start: i, count: 1 };
+    } else { curM.count++; }
+  });
+  if (curM) monthSpans.push(curM);
+
+  // Phase types
+  const PHASE = {
+    prep:    { border:"#3db87a", text:"#3db87a", bg:"#0a1a0a", lbl:"Prep"    },
+    build:   { border:"#5b7fdb", text:"#5b7fdb", bg:"#0a0a1e", lbl:"Build"   },
+    details: { border:"#c47c2a", text:"#c47c2a", bg:"#1e1000", lbl:"Details" },
+    goal:    { border:"#c9a84c", text:"#c9a84c", bg:"#1a1000", lbl:"Goal"    },
+  };
+
+  // 49 projects. Each phase: { s: startWeek, e: endWeek, t: type, l: label }
+  // Week 0 = Apr 6, Week 4 = May 4, Week 8 = Jun 1, Week 13 = Jul 6,
+  // Week 17 = Aug 3, Week 21 = Sep 7, Week 24 = Sep 26
+  const PROJECTS = [
+    // ── HOUSE EXTERIOR ──────────────────────────────────────────
+    { group:"House — Exterior", color:"#3db89e", name:"Deck Rebuild",
+      phases:[{s:0,e:1,t:"prep",l:"Order lumber"},{s:4,e:8,t:"build",l:"Build"},{s:8,e:9,t:"details",l:"Seal"},{s:9,e:9,t:"goal",l:"Done Jun"}] },
+    { group:"House — Exterior", color:"#3db89e", name:"Exterior Paint",
+      phases:[{s:1,e:3,t:"prep",l:"Repair siding"},{s:8,e:11,t:"build",l:"Spray cream + blue"},{s:11,e:11,t:"goal",l:"Done Jul"}] },
+    { group:"House — Exterior", color:"#3db89e", name:"Front Steps Tiling",
+      phases:[{s:0,e:0,t:"prep",l:"Send measurements"},{s:2,e:5,t:"build",l:"Tile guy installs"},{s:5,e:5,t:"goal",l:"Done May"}] },
+    { group:"House — Exterior", color:"#3db89e", name:"White Picket Fence",
+      phases:[{s:0,e:1,t:"prep",l:"Remove old fence"},{s:4,e:6,t:"build",l:"Install"},{s:6,e:6,t:"goal",l:"Done Jun"}] },
+    { group:"House — Exterior", color:"#3db89e", name:"Wood Trellis",
+      phases:[{s:0,e:2,t:"prep",l:"Design + source lumber"},{s:4,e:6,t:"build",l:"Build + install"},{s:6,e:6,t:"goal",l:"Done Jun"}] },
+    { group:"House — Exterior", color:"#3db89e", name:"Mailbox + Window Boxes",
+      phases:[{s:0,e:1,t:"prep",l:"Order"},{s:3,e:4,t:"build",l:"Install + plant"},{s:4,e:4,t:"goal",l:"Done May"}] },
+    { group:"House — Exterior", color:"#3db89e", name:"Lawn + Yard Prep",
+      phases:[{s:0,e:2,t:"prep",l:"Rake, aerate, seed"},{s:2,e:10,t:"details",l:"Water + maintain"},{s:18,e:20,t:"details",l:"Final mow"},{s:23,e:23,t:"goal",l:"Setup week"}] },
+
+    // ── HOUSE INTERIOR ──────────────────────────────────────────
+    { group:"House — Interior", color:"#2d5bb5", name:"Interior Builds",
+      phases:[{s:0,e:1,t:"prep",l:"Plan + materials"},{s:4,e:8,t:"build",l:"Arch, hardwood, skylight"},{s:8,e:8,t:"goal",l:"Done Jun"}] },
+    { group:"House — Interior", color:"#2d5bb5", name:"Basement",
+      phases:[{s:3,e:4,t:"prep",l:"Clear + plan"},{s:4,e:7,t:"build",l:"Ceiling + speakers"},{s:7,e:8,t:"details",l:"Style + couches"},{s:8,e:8,t:"goal",l:"Done Jun"}] },
+    { group:"House — Interior", color:"#2d5bb5", name:"Master Bedroom Curtains",
+      phases:[{s:0,e:0,t:"prep",l:"Measure + order"},{s:1,e:2,t:"build",l:"Install track + hang"},{s:2,e:2,t:"goal",l:"Done Apr"}] },
+    { group:"House — Interior", color:"#2d5bb5", name:"Bathroom Repaint + Decor",
+      phases:[{s:4,e:6,t:"build",l:"Repaint"},{s:8,e:10,t:"details",l:"Gold swirl detail"},{s:10,e:10,t:"goal",l:"Done Jul"}] },
+    { group:"House — Interior", color:"#2d5bb5", name:"Built-In Shelving",
+      phases:[{s:0,e:3,t:"prep",l:"Decide + Bard Woodshop"},{s:8,e:12,t:"build",l:"Build if proceeding"},{s:12,e:12,t:"goal",l:"Done Jul"}] },
+    { group:"House — Interior", color:"#2d5bb5", name:"Guest Room",
+      phases:[{s:6,e:8,t:"prep",l:"Source decor"},{s:8,e:12,t:"build",l:"Redecorate"},{s:12,e:12,t:"goal",l:"Done Jul"}] },
+    { group:"House — Interior", color:"#2d5bb5", name:"General Repairs + Paint",
+      phases:[{s:0,e:4,t:"details",l:"Patch, spackle, touch-up"},{s:18,e:20,t:"details",l:"Final pass"},{s:22,e:22,t:"goal",l:"Done Sep"}] },
+
+    // ── GARDEN ──────────────────────────────────────────────────
+    { group:"Garden + Outdoors", color:"#5cb85c", name:"Flower Growing — Beds",
+      phases:[{s:0,e:4,t:"prep",l:"Harden + prep beds"},{s:4,e:5,t:"build",l:"Transplant out"},{s:5,e:20,t:"details",l:"Grow + tend"},{s:23,e:24,t:"goal",l:"Harvest"}] },
+    { group:"Garden + Outdoors", color:"#5cb85c", name:"Moon Garden",
+      phases:[{s:8,e:10,t:"prep",l:"Design + source plants"},{s:10,e:12,t:"build",l:"Plant + fountain"},{s:12,e:20,t:"details",l:"Grow + tend"},{s:20,e:20,t:"goal",l:"Done Aug"}] },
+    { group:"Garden + Outdoors", color:"#5cb85c", name:"Ceremony Arch",
+      phases:[{s:0,e:2,t:"prep",l:"Gather sticks + wire"},{s:22,e:23,t:"build",l:"Build on site"},{s:24,e:24,t:"goal",l:"Wedding day"}] },
+    { group:"Garden + Outdoors", color:"#5cb85c", name:"Deck Bar Build",
+      phases:[{s:4,e:6,t:"prep",l:"Design + materials"},{s:6,e:9,t:"build",l:"Build bar"},{s:9,e:9,t:"goal",l:"Done Jun"}] },
+    { group:"Garden + Outdoors", color:"#5cb85c", name:"Cement Planters + Decor",
+      phases:[{s:2,e:4,t:"prep",l:"Source FB Marketplace"},{s:6,e:8,t:"build",l:"Place + plant"},{s:8,e:8,t:"goal",l:"Done Jun"}] },
+
+    // ── CEREMONY ────────────────────────────────────────────────
+    { group:"Ceremony + Ritual", color:"#c9a84c", name:"Private Creek Ceremony",
+      phases:[{s:0,e:16,t:"prep",l:"Cherokee + Lakota prep"},{s:16,e:22,t:"details",l:"Refine ritual"},{s:24,e:24,t:"goal",l:"Morning of wedding"}] },
+    { group:"Ceremony + Ritual", color:"#c9a84c", name:"Public Ceremony",
+      phases:[{s:0,e:4,t:"prep",l:"Script + layout design"},{s:4,e:20,t:"details",l:"Rehearse + refine"},{s:23,e:23,t:"build",l:"Rehearsal"},{s:24,e:24,t:"goal",l:"Ceremony"}] },
+    { group:"Ceremony + Ritual", color:"#c9a84c", name:"Vow Writing",
+      phases:[{s:0,e:8,t:"prep",l:"Drafting"},{s:8,e:12,t:"details",l:"Refine + edit"},{s:12,e:12,t:"goal",l:"Finalize Jul 1"}] },
+    { group:"Ceremony + Ritual", color:"#c9a84c", name:"Altar Build + Objects",
+      phases:[{s:0,e:2,t:"prep",l:"Source materials"},{s:2,e:6,t:"build",l:"Build + finish"},{s:6,e:6,t:"goal",l:"Done Jun"},{s:23,e:24,t:"details",l:"Install on site"}] },
+
+    // ── WEARABLES ───────────────────────────────────────────────
+    { group:"Wearables + Craft", color:"#9b6bd4", name:"Wedding Dress Beadwork",
+      phases:[{s:0,e:8,t:"details",l:"Beading in progress"},{s:8,e:10,t:"build",l:"Final sections"},{s:10,e:10,t:"goal",l:"Done Jun 15"}] },
+    { group:"Wearables + Craft", color:"#9b6bd4", name:"Wearable Pieces",
+      phases:[{s:0,e:10,t:"details",l:"All pieces beading"},{s:10,e:10,t:"goal",l:"Hard deadline Jun 15"}] },
+    { group:"Wearables + Craft", color:"#9b6bd4", name:"Bridal Hair Piece",
+      phases:[{s:0,e:1,t:"prep",l:"Design"},{s:1,e:8,t:"build",l:"Bead + construct"},{s:8,e:8,t:"goal",l:"Done Jun"}] },
+    { group:"Wearables + Craft", color:"#9b6bd4", name:"Bridesmaids Beaded Bags",
+      phases:[{s:0,e:1,t:"prep",l:"Materials"},{s:1,e:10,t:"build",l:"Make each bag"},{s:10,e:10,t:"goal",l:"Done Jun 15"}] },
+    { group:"Wearables + Craft", color:"#9b6bd4", name:"Bridal Party Ask Cards",
+      phases:[{s:0,e:1,t:"build",l:"Watercolor each card"},{s:1,e:1,t:"goal",l:"Ask officially Apr"}] },
+
+    // ── STATIONERY ──────────────────────────────────────────────
+    { group:"Stationery + Paper", color:"#4ab5c4", name:"Wedding Invitation Suite",
+      phases:[{s:0,e:2,t:"prep",l:"Watercolor + design"},{s:2,e:3,t:"build",l:"Print + assemble"},{s:4,e:4,t:"goal",l:"Mail May 8"},{s:4,e:11,t:"details",l:"RSVP window"}] },
+    { group:"Stationery + Paper", color:"#4ab5c4", name:"Rehearsal Stationery",
+      phases:[{s:0,e:2,t:"prep",l:"Design"},{s:4,e:6,t:"build",l:"Print + wax seal"},{s:22,e:22,t:"goal",l:"Done Sep"}] },
+    { group:"Stationery + Paper", color:"#4ab5c4", name:"Day-Of Paper",
+      phases:[{s:10,e:12,t:"prep",l:"Design"},{s:12,e:16,t:"build",l:"Print + assemble"},{s:22,e:22,t:"goal",l:"Done Sep"}] },
+    { group:"Stationery + Paper", color:"#4ab5c4", name:"Wedding Website",
+      phases:[{s:2,e:4,t:"prep",l:"Sketch + copy"},{s:4,e:6,t:"build",l:"Build + launch"},{s:6,e:22,t:"details",l:"Live + updating"},{s:22,e:22,t:"goal",l:"Final"}] },
+    { group:"Stationery + Paper", color:"#4ab5c4", name:"Custom Nail Designs",
+      phases:[{s:0,e:1,t:"prep",l:"Design motifs"},{s:1,e:1,t:"goal",l:"Order Apr"},{s:23,e:24,t:"details",l:"Apply"}] },
+
+    // ── DECOR ───────────────────────────────────────────────────
+    { group:"Decor + Installation", color:"#c4334f", name:"Large Cut-Out Decor",
+      phases:[{s:0,e:2,t:"prep",l:"Design"},{s:2,e:6,t:"build",l:"Cut, prime, paint"},{s:6,e:6,t:"goal",l:"Done Jun"},{s:22,e:23,t:"details",l:"Install"}] },
+    { group:"Decor + Installation", color:"#c4334f", name:"Night Rainbow Install",
+      phases:[{s:0,e:1,t:"prep",l:"Design layout"},{s:4,e:5,t:"build",l:"Indoor mock"},{s:14,e:15,t:"details",l:"Outdoor night test"},{s:22,e:23,t:"build",l:"Full install"},{s:24,e:24,t:"goal",l:"Night Rainbow"}] },
+    { group:"Decor + Installation", color:"#c4334f", name:"Rehearsal Centerpiece",
+      phases:[{s:16,e:18,t:"prep",l:"Source materials"},{s:20,e:22,t:"build",l:"Assemble"},{s:23,e:23,t:"goal",l:"Set at 27 Cafe"}] },
+    { group:"Decor + Installation", color:"#c4334f", name:"Cake Animals + Masks",
+      phases:[{s:6,e:8,t:"prep",l:"Design"},{s:8,e:10,t:"build",l:"Make"},{s:10,e:10,t:"goal",l:"Done Jun 15"}] },
+
+    // ── FOOD + BAR ──────────────────────────────────────────────
+    { group:"Food + Bar", color:"#4ab89a", name:"Catering — Native Dinner",
+      phases:[{s:0,e:0,t:"prep",l:"Get Kirby quote"},{s:4,e:8,t:"details",l:"Menu testing"},{s:12,e:12,t:"goal",l:"Menu locked Jul 1"},{s:21,e:23,t:"build",l:"Final prep"},{s:24,e:24,t:"goal",l:"Serve"}] },
+    { group:"Food + Bar", color:"#4ab89a", name:"Bar Program",
+      phases:[{s:0,e:1,t:"prep",l:"Buy alcohol wholesale"},{s:4,e:8,t:"details",l:"Signature drink testing"},{s:12,e:12,t:"goal",l:"Quantities locked Jul 1"},{s:23,e:24,t:"details",l:"Stock + serve"}] },
+    { group:"Food + Bar", color:"#4ab89a", name:"Cake Program",
+      phases:[{s:4,e:8,t:"prep",l:"Design"},{s:8,e:12,t:"details",l:"Testing rounds"},{s:12,e:12,t:"goal",l:"Recipe locked"},{s:22,e:23,t:"build",l:"Final bake"}] },
+    { group:"Food + Bar", color:"#4ab89a", name:"Morning After Picnic",
+      phases:[{s:18,e:20,t:"prep",l:"Plan + shop"},{s:24,e:24,t:"goal",l:"Creek picnic Sep 27"}] },
+
+    // ── BEAUTY ──────────────────────────────────────────────────
+    { group:"Beauty + Wellness", color:"#d45f8a", name:"Skin + Body Program",
+      phases:[{s:0,e:4,t:"prep",l:"Treatments + routine"},{s:4,e:18,t:"details",l:"Ongoing program"},{s:18,e:18,t:"goal",l:"Cutoff Aug 15"}] },
+    { group:"Beauty + Wellness", color:"#d45f8a", name:"Hair + Makeup",
+      phases:[{s:0,e:2,t:"prep",l:"Research + book"},{s:8,e:9,t:"build",l:"Trials Jun 1"},{s:9,e:16,t:"details",l:"Confirm + prep"},{s:24,e:24,t:"goal",l:"Wedding day"}] },
+
+    // ── LOGISTICS ───────────────────────────────────────────────
+    { group:"Logistics + Finance", color:"#8a7fa8", name:"Transportation",
+      phases:[{s:0,e:0,t:"prep",l:"Book bus NOW"},{s:20,e:22,t:"details",l:"Confirm logistics"},{s:24,e:24,t:"goal",l:"Bus 7pm wedding"}] },
+    { group:"Logistics + Finance", color:"#8a7fa8", name:"Vendor Payments",
+      phases:[{s:0,e:0,t:"details",l:"Photo dep. paid"},{s:17,e:17,t:"goal",l:"Final push Aug 15"},{s:24,e:24,t:"goal",l:"Avalon + photo balance"}] },
+    { group:"Logistics + Finance", color:"#8a7fa8", name:"Guest List + RSVPs",
+      phases:[{s:0,e:4,t:"prep",l:"Invites + addresses"},{s:4,e:11,t:"details",l:"RSVP window"},{s:11,e:11,t:"goal",l:"Close Jun 26"},{s:12,e:14,t:"build",l:"Seating chart"}] },
+    { group:"Logistics + Finance", color:"#8a7fa8", name:"Budget Management",
+      phases:[{s:0,e:24,t:"details",l:"Ongoing tracking"}] },
+
+    // ── BRIDAL PARTY ────────────────────────────────────────────
+    { group:"Bridal Party + Gifts", color:"#c47c2a", name:"Bridal Party Gifts",
+      phases:[{s:4,e:6,t:"prep",l:"Source materials"},{s:6,e:10,t:"build",l:"Make soaps + scarves"},{s:10,e:10,t:"goal",l:"Done Jun"},{s:23,e:24,t:"details",l:"Give gifts"}] },
+    { group:"Bridal Party + Gifts", color:"#bridal Party Coordination",
+      phases:[{s:0,e:1,t:"prep",l:"Ask officially"},{s:4,e:16,t:"details",l:"Fittings + logistics"},{s:23,e:24,t:"goal",l:"Wedding weekend"}] },
+  ];
+
+  // Fix typo in last project color
+  PROJECTS[PROJECTS.length-1].color = "#c47c2a";
+  PROJECTS[PROJECTS.length-1].name = "Bridal Party Coordination";
+
+  const CW = 38; // cell width px
+  const RH = 24;
+  const LW = 180;
+
+  // Build month header
+  const mHead = monthSpans.map(ms =>
+    `<th colspan="${ms.count}" style="padding:5px 4px;font-size:10px;font-family:'Cormorant Garamond',serif;letter-spacing:2px;text-transform:uppercase;color:#7a6228;border-right:1px solid #2d2648;text-align:center;background:#0d0b14;white-space:nowrap">${ms.month}</th>`
+  ).join("");
+
+  // Build week header
+  const wHead = WEEKS.map((w,i) =>
+    `<th style="width:${CW}px;min-width:${CW}px;padding:3px 1px;font-size:8px;color:${i===0?"#c9a84c":"#3a3060"};border-right:1px solid #2d2648;text-align:center;white-space:nowrap;background:#0d0b14;font-weight:${i===0?600:300}">${w.label}</th>`
+  ).join("");
+
+  // Group projects
+  const groupNames = [...new Set(PROJECTS.map(p=>p.group))];
+
+  let rows = "";
+  groupNames.forEach(gName => {
+    const gProjects = PROJECTS.filter(p=>p.group===gName);
+    const gColor = gProjects[0].color;
+
+    // Group separator row
+    rows += `<tr>
+      <td colspan="${WEEKS.length+1}" style="background:#0a0916;padding:4px 10px;font-size:9px;font-family:'Cormorant Garamond',serif;letter-spacing:2px;text-transform:uppercase;color:${gColor};border-top:1px solid #2d2648;border-bottom:1px solid #1a1530">
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="width:8px;height:8px;border-radius:2px;background:${gColor};flex-shrink:0"></div>
+          ${gName}
+        </div>
+      </td>
+    </tr>`;
+
+    gProjects.forEach(proj => {
+      // Build a cell-per-week row
+      // For each week, check if any phase covers it
+      // Render phases as continuous colored segments in cells
+
+      // Map weeks to phase
+      const weekPhase = Array(WEEKS.length).fill(null);
+      proj.phases.forEach(ph => {
+        for (let w = ph.s; w <= Math.min(ph.e, WEEKS.length-1); w++) {
+          // Later phases overwrite earlier (goal wins)
+          if (!weekPhase[w] || ph.t === 'goal') weekPhase[w] = ph;
+        }
+      });
+
+      // Build cells — merge consecutive same-phase cells with colspan
+      let cells = "";
+      let i = 0;
+      while (i < WEEKS.length) {
+        const ph = weekPhase[i];
+        if (!ph) {
+          // Empty cell
+          const isToday = i===0;
+          cells += `<td style="width:${CW}px;min-width:${CW}px;height:${RH}px;border-right:1px solid ${isToday?"rgba(201,168,76,0.25)":"#1a1530"};border-bottom:1px solid #1a1530;background:${isToday?"rgba(201,168,76,0.04)":"transparent"}"></td>`;
+          i++;
+        } else {
+          // Find how far this phase extends
+          let span = 1;
+          while (i+span < WEEKS.length && weekPhase[i+span] === ph) span++;
+          const ps = PHASE[ph.t] || PHASE.details;
+          const isGoal = ph.t === "goal";
+          const isToday = i===0;
+          const cellW = span * CW;
+          const label = ph.l || ps.lbl;
+          cells += `<td colspan="${span}" style="width:${cellW}px;height:${RH}px;padding:0 3px;border-right:1px solid ${isToday?"rgba(201,168,76,0.25)":"#1a1530"};border-bottom:1px solid #1a1530;background:${isToday?"rgba(201,168,76,0.06)":"transparent"}">
+            <div style="width:100%;height:16px;background:${ps.bg};border:1px solid ${ps.border};border-radius:${isGoal?3:6}px;display:flex;align-items:center;padding:0 4px;overflow:hidden">
+              <span style="font-size:8px;color:${ps.text};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:0.2px">${esc(label)}</span>
+            </div>
+          </td>`;
+          i += span;
+        }
+      }
+
+      rows += `<tr>
+        <td style="position:sticky;left:0;z-index:10;background:#1a1530;padding:0 8px;height:${RH}px;border-right:2px solid #2d2648;border-bottom:1px solid #1a1530;white-space:nowrap;min-width:${LW}px;width:${LW}px">
+          <div style="display:flex;align-items:center;gap:5px">
+            <div style="width:4px;height:4px;border-radius:50%;background:${proj.color};flex-shrink:0"></div>
+            <span style="font-size:10px;color:#e8dfc8;font-weight:300;overflow:hidden;text-overflow:ellipsis">${esc(proj.name)}</span>
+          </div>
+        </td>
+        ${cells}
+      </tr>`;
+    });
+  });
+
+  // Legend
+  const legend = Object.entries(PHASE).map(([k,v]) =>
+    `<div style="display:flex;align-items:center;gap:5px;font-size:10px;color:${v.text}">
+      <div style="width:20px;height:8px;background:${v.bg};border:1px solid ${v.border};border-radius:${k==="goal"?2:5}px;flex-shrink:0"></div>
+      ${v.lbl}
+    </div>`
+  ).join("");
+
+  const totalW = LW + WEEKS.length * CW;
+
+  return `
+    <div class="page-title">Gantt Chart</div>
+    <div class="page-sub">49 projects · Apr 6 → Sep 28 · Weekly columns · Scroll right →</div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:14px;align-items:center">
+      ${legend}
+      <span style="margin-left:auto;font-size:9px;color:#3a3060;letter-spacing:1px">First column = today (gold tint)</span>
+    </div>
+
+    <div style="overflow-x:auto;border:1px solid #2d2648;border-radius:8px">
+      <div style="min-width:${totalW}px">
+        <table style="border-collapse:collapse;width:100%">
+          <thead>
+            <tr>
+              <th style="position:sticky;left:0;z-index:20;background:#0d0b14;width:${LW}px;min-width:${LW}px;border-right:2px solid #2d2648;border-bottom:1px solid #2d2648;padding:5px 8px;text-align:left;font-size:9px;color:#7a6228;letter-spacing:2px;text-transform:uppercase">Project</th>
+              ${mHead}
+            </tr>
+            <tr>
+              <th style="position:sticky;left:0;z-index:20;background:#0d0b14;width:${LW}px;min-width:${LW}px;border-right:2px solid #2d2648;border-bottom:2px solid #2d2648"></th>
+              ${wHead}
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <div style="margin-top:10px;font-size:10px;color:#4a4060;font-family:'Cormorant Garamond',serif;font-style:italic">
+      49 projects · Phase bars fill cells directly · Scroll right to see September
+    </div>
+  `;
+}
+
 // ── RENDER ENGINE ─────────────────────────────────────────────────
 function render() {
   const nav = document.getElementById("nav");
@@ -596,6 +891,7 @@ function render() {
     case "chat":      page.innerHTML = renderChat(); scrollChatBottom(); break;
     case "robbie":    page.innerHTML = renderRobbie();   break;
     case "diy":       page.innerHTML = renderDIY();      break;
+    case "gantt":     page.innerHTML = renderGantt();    break;
     case "tasks":     page.innerHTML = renderTasks();    break;
   }
 }
