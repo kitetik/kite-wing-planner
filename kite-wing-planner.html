@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Kite + Wing">
+<title>Kite + Wing — Wedding Planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Pinyon+Script&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg:       #0d0b14;
+    --surface:  #141020;
+    --card:     #1a1530;
+    --border:   #2d2648;
+    --gold:     #c9a84c;
+    --gold-l:   #e8c97a;
+    --gold-d:   #7a6228;
+    --cream:    #f2ead8;
+    --muted:    #8a7fa8;
+    --teal:     #3db89e;
+    --ruby:     #c4334f;
+    --sapphire: #2d5bb5;
+    --amethyst: #7c3dba;
+    --text:     #e8dfc8;
+    --text-d:   #9b8faf;
+    --success:  #3db87a;
+    --warn:     #c47c2a;
+    --danger:   #c43030;
+  }
+  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'Jost', sans-serif; overflow-x: hidden; }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--surface); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* ── HEADER ── */
+  #header {
+    background: linear-gradient(180deg, #0a0816 0%, var(--surface) 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 0 16px;
+    position: sticky; top: 0; z-index: 50;
+  }
+  #header-top { display: flex; align-items: center; justify-content: space-between; padding: 12px 0 4px; }
+  .logo { font-family: 'Pinyon Script', cursive; font-size: 28px; color: var(--gold); line-height: 1; }
+  .logo-sub { font-family: 'Cormorant Garamond', serif; font-size: 10px; color: var(--gold-d); letter-spacing: 3px; text-transform: uppercase; }
+  .save-status { font-size: 10px; color: var(--gold-d); letter-spacing: 1px; }
+  nav { display: flex; overflow-x: auto; border-top: 1px solid var(--border); margin-top: 8px; }
+  nav button { padding: 10px 14px; font-size: 11px; font-family: 'Jost', sans-serif; font-weight: 300; color: var(--muted); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; letter-spacing: 1.5px; text-transform: uppercase; transition: color 0.2s; }
+  nav button.active { color: var(--gold); border-bottom-color: var(--gold); font-weight: 500; }
+
+  /* ── PAGE ── */
+  #page { padding: 16px 14px; max-width: 860px; margin: 0 auto; }
+  .page-title { font-family: 'Pinyon Script', cursive; font-size: 32px; color: var(--gold); margin-bottom: 2px; }
+  .page-sub { font-size: 11px; color: var(--muted); letter-spacing: 1px; margin-bottom: 16px; font-weight: 300; }
+  .sec-head { font-family: 'Cormorant Garamond', serif; font-size: 12px; color: var(--gold-d); letter-spacing: 3px; text-transform: uppercase; margin: 18px 0 8px; display: flex; align-items: center; gap: 8px; }
+
+  /* ── GOLD DIVIDER ── */
+  .divider { display: flex; align-items: center; gap: 8px; margin: 10px 0; opacity: 0.5; }
+  .divider-line { flex: 1; height: 1px; }
+  .divider-line.left { background: linear-gradient(to right, transparent, var(--gold)); }
+  .divider-line.right { background: linear-gradient(to left, transparent, var(--gold)); }
+
+  /* ── STAT CARDS ── */
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; margin-bottom: 16px; }
+  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
+  .stat-n { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 600; }
+  .stat-l { font-size: 10px; color: var(--muted); margin-top: 2px; letter-spacing: 1px; text-transform: uppercase; }
+
+  /* ── PROGRESS ── */
+  .prog-wrap { margin-bottom: 16px; }
+  .prog-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); margin-bottom: 4px; letter-spacing: 1px; text-transform: uppercase; }
+  .prog-track { background: var(--card); border-radius: 3px; height: 6px; border: 1px solid var(--border); overflow: hidden; }
+  .prog-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--gold-d), var(--gold)); transition: width 0.6s ease; }
+
+  /* ── MONTH BARS ── */
+  .month-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; cursor: pointer; }
+  .month-lbl { width: 36px; font-size: 11px; color: var(--muted); letter-spacing: 1px; }
+  .month-track { flex: 1; height: 14px; background: var(--card); border-radius: 3px; overflow: hidden; display: flex; border: 1px solid var(--border); }
+  .month-count { font-size: 10px; color: var(--muted); width: 48px; text-align: right; }
+
+  /* ── CAT ROWS ── */
+  .cat-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; cursor: pointer; padding: 3px 0; }
+  .cat-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+  .cat-lbl { font-size: 12px; color: var(--text); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 300; }
+  .cat-mini-bar { width: 80px; background: var(--card); border-radius: 2px; height: 4px; overflow: hidden; border: 1px solid var(--border); }
+  .cat-mini-fill { height: 100%; transition: width 0.5s; }
+  .cat-count { font-size: 10px; color: var(--muted); width: 32px; text-align: right; }
+
+  /* ── TASK CARD ── */
+  .task-card { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; margin-bottom: 5px; transition: opacity 0.2s; animation: fadeIn 0.3s ease; }
+  .task-card.done { opacity: 0.5; }
+  .task-card.urgent { border-color: rgba(196,51,79,0.3); }
+  .task-name { font-size: 13px; color: var(--text); line-height: 1.4; flex: 1; font-weight: 300; }
+  .task-name.done { text-decoration: line-through; color: var(--muted); }
+  .task-meta { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; align-items: center; }
+  .task-note { font-family: 'Cormorant Garamond', serif; font-size: 11px; color: var(--muted); font-style: italic; margin-top: 5px; line-height: 1.4; }
+  .status-btn { font-size: 9px; padding: 2px 8px; border-radius: 10px; cursor: pointer; letter-spacing: 0.5px; text-transform: uppercase; font-weight: 500; border: 1px solid transparent; font-family: 'Jost', sans-serif; }
+  .owner-tag { font-size: 9px; padding: 2px 6px; border-radius: 4px; letter-spacing: 0.5px; }
+  .cat-tag { font-size: 9px; padding: 1px 6px; border-radius: 4px; letter-spacing: 0.5px; }
+  .date-tag { font-size: 9px; color: rgba(138,127,168,0.6); }
+  .edit-btn { font-size: 9px; padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; letter-spacing: 0.5px; font-family: 'Jost', sans-serif; }
+
+  /* ── FILTERS ── */
+  .filter-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .filter-sel { font-size: 10px; padding: 5px 10px; border-radius: 12px; border: 1px solid var(--border); background: var(--card); color: var(--muted); cursor: pointer; letter-spacing: 0.5px; font-family: 'Jost', sans-serif; }
+  .search-box { width: 100%; padding: 9px 14px; font-size: 12px; border-radius: 6px; border: 1px solid var(--border); background: var(--card); color: var(--text); margin-bottom: 10px; outline: none; font-family: 'Jost', sans-serif; }
+  .add-btn { font-size: 11px; padding: 8px 16px; border-radius: 6px; border: 1px solid var(--gold); background: transparent; color: var(--gold); cursor: pointer; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; font-family: 'Jost', sans-serif; }
+  .result-count { font-size: 10px; color: var(--muted); margin-bottom: 10px; letter-spacing: 1px; }
+
+  /* ── WEEK HEADER ── */
+  .week-head { font-family: 'Cormorant Garamond', serif; font-size: 12px; color: var(--gold-d); letter-spacing: 3px; text-transform: uppercase; margin: 18px 0 8px; display: flex; align-items: center; gap: 8px; }
+
+  /* ── CHAT ── */
+  #chat-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  #chat-msgs { height: 240px; overflow-y: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; }
+  .chat-msg { max-width: 85%; padding: 8px 12px; border-radius: 12px; font-size: 12px; color: var(--text); line-height: 1.5; }
+  .chat-msg.user { align-self: flex-end; background: rgba(124,61,186,0.3); border: 1px solid rgba(124,61,186,0.3); border-radius: 12px 12px 2px 12px; }
+  .chat-msg.assistant { align-self: flex-start; background: var(--surface); border: 1px solid var(--border); border-radius: 12px 12px 12px 2px; }
+  #chat-hints { display: flex; flex-wrap: wrap; gap: 4px; padding: 8px 14px; border-top: 1px solid var(--border); }
+  .hint-btn { font-size: 9px; padding: 3px 8px; border-radius: 10px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; font-family: 'Jost', sans-serif; letter-spacing: 0.5px; }
+  #chat-input-row { display: flex; border-top: 1px solid var(--border); }
+  #chat-in { flex: 1; padding: 11px 14px; font-size: 12px; background: transparent; border: none; color: var(--text); outline: none; font-family: 'Jost', sans-serif; }
+  #chat-send { padding: 0 18px; background: transparent; border: none; border-left: 1px solid var(--border); color: var(--gold); font-size: 11px; cursor: pointer; letter-spacing: 1px; font-family: 'Jost', sans-serif; text-transform: uppercase; }
+
+  /* ── MODAL ── */
+  .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5,3,10,0.85); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 16px; backdrop-filter: blur(4px); }
+  .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 22px; width: 100%; max-width: 480px; max-height: 85vh; overflow-y: auto; }
+  .modal-title { font-family: 'Pinyon Script', cursive; font-size: 26px; color: var(--gold); margin-bottom: 4px; }
+  .modal-sub { font-size: 11px; color: var(--muted); margin-bottom: 16px; letter-spacing: 1px; }
+  .field-label { font-size: 10px; color: var(--gold-d); letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+  .field-input { width: 100%; padding: 8px 12px; font-size: 12px; border-radius: 6px; border: 1px solid var(--border); background: var(--card); color: var(--text); margin-bottom: 12px; outline: none; font-family: 'Jost', sans-serif; }
+  .field-textarea { width: 100%; padding: 8px 12px; font-size: 12px; border-radius: 6px; border: 1px solid var(--border); background: var(--card); color: var(--text); margin-bottom: 12px; min-height: 72px; resize: vertical; outline: none; font-family: 'Jost', sans-serif; }
+  .btn-row { display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px; }
+  .btn-save { padding: 9px 22px; border-radius: 6px; border: 1px solid var(--gold); background: transparent; color: var(--gold); font-size: 12px; cursor: pointer; letter-spacing: 1px; font-family: 'Jost', sans-serif; }
+  .btn-cancel { padding: 9px 16px; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-size: 12px; cursor: pointer; font-family: 'Jost', sans-serif; }
+  .btn-danger { padding: 9px 16px; border-radius: 6px; border: 1px solid rgba(196,48,48,0.4); background: transparent; color: var(--danger); font-size: 12px; cursor: pointer; font-family: 'Jost', sans-serif; }
+
+  /* ── LOADING ── */
+  #loading { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 12px; }
+  #loading .logo { font-size: 48px; }
+  #loading .sub { font-size: 11px; color: var(--muted); letter-spacing: 3px; text-transform: uppercase; }
+
+  /* ── EMPTY ── */
+  .empty { font-family: 'Cormorant Garamond', serif; font-size: 14px; color: var(--muted); font-style: italic; text-align: center; padding: 40px 0; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes shimmer { 0%,100%{opacity:0.5} 50%{opacity:1} }
+  .shimmer { animation: shimmer 1.5s ease-in-out infinite; }
+</style>
+</head>
+<body>
+
+<div id="loading">
+  <div class="logo" style="font-family:'Pinyon Script',cursive;color:var(--gold)">Kite + Wing</div>
+  <svg width="40" height="40" viewBox="0 0 100 100" fill="none" style="opacity:0.6">
+    <path d="M50 80 C30 75 10 60 8 40 C6 20 20 10 35 15 C42 17 48 22 50 28 C52 22 58 17 65 15 C80 10 94 20 92 40 C90 60 70 75 50 80Z" fill="#c9a84c"/>
+    <path d="M50 80 C50 80 45 90 42 95 C39 98 44 100 50 98 C56 100 61 98 58 95 C55 90 50 80 50 80Z" fill="#c9a84c"/>
+    <ellipse cx="35" cy="30" rx="4" ry="3" fill="#0d0b14"/>
+  </svg>
+  <div class="sub">Loading your planner...</div>
+</div>
+
+<div id="app" style="display:none">
+  <div id="header">
+    <div id="header-top">
+      <div>
+        <div class="logo">Kite + Wing</div>
+        <div class="logo-sub">Sept 26, 2026 · Catskill, NY</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <svg width="26" height="26" viewBox="0 0 100 100" fill="none" style="opacity:0.45">
+          <path d="M50 80 C30 75 10 60 8 40 C6 20 20 10 35 15 C42 17 48 22 50 28 C52 22 58 17 65 15 C80 10 94 20 92 40 C90 60 70 75 50 80Z" fill="#c9a84c"/>
+          <path d="M50 80 C50 80 45 90 42 95 C39 98 44 100 50 98 C56 100 61 98 58 95 C55 90 50 80 50 80Z" fill="#c9a84c"/>
+          <ellipse cx="35" cy="30" rx="4" ry="3" fill="#0d0b14"/>
+        </svg>
+        <span class="save-status" id="save-status">saved</span>
+      </div>
+    </div>
+    <nav id="nav"></nav>
+  </div>
+  <div id="page"></div>
+</div>
+
+<!-- MODALS -->
+<div id="edit-modal" class="overlay" style="display:none" onclick="closeEditModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">Edit Task</div>
+    <div class="divider"><div class="divider-line left"></div><svg width="12" height="12" viewBox="0 0 100 100" fill="none"><path d="M50 80 C30 75 10 60 8 40 C6 20 20 10 35 15 C42 17 48 22 50 28 C52 22 58 17 65 15 C80 10 94 20 92 40 C90 60 70 75 50 80Z" fill="#c9a84c"/></svg><div class="divider-line right"></div></div>
+    <label class="field-label">Task</label>
+    <input class="field-input" id="edit-task" type="text">
+    <label class="field-label">Status</label>
+    <select class="field-input" id="edit-status"></select>
+    <label class="field-label">Owner</label>
+    <select class="field-input" id="edit-owner"></select>
+    <label class="field-label">Month</label>
+    <select class="field-input" id="edit-month"></select>
+    <label class="field-label">Due date</label>
+    <input class="field-input" id="edit-due" type="date">
+    <label class="field-label">Notes</label>
+    <textarea class="field-textarea" id="edit-notes" placeholder="Context, subtasks, details..."></textarea>
+    <div class="btn-row">
+      <button class="btn-danger" onclick="deleteTask()">Delete</button>
+      <button class="btn-cancel" onclick="document.getElementById('edit-modal').style.display='none'">Cancel</button>
+      <button class="btn-save" onclick="saveEdit()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div id="add-modal" class="overlay" style="display:none" onclick="closeAddModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">Add Task</div>
+    <div class="divider"><div class="divider-line left"></div><svg width="12" height="12" viewBox="0 0 100 100" fill="none"><path d="M50 80 C30 75 10 60 8 40 C6 20 20 10 35 15 C42 17 48 22 50 28 C52 22 58 17 65 15 C80 10 94 20 92 40 C90 60 70 75 50 80Z" fill="#c9a84c"/></svg><div class="divider-line right"></div></div>
+    <label class="field-label">Task name</label>
+    <input class="field-input" id="add-task" type="text" placeholder="What needs to happen?">
+    <label class="field-label">Category</label>
+    <select class="field-input" id="add-cat"></select>
+    <label class="field-label">Owner</label>
+    <select class="field-input" id="add-owner"></select>
+    <label class="field-label">Month</label>
+    <select class="field-input" id="add-month"></select>
+    <label class="field-label">Due date</label>
+    <input class="field-input" id="add-due" type="date">
+    <label class="field-label">Notes</label>
+    <textarea class="field-textarea" id="add-notes" placeholder="Context, materials, subtasks..."></textarea>
+    <div class="btn-row">
+      <button class="btn-cancel" onclick="document.getElementById('add-modal').style.display='none'">Cancel</button>
+      <button class="btn-save" onclick="saveAdd()">Add Task</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── CONFIG ────────────────────────────────────────────────────────
+const STORAGE_KEY = "kite-wing-planner-v1";
+const ANTHROPIC_API = "https://api.anthropic.com/v1/messages";
+
+const STATUS_CONFIG = {
+  "Not started": { color:"#8a7fa8", bg:"#141020", dot:"#4a4060" },
+  "In progress": { color:"#c47c2a", bg:"#1e1508", dot:"#c47c2a" },
+  "Done":        { color:"#3db87a", bg:"#081e10", dot:"#3db87a" },
+  "Blocked":     { color:"#c43030", bg:"#1e0808", dot:"#c43030" },
+};
+
+const CAT_GEM = {
+  "URGENT — This Week":     "#c4334f",
+  "Home + Yard Preparation":"#3db89e",
+  "Inside Home Preparation":"#2d5bb5",
+  "Flowers + Garden":       "#5cb85c",
+  "Ceremony / Altar":       "#c9a84c",
+  "Decor + Large Cut-Outs": "#c4334f",
+  "Linens + Tabletop":      "#7c3dba",
+  "Night Rainbow":          "#5b7fdb",
+  "Invitations + Paper":    "#4ab5c4",
+  "Beauty + Body":          "#d45f8a",
+  "Wearables / Beadwork":   "#9b6bd4",
+  "Food / Catering":        "#4ab89a",
+  "Final Week + Teardown":  "#8a7fa8",
+  "House — Interior":       "#2d5bb5",
+  "House — Exterior":       "#3db89e",
+};
+
+const OWNERS  = ["Suzanne","Robbie","Both","Robert Wing"];
+const MONTHS  = ["Apr 2026","May 2026","Jun 2026","Jul 2026","Aug 2026","Sep 2026"];
+const CATS    = Object.keys(CAT_GEM);
+const VIEWS   = [["dashboard","Dashboard"],["april","April"],["chat","✦ Assistant"],["tasks","All Tasks"],["robbie","Robbie"],["diy","DIY"]];
+const HINTS   = ["mark bus booking as done","add task: call Columbia Tent re payment due date","what's left for Robbie?","mark Kirby task as in progress","add task: order deck lumber this week"];
+
+const SEED = [
+  {id:"t1",cat:"URGENT — This Week",task:"Sign Ibarra Studios photography contract",owner:"Robert Wing",due:"2026-04-09",month:"Apr 2026",status:"Not started",notes:"Contract already signed by Suzanne Jan 2"},
+  {id:"t2",cat:"URGENT — This Week",task:"Follow up with Kirby — get catering quote",owner:"Robbie",due:"2026-04-09",month:"Apr 2026",status:"Not started",notes:"Largest unconfirmed cost in budget"},
+  {id:"t3",cat:"URGENT — This Week",task:"Book Royale Transportation bus",owner:"Robbie",due:"2026-04-09",month:"Apr 2026",status:"Not started",notes:"Call (518) 286-4444 Ref# 208815 — $1,008 + $500 deposit"},
+  {id:"t4",cat:"URGENT — This Week",task:"Confirm Avalon Lounge payment due date",owner:"Both",due:"2026-04-09",month:"Apr 2026",status:"Not started",notes:"Was listed as paid — it is NOT yet paid. Due on wedding day."},
+  {id:"t5",cat:"URGENT — This Week",task:"Confirm Dad's drinks contribution",owner:"Suzanne",due:"2026-04-09",month:"Apr 2026",status:"Not started",notes:"$5k the week of the wedding for big last minute things"},
+  {id:"t6",cat:"URGENT — This Week",task:"Confirm tent permit with Catskill township",owner:"Both",due:"2026-04-09",month:"Apr 2026",status:"Not started",notes:"Columbia Tent order may require permit"},
+  {id:"t7",cat:"URGENT — This Week",task:"Send tile guy front step measurements",owner:"Both",due:"2026-04-09",month:"Apr 2026",status:"Not started",notes:"Measure width, rise, tread depth, number of steps"},
+  {id:"t8",cat:"URGENT — This Week",task:"Rent tiller + order soil and compost",owner:"Both",due:"2026-04-09",month:"Apr 2026",status:"Not started",notes:"Needed before aeration and seeding"},
+  {id:"t9",cat:"URGENT — This Week",task:"Order deck lumber + hardware for May build",owner:"Both",due:"2026-04-09",month:"Apr 2026",status:"Not started",notes:"May is the build window — order now. ~$2,500–4,000"},
+  {id:"t10",cat:"Home + Yard Preparation",task:"Rake all debris from event areas",owner:"Both",due:"2026-04-10",month:"Apr 2026",status:"Not started",notes:"First step before any yard work"},
+  {id:"t11",cat:"Home + Yard Preparation",task:"Aerate lawn",owner:"Both",due:"2026-04-05",month:"Apr 2026",status:"Not started",notes:""},
+  {id:"t12",cat:"Home + Yard Preparation",task:"Seed with grass + clover mix",owner:"Both",due:"2026-04-07",month:"Apr 2026",status:"Not started",notes:""},
+  {id:"t13",cat:"Home + Yard Preparation",task:"Define ceremony footprint with stakes",owner:"Both",due:"2026-04-15",month:"Apr 2026",status:"Not started",notes:""},
+  {id:"t14",cat:"Home + Yard Preparation",task:"Walk all paths — check guest flow",owner:"Both",due:"2026-04-18",month:"Apr 2026",status:"Not started",notes:""},
+  {id:"t15",cat:"Home + Yard Preparation",task:"Deck rebuild — DIY",owner:"Both",due:"2026-05-31",month:"May 2026",status:"Not started",notes:"Contractor quoted $10–12k. Do it ourselves. Buy lumber April."},
+  {id:"t16",cat:"Home + Yard Preparation",task:"Paint house cream + trim blue",owner:"Both",due:"2026-06-30",month:"Jun 2026",status:"Not started",notes:"Rent sprayer. Repair siding first."},
+  {id:"t17",cat:"Home + Yard Preparation",task:"Design + plant moon garden",owner:"Suzanne",due:"2026-07-01",month:"Jul 2026",status:"Not started",notes:"Night-blooming + white plants. Secret fountain."},
+  {id:"t18",cat:"Inside Home Preparation",task:"Deep clean bathroom tile and grout",owner:"Suzanne",due:"2026-04-02",month:"Apr 2026",status:"Not started",notes:""},
+  {id:"t19",cat:"Inside Home Preparation",task:"Replace mismatched cabinet knobs or pulls",owner:"Suzanne",due:"2026-04-08",month:"Apr 2026",status:"Not started",notes:""},
+  {id:"t20",cat:"Inside Home Preparation",task:"Order bedroom curtains + curtain track",owner:"Suzanne",due:"2026-04-15",month:"Apr 2026",status:"Not started",notes:"Curtains on every wall — priority item"},
+  {id:"t21",cat:"Inside Home Preparation",task:"Touch up ceiling paint",owner:"Suzanne",due:"2026-04-22",month:"Apr 2026",status:"Not started",notes:""},
+  {id:"t22",cat:"Wearables / Beadwork",task:"Watercolor ask cards — bridesmaids",owner:"Suzanne",due:"2026-04-15",month:"Apr 2026",status:"Not started",notes:"Each person's favorite flower. A couple of focused evenings."},
+  {id:"t23",cat:"Wearables / Beadwork",task:"Watercolor ask cards — groomsmen",owner:"Suzanne",due:"2026-04-15",month:"Apr 2026",status:"Not started",notes:""},
+  {id:"t24",cat:"Wearables / Beadwork",task:"Ask bridesmaids + groomsmen officially",owner:"Suzanne",due:"2026-04-20",month:"Apr 2026",status:"Not started",notes:"After cards are done"},
+  {id:"t25",cat:"Wearables / Beadwork",task:"Complete second wearable piece",owner:"Suzanne",due:"2026-04-20",month:"Apr 2026",status:"Not started",notes:""},
+  {id:"t26",cat:"Wearables / Beadwork",task:"Finish ALL beadwork construction",owner:"Suzanne",due:"2026-06-15",month:"Jun 2026",status:"In progress",notes:"HARD DEADLINE — everything done by June 15"},
+  {id:"t27",cat:"Invitations + Paper",task:"Find Rip Van Winkle Bridge sunset photo",owner:"Suzanne",due:"2026-04-15",month:"Apr 2026",status:"Not started",notes:"For invitation watercolor. Instagram #ripvanwinklebridge"},
+  {id:"t28",cat:"Invitations + Paper",task:"Design rehearsal stationery suite",owner:"Suzanne",due:"2026-04-20",month:"Apr 2026",status:"Not started",notes:"Chrome, black, white, swan engraving, wax seal"},
+  {id:"t29",cat:"Invitations + Paper",task:"Invitations mailed",owner:"Suzanne",due:"2026-05-08",month:"May 2026",status:"Done",notes:""},
+  {id:"t30",cat:"Invitations + Paper",task:"Sketch wedding website",owner:"Suzanne",due:"2026-05-01",month:"May 2026",status:"Not started",notes:"Sections: Our Story, When & Where, Travel, RSVP, Registry, FAQ"},
+  {id:"t31",cat:"Beauty + Body",task:"Research + book hair stylist",owner:"Suzanne",due:"2026-04-05",month:"Apr 2026",status:"Not started",notes:"Book trial for Jun 1"},
+  {id:"t32",cat:"Beauty + Body",task:"Research + book makeup artist",owner:"Suzanne",due:"2026-04-05",month:"Apr 2026",status:"Not started",notes:""},
+  {id:"t33",cat:"Beauty + Body",task:"Order custom nail designs",owner:"Suzanne",due:"2026-04-20",month:"Apr 2026",status:"Not started",notes:"Motifs: swan, water ripple, black calla lily, crescent moon"},
+  {id:"t34",cat:"Ceremony / Altar",task:"Set weekly vow writing check-in",owner:"Both",due:"2026-04-01",month:"Apr 2026",status:"Not started",notes:""},
+  {id:"t35",cat:"Ceremony / Altar",task:"Decide ritual actions + gestures",owner:"Both",due:"2026-04-01",month:"Apr 2026",status:"Not started",notes:""},
+  {id:"t36",cat:"Ceremony / Altar",task:"Write full vow draft v1",owner:"Both",due:"2026-05-01",month:"May 2026",status:"Not started",notes:""},
+  {id:"t37",cat:"Ceremony / Altar",task:"Finalize vows",owner:"Both",due:"2026-07-01",month:"Jul 2026",status:"Not started",notes:""},
+  {id:"t38",cat:"Night Rainbow",task:"Design lighting + sound layout on paper",owner:"Both",due:"2026-04-02",month:"Apr 2026",status:"Not started",notes:""},
+  {id:"t39",cat:"Night Rainbow",task:"First full mock setup indoors",owner:"Both",due:"2026-05-01",month:"May 2026",status:"Not started",notes:""},
+  {id:"t40",cat:"Linens + Tabletop",task:"Inventory all tabletop items",owner:"Suzanne",due:"2026-04-01",month:"Apr 2026",status:"Not started",notes:""},
+  {id:"t41",cat:"Linens + Tabletop",task:"Confirm linen colors with Columbia Tent",owner:"Suzanne",due:"2026-04-30",month:"Apr 2026",status:"Not started",notes:""},
+  {id:"t42",cat:"Food / Catering",task:"Test key recipes at small scale",owner:"Both",due:"2026-04-10",month:"Apr 2026",status:"Not started",notes:""},
+  {id:"t43",cat:"Food / Catering",task:"RSVP deadline",owner:"Both",due:"2026-06-26",month:"Jun 2026",status:"Not started",notes:"Send reminders Apr 15"},
+  {id:"t44",cat:"Flowers + Garden",task:"Transplants + full planting week",owner:"Suzanne",due:"2026-05-10",month:"May 2026",status:"Not started",notes:""},
+  {id:"t45",cat:"Decor + Large Cut-Outs",task:"Cake animals for Night Rainbow",owner:"Suzanne",due:"2026-06-15",month:"Jun 2026",status:"Not started",notes:"June DIY month"},
+  {id:"t46",cat:"Decor + Large Cut-Outs",task:"Masks for Night Rainbow",owner:"Suzanne",due:"2026-06-15",month:"Jun 2026",status:"Not started",notes:"June DIY month"},
+  {id:"t47",cat:"Decor + Large Cut-Outs",task:"Build ceremony arch from sticks + wire",owner:"Both",due:"2026-09-20",month:"Sep 2026",status:"Not started",notes:"Have wire and sticks. Make it large."},
+  {id:"t48",cat:"Final Week + Teardown",task:"Vendor payments final push",owner:"Both",due:"2026-08-15",month:"Aug 2026",status:"Not started",notes:""},
+  {id:"t49",cat:"Final Week + Teardown",task:"Walk through both venues",owner:"Both",due:"2026-08-23",month:"Aug 2026",status:"Not started",notes:""},
+  {id:"t50",cat:"Final Week + Teardown",task:"WEDDING DAY",owner:"Both",due:"2026-09-26",month:"Sep 2026",status:"Not started",notes:"Creek ceremony AM. Public ceremony 2pm. Photography 2–10pm. Bus to Avalon 7pm."},
+];
+
+// ── STATE ─────────────────────────────────────────────────────────
+let tasks = [];
+let currentView = "dashboard";
+let editingId = null;
+let filterCat = "all", filterOwner = "all", filterMonth = "all", filterStatus = "all", searchQ = "";
+let chatMsgs = [{ role:"assistant", text:"How can I help? Try: 'mark the bus task as done', 'add a task to order flowers by May 1', or 'what's left for Robbie?'" }];
+let chatLoading = false;
+
+// ── STORAGE ───────────────────────────────────────────────────────
+function load() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    tasks = saved ? JSON.parse(saved) : [...SEED];
+    if (!saved) save();
+  } catch { tasks = [...SEED]; }
+}
+
+let saveTimer;
+function save() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+      setSaveStatus("saved");
+    } catch { setSaveStatus("error"); }
+  }, 300);
+  setSaveStatus("saving...");
+}
+
+function setSaveStatus(s) {
+  const el = document.getElementById("save-status");
+  if (el) el.textContent = s;
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────
+function esc(s) { return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function gemColor(cat) { return CAT_GEM[cat] || "#8a7fa8"; }
+function daysLeft() { return Math.ceil((new Date("2026-09-26") - new Date()) / 86400000); }
+
+function swan(size=14, op=0.5) {
+  return `<svg width="${size}" height="${size}" viewBox="0 0 100 100" fill="none" style="opacity:${op};flex-shrink:0">
+    <path d="M50 80 C30 75 10 60 8 40 C6 20 20 10 35 15 C42 17 48 22 50 28 C52 22 58 17 65 15 C80 10 94 20 92 40 C90 60 70 75 50 80Z" fill="#c9a84c"/>
+    <path d="M50 80 C50 80 45 90 42 95 C39 98 44 100 50 98 C56 100 61 98 58 95 C55 90 50 80 50 80Z" fill="#c9a84c"/>
+    <ellipse cx="35" cy="30" rx="4" ry="3" fill="#0d0b14"/>
+  </svg>`;
+}
+
+function dividerHTML() {
+  return `<div class="divider"><div class="divider-line left"></div>${swan(12,1)}<div class="divider-line right"></div></div>`;
+}
+
+function statusPillHTML(st, id) {
+  const c = STATUS_CONFIG[st] || STATUS_CONFIG["Not started"];
+  return `<button class="status-btn" style="color:${c.color};background:${c.bg};border-color:${c.dot}44" onclick="cycleStatus('${id}')">${esc(st)}</button>`;
+}
+
+function ownerTagHTML(o) {
+  const styles = {
+    "Robbie":      "background:#0d1e2e;color:#2d5bb5",
+    "Robert Wing": "background:#0d1e2e;color:#2d5bb5",
+    "Suzanne":     "background:#1e0d18;color:#d45f8a",
+    "Both":        "background:#0d1e0d;color:#3db87a",
+  };
+  return `<span class="owner-tag" style="${styles[o]||''}">${esc(o)}</span>`;
+}
+
+function taskCardHTML(t) {
+  const isUrgent = t.cat === "URGENT — This Week";
+  const gem = gemColor(t.cat);
+  const sc = STATUS_CONFIG[t.status] || STATUS_CONFIG["Not started"];
+  return `<div class="task-card${t.status==="Done"?" done":""}${isUrgent?" urgent":""}" style="border-left:3px solid ${isUrgent?sc.dot:sc.dot}">
+    <div style="display:flex;gap:8px;align-items:flex-start">
+      <div class="task-name${t.status==="Done"?" done":""}">${esc(t.task)}</div>
+    </div>
+    <div class="task-meta">
+      ${statusPillHTML(t.status, t.id)}
+      ${ownerTagHTML(t.owner)}
+      <span class="cat-tag" style="background:${gem}22;color:${gem}">${esc(t.cat.split(" ").slice(0,2).join(" "))}</span>
+      ${t.due?`<span class="date-tag">${esc(t.due)}</span>`:""}
+      <button class="edit-btn" onclick="openEdit('${t.id}')">edit</button>
+    </div>
+    ${t.notes?`<div class="task-note">${esc(t.notes)}</div>`:""}
+  </div>`;
+}
+
+function secHeadHTML(label) {
+  return `<div class="sec-head">${swan(11,0.6)} ${esc(label)}</div>`;
+}
+
+// ── STATS ─────────────────────────────────────────────────────────
+function stats() {
+  const total = tasks.length;
+  const done = tasks.filter(t=>t.status==="Done").length;
+  const ip = tasks.filter(t=>t.status==="In progress").length;
+  const bl = tasks.filter(t=>t.status==="Blocked").length;
+  const urg = tasks.filter(t=>t.cat==="URGENT — This Week"&&t.status!=="Done").length;
+  const pct = total?Math.round(done/total*100):0;
+  return {total,done,ip,bl,urg,pct};
+}
+
+// ── RENDER VIEWS ──────────────────────────────────────────────────
+function renderDashboard() {
+  const {total,done,ip,bl,urg,pct} = stats();
+  const statCards = [
+    {n:total,l:"total tasks",c:"#c9a84c"},
+    {n:done,l:"done",c:"#3db87a"},
+    {n:ip,l:"in progress",c:"#c47c2a"},
+    {n:bl,l:"blocked",c:"#c43030"},
+    {n:urg,l:"urgent",c:"#c4334f"},
+  ].map(({n,l,c})=>`<div class="stat-card" style="border-top:2px solid ${c}"><div class="stat-n" style="color:${c}">${n}</div><div class="stat-l">${l}</div></div>`).join("");
+
+  const monthBars = MONTHS.map(m=>{
+    const mt = tasks.filter(t=>t.month===m).length;
+    const md = tasks.filter(t=>t.month===m&&t.status==="Done").length;
+    const mi = tasks.filter(t=>t.month===m&&t.status==="In progress").length;
+    const dp = mt?(md/mt)*100:0;
+    const ip2 = mt?(mi/mt)*100:0;
+    return `<div class="month-row" onclick="jumpMonth('${m}')">
+      <div class="month-lbl">${m.split(" ")[0]}</div>
+      <div class="month-track">
+        <div style="width:${dp}%;background:#3db87a88;transition:width 0.5s"></div>
+        <div style="width:${ip2}%;background:#c47c2a88;transition:width 0.5s"></div>
+      </div>
+      <div class="month-count">${md}/${mt}</div>
+    </div>`;
+  }).join("");
+
+  const catRows = CATS.map(cat=>{
+    const ct = tasks.filter(t=>t.cat===cat).length;
+    const cd = tasks.filter(t=>t.cat===cat&&t.status==="Done").length;
+    if (!ct) return "";
+    const pp = ct?(cd/ct)*100:0;
+    const gem = gemColor(cat);
+    return `<div class="cat-row" onclick="jumpCat('${cat}')">
+      <div class="cat-dot" style="background:${gem}"></div>
+      <div class="cat-lbl">${esc(cat)}</div>
+      <div class="cat-mini-bar"><div class="cat-mini-fill" style="width:${pp}%;background:${gem}"></div></div>
+      <div class="cat-count">${cd}/${ct}</div>
+    </div>`;
+  }).join("");
+
+  const urgentTasks = tasks.filter(t=>t.cat==="URGENT — This Week"&&t.status!=="Done");
+
+  return `
+    <div class="page-title">Overview</div>
+    <div class="page-sub">Wedding in ${daysLeft()} days · Sept 26, 2026</div>
+    <div class="stat-grid">${statCards}</div>
+    <div class="prog-wrap">
+      <div class="prog-labels"><span>Overall progress</span><span>${pct}%</span></div>
+      <div class="prog-track"><div class="prog-fill" style="width:${pct}%"></div></div>
+    </div>
+    ${dividerHTML()}
+    ${secHeadHTML("By Month")}
+    ${monthBars}
+    ${dividerHTML()}
+    ${secHeadHTML("By Project")}
+    ${catRows}
+    ${dividerHTML()}
+    ${secHeadHTML("Urgent This Week")}
+    ${urgentTasks.length ? urgentTasks.map(taskCardHTML).join("") : '<div class="empty">All urgent tasks complete ✦</div>'}
+  `;
+}
+
+function renderApril() {
+  const weeks = [["Week 1",1,9],["Week 2",10,19],["Week 3",20,26],["Week 4",27,31]];
+  const aprTotal = tasks.filter(t=>t.month==="Apr 2026").length;
+  let html = `<div class="page-title">April 2026</div><div class="page-sub">${aprTotal} tasks this month · Today is April 9</div>`;
+
+  weeks.forEach(([wk,s,e])=>{
+    let wt = tasks.filter(t=>{
+      if (t.month!=="Apr 2026") return false;
+      try { const d=new Date(t.due).getDate(); return d>=s&&d<=e; } catch { return false; }
+    });
+    const urgents = wk==="Week 1" ? tasks.filter(t=>t.cat==="URGENT — This Week"&&!wt.find(w=>w.id===t.id)) : [];
+    const all = [...urgents,...wt];
+    if (!all.length) return;
+    const wd = all.filter(t=>t.status==="Done").length;
+    html += `<div class="week-head">${swan(10,0.5)} ${wk} · Apr ${s}–${e} <span style="color:var(--muted);font-weight:300;font-size:10px;margin-left:4px">${wd}/${all.length}</span></div>`;
+    html += all.map(taskCardHTML).join("");
+  });
+  return html;
+}
+
+function renderChat() {
+  const msgs = chatMsgs.map(m=>`<div class="chat-msg ${m.role}">${esc(m.text)}</div>`).join("");
+  const hints = HINTS.map(h=>`<button class="hint-btn" onclick="setHint('${esc(h)}')">${esc(h)}</button>`).join("");
+  const recent = tasks.filter(t=>t.status==="In progress").slice(0,5).map(taskCardHTML).join("");
+  return `
+    <div class="page-title">Assistant</div>
+    <div class="page-sub">Ask questions or update tasks conversationally</div>
+    <div id="chat-wrap">
+      <div id="chat-msgs">${msgs}${chatLoading?'<div class="chat-msg assistant shimmer">Thinking...</div>':''}</div>
+      <div id="chat-hints">${hints}</div>
+      <div id="chat-input-row">
+        <input id="chat-in" placeholder="Add a task, update status, ask a question..." onkeydown="if(event.key==='Enter')sendChat()">
+        <button id="chat-send" onclick="sendChat()">Send</button>
+      </div>
+    </div>
+    ${secHeadHTML("In Progress")}
+    ${recent || '<div class="empty">Nothing in progress yet.</div>'}
+  `;
+}
+
+function renderRobbie() {
+  const remaining = tasks.filter(t=>(t.owner==="Robbie"||t.owner==="Robert Wing")&&t.status!=="Done").length;
+  let html = `<div class="page-title">Robbie's Tasks</div><div class="page-sub">${remaining} remaining</div>`;
+  ["Not started","In progress","Blocked"].forEach(st=>{
+    const rt = tasks.filter(t=>(t.owner==="Robbie"||t.owner==="Robert Wing")&&t.status===st);
+    if (!rt.length) return;
+    const sc = STATUS_CONFIG[st];
+    html += `<div class="sec-head" style="color:${sc.color}">${swan(10,0.5)} ${st}</div>`;
+    html += rt.map(taskCardHTML).join("");
+  });
+  return html;
+}
+
+function renderDIY() {
+  const cats = ["Wearables / Beadwork","Decor + Large Cut-Outs","Home + Yard Preparation","Invitations + Paper","Flowers + Garden","Ceremony / Altar","Night Rainbow","Food / Catering"];
+  let html = `<div class="page-title">DIY Projects</div><div class="page-sub">All handmade + build work</div>`;
+  cats.forEach(cat=>{
+    const ct = tasks.filter(t=>t.cat===cat);
+    if (!ct.length) return;
+    const gem = gemColor(cat);
+    const cd = ct.filter(t=>t.status==="Done").length;
+    html += `<div class="sec-head" style="color:${gem}"><div style="width:8px;height:8px;border-radius:2px;background:${gem}"></div> ${esc(cat)} <span style="color:var(--muted);font-weight:300;font-size:10px">${cd}/${ct.length}</span></div>`;
+    html += ct.map(taskCardHTML).join("");
+  });
+  return html;
+}
+
+function renderTasks() {
+  const filtered = tasks.filter(t=>{
+    if (filterCat!=="all"&&t.cat!==filterCat) return false;
+    if (filterOwner!=="all"&&t.owner!==filterOwner) return false;
+    if (filterMonth!=="all"&&t.month!==filterMonth) return false;
+    if (filterStatus!=="all"&&t.status!==filterStatus) return false;
+    if (searchQ&&!t.task.toLowerCase().includes(searchQ.toLowerCase())&&!t.notes.toLowerCase().includes(searchQ.toLowerCase())) return false;
+    return true;
+  }).sort((a,b)=>(a.due||"").localeCompare(b.due||""));
+
+  const catOpts = CATS.map(c=>`<option value="${esc(c)}"${filterCat===c?" selected":""}>${esc(c.split(" ").slice(0,3).join(" "))}</option>`).join("");
+  const ownerOpts = OWNERS.map(o=>`<option value="${esc(o)}"${filterOwner===o?" selected":""}>${esc(o)}</option>`).join("");
+  const monthOpts = MONTHS.map(m=>`<option value="${esc(m)}"${filterMonth===m?" selected":""}>${esc(m)}</option>`).join("");
+  const stOpts = Object.keys(STATUS_CONFIG).map(s=>`<option value="${esc(s)}"${filterStatus===s?" selected":""}>${esc(s)}</option>`).join("");
+
+  const hasFilter = filterCat!=="all"||filterOwner!=="all"||filterMonth!=="all"||filterStatus!=="all"||searchQ;
+
+  return `
+    <div class="page-title">All Tasks</div>
+    <input class="search-box" placeholder="Search tasks..." value="${esc(searchQ)}" oninput="setSearch(this.value)">
+    <div class="filter-row">
+      <select class="filter-sel" onchange="setFilter('month',this.value)"><option value="all">All months</option>${monthOpts}</select>
+      <select class="filter-sel" onchange="setFilter('owner',this.value)"><option value="all">All owners</option>${ownerOpts}</select>
+      <select class="filter-sel" onchange="setFilter('status',this.value)"><option value="all">All statuses</option>${stOpts}</select>
+      <select class="filter-sel" onchange="setFilter('cat',this.value)"><option value="all">All categories</option>${catOpts}</select>
+      ${hasFilter?`<button class="filter-sel" style="color:var(--danger);border-color:rgba(196,48,48,0.4);cursor:pointer" onclick="clearFilters()">clear</button>`:""}
+    </div>
+    <button class="add-btn" onclick="openAdd()">+ Add task</button>
+    <div class="result-count">${filtered.length} tasks</div>
+    ${filtered.length ? filtered.map(taskCardHTML).join("") : '<div class="empty">No tasks match.</div>'}
+  `;
+}
+
+// ── RENDER ENGINE ─────────────────────────────────────────────────
+function render() {
+  const nav = document.getElementById("nav");
+  nav.innerHTML = VIEWS.map(([v,l])=>`<button class="${currentView===v?"active":""}" onclick="setView('${v}')">${l}</button>`).join("");
+
+  const page = document.getElementById("page");
+  switch(currentView) {
+    case "dashboard": page.innerHTML = renderDashboard(); break;
+    case "april":     page.innerHTML = renderApril();    break;
+    case "chat":      page.innerHTML = renderChat(); scrollChatBottom(); break;
+    case "robbie":    page.innerHTML = renderRobbie();   break;
+    case "diy":       page.innerHTML = renderDIY();      break;
+    case "tasks":     page.innerHTML = renderTasks();    break;
+  }
+}
+
+// ── ACTIONS ───────────────────────────────────────────────────────
+function setView(v) { currentView = v; render(); window.scrollTo(0,0); }
+function jumpMonth(m) { filterMonth = m; setView("tasks"); }
+function jumpCat(c) { filterCat = c; setView("tasks"); }
+function setFilter(type, val) { if(type==="cat") filterCat=val; else if(type==="owner") filterOwner=val; else if(type==="month") filterMonth=val; else if(type==="status") filterStatus=val; render(); }
+function setSearch(v) { searchQ=v; render(); }
+function clearFilters() { filterCat=filterOwner=filterMonth=filterStatus="all"; searchQ=""; render(); }
+
+function cycleStatus(id) {
+  const order = ["Not started","In progress","Done","Blocked"];
+  const t = tasks.find(t=>t.id===id);
+  if (!t) return;
+  t.status = order[(order.indexOf(t.status)+1)%order.length];
+  save(); render();
+}
+
+// ── EDIT MODAL ────────────────────────────────────────────────────
+function populateSelects() {
+  ["edit-status","add-status"].forEach(id=>{
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = Object.keys(STATUS_CONFIG).map(s=>`<option value="${s}">${s}</option>`).join("");
+  });
+  ["edit-owner","add-owner"].forEach(id=>{
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = OWNERS.map(o=>`<option value="${o}">${o}</option>`).join("");
+  });
+  ["edit-month","add-month"].forEach(id=>{
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = MONTHS.map(m=>`<option value="${m}">${m}</option>`).join("");
+  });
+  const addCat = document.getElementById("add-cat");
+  if (addCat) addCat.innerHTML = CATS.map(c=>`<option value="${c}">${c}</option>`).join("");
+}
+
+function openEdit(id) {
+  editingId = id;
+  const t = tasks.find(t=>t.id===id);
+  if (!t) return;
+  populateSelects();
+  document.getElementById("edit-task").value  = t.task;
+  document.getElementById("edit-status").value = t.status;
+  document.getElementById("edit-owner").value  = t.owner;
+  document.getElementById("edit-month").value  = t.month;
+  document.getElementById("edit-due").value    = t.due||"";
+  document.getElementById("edit-notes").value  = t.notes||"";
+  document.getElementById("edit-modal").style.display = "flex";
+}
+
+function closeEditModal(e) { if(e.target.id==="edit-modal") document.getElementById("edit-modal").style.display="none"; }
+
+function saveEdit() {
+  const t = tasks.find(t=>t.id===editingId);
+  if (!t) return;
+  t.task   = document.getElementById("edit-task").value;
+  t.status = document.getElementById("edit-status").value;
+  t.owner  = document.getElementById("edit-owner").value;
+  t.month  = document.getElementById("edit-month").value;
+  t.due    = document.getElementById("edit-due").value;
+  t.notes  = document.getElementById("edit-notes").value;
+  document.getElementById("edit-modal").style.display = "none";
+  save(); render();
+}
+
+function deleteTask() {
+  if (!confirm("Delete this task?")) return;
+  tasks = tasks.filter(t=>t.id!==editingId);
+  document.getElementById("edit-modal").style.display = "none";
+  save(); render();
+}
+
+// ── ADD MODAL ─────────────────────────────────────────────────────
+function openAdd() {
+  populateSelects();
+  document.getElementById("add-modal").style.display = "flex";
+}
+
+function closeAddModal(e) { if(e.target.id==="add-modal") document.getElementById("add-modal").style.display="none"; }
+
+function saveAdd() {
+  const task = document.getElementById("add-task").value.trim();
+  if (!task) return;
+  tasks.push({
+    id: "t"+Date.now(),
+    task,
+    cat:    document.getElementById("add-cat").value,
+    owner:  document.getElementById("add-owner").value,
+    month:  document.getElementById("add-month").value,
+    due:    document.getElementById("add-due").value,
+    status: "Not started",
+    notes:  document.getElementById("add-notes").value,
+  });
+  document.getElementById("add-modal").style.display = "none";
+  document.getElementById("add-task").value = "";
+  document.getElementById("add-notes").value = "";
+  save(); render();
+}
+
+// ── CHAT ──────────────────────────────────────────────────────────
+function setHint(h) {
+  const el = document.getElementById("chat-in");
+  if (el) el.value = h;
+}
+
+function scrollChatBottom() {
+  setTimeout(()=>{ const el=document.getElementById("chat-msgs"); if(el) el.scrollTop=el.scrollHeight; }, 50);
+}
+
+async function sendChat() {
+  const el = document.getElementById("chat-in");
+  if (!el) return;
+  const msg = el.value.trim();
+  if (!msg || chatLoading) return;
+  el.value = "";
+  chatMsgs.push({ role:"user", text:msg });
+  chatLoading = true;
+  render();
+
+  const taskSummary = tasks.slice(0,40).map(t=>`ID:${t.id}|${t.task}|${t.status}|${t.owner}|${t.month}`).join("\n");
+
+  try {
+    const res = await fetch(ANTHROPIC_API, {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({
+        model:"claude-sonnet-4-20250514",
+        max_tokens:1000,
+        system:`You are a wedding planning assistant for Suzanne Kite and Robert Wing, wedding September 26 2026 in Catskill NY.
+You manage their task list. You can add tasks, update statuses, add notes, or answer questions.
+
+Current tasks (first 40):
+${taskSummary}
+
+For ADD: respond ONLY with JSON: {"action":"add","task":"name","cat":"category","owner":"Suzanne|Robbie|Both","month":"Apr 2026","due":"2026-04-15","notes":"notes"}
+For UPDATE: respond ONLY with JSON: {"action":"update","id":"t1","status":"Done","notes":"optional"}
+For MULTIPLE: respond ONLY with JSON array: [{"action":"update","id":"t1","status":"Done"},...]
+For QUESTIONS: respond in plain text, warm and brief. No markdown.
+CRITICAL: If performing actions return ONLY JSON. If answering return ONLY plain text.`,
+        messages:[{role:"user",content:msg}]
+      })
+    });
+    const data = await res.json();
+    const reply = data.content?.[0]?.text || "";
+
+    let parsed = null;
+    try { parsed = JSON.parse(reply.trim()); } catch {}
+
+    if (parsed) {
+      const actions = Array.isArray(parsed)?parsed:[parsed];
+      let responseText = "";
+      actions.forEach(a=>{
+        if (a.action==="add") {
+          tasks.push({ id:"t"+Date.now()+Math.floor(Math.random()*1000), cat:a.cat||"Home + Yard Preparation", task:a.task, owner:a.owner||"Both", due:a.due||"", month:a.month||"Apr 2026", status:a.status||"Not started", notes:a.notes||"" });
+          responseText += `Added: "${a.task}"\n`;
+        } else if (a.action==="update") {
+          const t = tasks.find(t=>t.id===a.id);
+          if (t) {
+            if (a.status) t.status = a.status;
+            if (a.notes) t.notes = t.notes ? t.notes+" · "+a.notes : a.notes;
+            responseText += `Updated "${t.task}" → ${a.status||"updated"}\n`;
+          }
+        }
+      });
+      save();
+      chatMsgs.push({ role:"assistant", text:responseText.trim()||"Done." });
+    } else {
+      chatMsgs.push({ role:"assistant", text:reply });
+    }
+  } catch(e) {
+    chatMsgs.push({ role:"assistant", text:"Something went wrong — please try again." });
+  }
+  chatLoading = false;
+  render();
+}
+
+// ── INIT ──────────────────────────────────────────────────────────
+load();
+document.getElementById("loading").style.display = "none";
+document.getElementById("app").style.display = "block";
+render();
+
+// Keyboard: Escape closes modals
+document.addEventListener("keydown", e=>{
+  if (e.key==="Escape") {
+    document.getElementById("edit-modal").style.display="none";
+    document.getElementById("add-modal").style.display="none";
+  }
+});
+</script>
+</body>
+</html>
