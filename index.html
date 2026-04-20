@@ -125,16 +125,20 @@ nav button.active{color:var(--gold-d);border-bottom-color:var(--gold);font-weigh
     <div class="divider"><div class="divider-line left"></div><svg width="12" height="12" viewBox="0 0 100 100" fill="none"><path d="M50 80 C30 75 10 60 8 40 C6 20 20 10 35 15 C42 17 48 22 50 28 C52 22 58 17 65 15 C80 10 94 20 92 40 C90 60 70 75 50 80Z" fill="#5a7a4a"/></svg><div class="divider-line right"></div></div>
     <label class="field-label">Task</label>
     <input class="field-input" id="edit-task" type="text">
-    <label class="field-label">Project</label>
-    <select class="field-input" id="edit-project"></select>
     <label class="field-label">Status</label>
     <select class="field-input" id="edit-status"></select>
     <label class="field-label">Owner</label>
     <select class="field-input" id="edit-owner"></select>
     <label class="field-label">Project</label>
     <select class="field-input" id="edit-proj"></select>
+    <label class="field-label">Month</label>
+    <select class="field-input" id="edit-month"></select>
     <label class="field-label">Due date</label>
     <input class="field-input" id="edit-due" type="date">
+    <div id="gantt-preview" style="margin:-4px 0 12px;display:none">
+      <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-d);margin-bottom:6px;font-family:'Cormorant Garamond',serif">Gantt impact for this project</div>
+      <div id="gantt-preview-inner" style="font-size:11px;color:var(--text-d);background:#f4f6f0;border:1px solid var(--border);border-radius:6px;padding:8px 10px;line-height:1.6"></div>
+    </div>
     <label class="field-label">Notes</label>
     <textarea class="field-textarea" id="edit-notes"></textarea>
     <div class="btn-row">
@@ -152,8 +156,6 @@ nav button.active{color:var(--gold-d);border-bottom-color:var(--gold);font-weigh
     <div class="divider"><div class="divider-line left"></div><svg width="12" height="12" viewBox="0 0 100 100" fill="none"><path d="M50 80 C30 75 10 60 8 40 C6 20 20 10 35 15 C42 17 48 22 50 28 C52 22 58 17 65 15 C80 10 94 20 92 40 C90 60 70 75 50 80Z" fill="#5a7a4a"/></svg><div class="divider-line right"></div></div>
     <label class="field-label">Task name</label>
     <input class="field-input" id="add-task" type="text" placeholder="What needs to happen?">
-    <label class="field-label">Project</label>
-    <select class="field-input" id="add-project"></select>
     <label class="field-label">Owner</label>
     <select class="field-input" id="add-owner"></select>
     <label class="field-label">Project</label>
@@ -1461,6 +1463,61 @@ function openEdit(id){
   document.getElementById("edit-proj").value=t.project||"";
   document.getElementById("edit-notes").value=t.notes||"";
   document.getElementById("edit-modal").style.display="flex";
+  updateGanttPreview();
+  document.getElementById("edit-due").oninput=updateGanttPreview;
+  document.getElementById("edit-proj").onchange=updateGanttPreview;
+}
+
+function updateGanttPreview(){
+  var proj=document.getElementById("edit-proj").value;
+  var newDue=document.getElementById("edit-due").value;
+  var preview=document.getElementById("gantt-preview");
+  var inner=document.getElementById("gantt-preview-inner");
+  if(!proj||!preview||!inner){return;}
+  preview.style.display="block";
+
+  // Get all tasks in this project (excluding the one being edited)
+  var pt=tasks.filter(function(t){return t.project===proj&&t.id!==editId&&t.due;});
+  var allDues=pt.map(function(t){return t.due;});
+
+  // Current range (without edited task)
+  var projDones=pt.filter(function(t){return t.status==="Done";}).length;
+  var projTotal=pt.length;
+
+  // Add the new due date to see impact
+  if(newDue) allDues.push(newDue);
+  allDues.sort();
+
+  var earliest=allDues[0]||"";
+  var latest=allDues[allDues.length-1]||"";
+
+  // Format as readable month
+  function fmtDate(d){
+    if(!d)return"TBD";
+    var dt=new Date(d);
+    return dt.toLocaleString("en-US",{month:"short",day:"numeric"});
+  }
+  function monthOf(d){
+    if(!d)return"";
+    return new Date(d).toLocaleString("en-US",{month:"long"});
+  }
+
+  var span=allDues.length>1?(allDues.length+" tasks, "+fmtDate(earliest)+" → "+fmtDate(latest)):"Single task: "+fmtDate(latest);
+  var prepEnd=allDues[Math.floor(allDues.length/3)]||earliest;
+  var buildEnd=allDues[Math.floor(allDues.length*2/3)]||latest;
+
+  var html2="<strong style='color:var(--text)'>"+esc(proj)+"</strong><br>";
+  html2+="<span style='color:#3a6a48'>● Prep</span> through "+fmtDate(prepEnd)+"&nbsp;&nbsp;";
+  html2+="<span style='color:#2a4a8a'>● Build</span> through "+fmtDate(buildEnd)+"&nbsp;&nbsp;";
+  html2+="<span style='color:#3d5c32'>● Goal</span> "+fmtDate(latest)+"<br>";
+  html2+="<span style='color:var(--muted);font-size:10px'>"+span+"&nbsp;·&nbsp;"+projDones+"/"+projTotal+" done in project</span>";
+  if(newDue&&latest===newDue){
+    html2+="<br><span style='color:#8a5c1a;font-size:10px'>⚠ This task sets the Goal date for the whole project</span>";
+  }
+  if(newDue&&earliest===newDue){
+    html2+="<br><span style='color:#3a6a48;font-size:10px'>✦ This task starts the Prep phase for the whole project</span>";
+  }
+  inner.innerHTML=html2;
 }
 function closeEM(e){if(e.target.id==="edit-modal")document.getElementById("edit-modal").style.display="none";}
 function saveEdit(){
