@@ -1,0 +1,1068 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Beauty">
+<title>Beauty ❣️</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --p:#F8F4F0; --pd:#EDE6DE; --pw:#E0D6CC; --ch:#D4C4B0;
+  --g:#C9A96E; --gl:#E8D5B0; --bl:#E8C4B8; --bd:#D4A090;
+  --sg:#B8D4C8; --st:#8A7A70; --dk:#3A3330;
+  --tx:#4A3F3A; --tl:#7A6A64; --wh:#FDFBF9;
+  --sat: env(safe-area-inset-top,0px);
+  --sab: env(safe-area-inset-bottom,20px);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{min-height:100%;font-family:'Jost',sans-serif;background:var(--p);color:var(--tx);font-weight:300;}
+body{padding-bottom:calc(var(--sab) + 70px);}
+
+/* HEADER */
+header{background:linear-gradient(135deg,#3A3330,#5A4A44 60%,#7A6060);padding:calc(var(--sat) + 20px) 18px 18px;position:relative;}
+header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--g),transparent);}
+.h-row{display:flex;justify-content:space-between;align-items:center;}
+.h-eye{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gl);margin-bottom:4px;}
+.h-name{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;color:var(--p);line-height:1;}
+.h-name i{font-style:italic;color:var(--gl);}
+.h-cd{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;color:var(--p);text-align:right;line-height:1;}
+.h-cl{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gl);}
+
+/* BOTTOM NAV */
+nav{position:fixed;bottom:0;left:0;right:0;background:var(--wh);border-top:1px solid var(--pw);display:flex;padding-bottom:var(--sab);z-index:50;box-shadow:0 -2px 16px rgba(58,51,48,.07);}
+nav button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:10px 2px 7px;background:none;border:none;cursor:pointer;font-family:'Jost',sans-serif;}
+nav button .ic{font-size:16px;}
+nav button .lb{font-size:7px;letter-spacing:1.5px;text-transform:uppercase;color:var(--st);}
+nav button.on .lb{color:var(--dk);font-weight:400;}
+nav button.on .ic{transform:scale(1.1);}
+
+/* PAGES */
+.page{display:none;padding:18px;}
+.page.on{display:block;}
+.pg-h{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--dk);margin-bottom:2px;}
+.pg-s{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--st);margin-bottom:18px;}
+
+/* CARDS */
+.card{background:var(--wh);border:1px solid var(--pw);border-radius:3px;padding:15px;margin-bottom:12px;}
+.card-lbl{font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--st);margin-bottom:10px;}
+
+/* SUNDAY WIDGET */
+.sun-box{background:linear-gradient(135deg,#3A3330,#5A4A44);border-radius:3px;padding:18px;margin-bottom:14px;position:relative;}
+.sun-box::after{content:'✦';position:absolute;right:14px;top:12px;font-size:24px;color:rgba(201,169,110,.18);}
+.sun-title{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--p);margin-bottom:3px;}
+.sun-sub{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gl);margin-bottom:14px;}
+.sun-scores{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.ss-box{background:rgba(255,255,255,.08);border-radius:2px;padding:9px 6px;text-align:center;}
+.ss-lbl{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--gl);margin-bottom:6px;}
+.ss-dots{display:flex;justify-content:center;gap:3px;}
+.ss-dot{width:14px;height:14px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);cursor:pointer;transition:background .15s;}
+.ss-dot.on{background:var(--g);border-color:var(--g);}
+.sun-ta{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:2px;padding:9px;font-family:'Jost',sans-serif;font-size:12px;font-weight:300;color:var(--p);outline:none;min-height:56px;resize:none;margin-bottom:10px;}
+.sun-ta::placeholder{color:rgba(255,255,255,.28);}
+.sun-btn{width:100%;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:10px;background:var(--g);border:none;color:#fff;border-radius:2px;cursor:pointer;}
+.sun-hist{margin-top:10px;}
+.sh-item{background:rgba(255,255,255,.06);border-radius:2px;padding:9px;margin-top:7px;}
+.sh-date{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gl);margin-bottom:5px;}
+.sh-row{display:flex;flex-wrap:wrap;gap:8px;}
+.sh-sc{font-size:10px;color:rgba(255,255,255,.55);}
+.sh-sc span{color:var(--gl);font-family:'Cormorant Garamond',serif;font-size:14px;}
+.sh-note{font-size:10px;color:rgba(255,255,255,.4);margin-top:4px;}
+
+/* STAT GRID */
+.sg{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px;}
+.sc{background:var(--wh);border:1px solid var(--pw);border-radius:3px;padding:12px 14px;}
+.sn{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--dk);line-height:1;}
+.sl{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--st);margin-top:2px;}
+.sc.gd .sn{color:var(--g);}
+.sc.ge .sn{color:#7AAA98;}
+.sc.gb .sn{color:var(--bd);}
+
+/* PROGRESS BARS */
+.pr{margin-bottom:9px;}
+.pm{display:flex;justify-content:space-between;font-size:10px;color:var(--tl);margin-bottom:3px;}
+.pm strong{color:var(--tx);font-weight:400;}
+.pb{height:3px;background:var(--pw);border-radius:2px;overflow:hidden;cursor:pointer;}
+.pf{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--g),var(--bl));transition:width .7s ease;}
+
+/* TASK ITEMS */
+.ti{display:flex;align-items:flex-start;gap:9px;padding:11px 12px;background:var(--wh);border:1px solid var(--pw);border-radius:2px;margin-bottom:6px;transition:border-color .2s;}
+.ti:hover{border-color:var(--ch);}
+.ti.dn{opacity:.4;}
+.ti.ug{border-left:2px solid var(--bd);}
+.ti-l{flex:1;min-width:0;}
+.ti-n{font-size:13px;color:var(--tx);font-weight:300;line-height:1.4;margin-bottom:3px;}
+.ti.dn .ti-n{text-decoration:line-through;color:var(--st);}
+.ti-m{display:flex;flex-wrap:wrap;gap:4px;align-items:center;}
+.ti-cat{font-size:8px;letter-spacing:1px;text-transform:uppercase;padding:2px 7px;border-radius:10px;border:1px solid var(--pw);background:var(--p);color:var(--st);}
+.ti-due{font-size:9px;color:var(--tl);}
+.ti-due.ov{color:var(--bd);}
+.ti-r{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0;}
+.sp{font-size:8px;letter-spacing:.5px;text-transform:uppercase;padding:3px 8px;border-radius:10px;border:none;cursor:pointer;font-family:'Jost',sans-serif;font-weight:400;white-space:nowrap;}
+.sp-ns{background:var(--pw);color:var(--st);}
+.sp-ip{background:var(--g);color:#fff;}
+.sp-dn{background:var(--sg);color:#3A6A58;}
+.sp-bl{background:var(--bl);color:var(--bd);}
+.ti-ed{background:none;border:none;color:var(--ch);cursor:pointer;font-size:13px;padding:2px;}
+.ti-ed:hover{color:var(--g);}
+
+/* WEEK HEADERS */
+.wh{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--g);margin:18px 0 7px;display:flex;align-items:center;gap:8px;}
+.wh::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gl),transparent);}
+
+/* URGENT */
+.urg-box{background:linear-gradient(135deg,rgba(212,160,144,.1),rgba(232,196,184,.07));border:1px solid var(--bl);border-radius:3px;padding:12px 14px;margin-bottom:12px;}
+.urg-lbl{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--bd);margin-bottom:8px;}
+
+/* PHOTOS */
+.ph-sec-lbl{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--g);margin:16px 0 8px;}
+.ph-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:4px;}
+.ph-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:4px;}
+.ph-slot{border:1px dashed var(--ch);border-radius:2px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;position:relative;background:var(--p);}
+.ph-slot.port{aspect-ratio:3/4;}
+.ph-slot.sq{aspect-ratio:1/1;}
+.ph-slot:hover{border-color:var(--g);}
+.ph-slot img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.ph-plus{font-size:20px;color:var(--ch);position:relative;z-index:1;}
+.ph-lbl{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--st);margin-top:5px;position:relative;z-index:1;}
+.ph-date{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(58,51,48,.7));color:var(--p);font-size:8px;padding:12px 5px 5px;text-align:center;}
+.ph-rm{position:absolute;top:3px;right:3px;background:rgba(58,51,48,.6);border:none;color:#fff;border-radius:50%;width:18px;height:18px;font-size:9px;cursor:pointer;z-index:2;display:none;align-items:center;justify-content:center;}
+.ph-slot:hover .ph-rm{display:flex;}
+
+/* MEASUREMENTS */
+.ms-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px;}
+.ms-card{background:var(--p);border:1px solid var(--pw);border-radius:2px;padding:11px;}
+.ms-lbl{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--st);margin-bottom:5px;}
+.ms-val{font-family:'Cormorant Garamond',serif;font-size:30px;color:var(--dk);line-height:1;}
+.ms-unit{font-size:10px;color:var(--st);}
+.ms-chg{font-size:9px;margin-top:2px;}
+.ms-chg.pos{color:#7AAA98;}
+.ms-chg.neg{color:var(--bd);}
+.ms-inp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:10px;}
+.ms-field label{display:block;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--st);margin-bottom:5px;}
+.ms-field input{width:100%;background:var(--p);border:1px solid var(--pw);border-radius:2px;padding:9px 10px;font-family:'Jost',sans-serif;font-size:14px;font-weight:300;color:var(--tx);outline:none;}
+.ms-field input:focus{border-color:var(--g);background:var(--wh);}
+.ms-hist-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--pw);font-size:10px;color:var(--tl);}
+.ms-hist-d{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--g);}
+.ms-hist-v{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--dk);}
+.ms-hist-vs{display:flex;gap:10px;}
+
+/* GANTT */
+.gantt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -18px;padding:0 18px 10px;}
+.gt{border-collapse:collapse;min-width:820px;}
+.gt th{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--st);padding:4px 3px;text-align:center;font-weight:400;border-bottom:1px solid var(--pw);white-space:nowrap;}
+.gt th.gth{text-align:left;min-width:120px;padding-left:0;}
+.gt td{padding:2px 1px;border-bottom:1px solid var(--pd);}
+.gt td.gtc{font-size:11px;color:var(--tx);padding:5px 6px 5px 0;white-space:nowrap;cursor:pointer;font-weight:300;}
+.gt td.gtc:hover{color:var(--g);}
+.gt-cs{font-size:8px;color:var(--st);letter-spacing:1px;display:block;}
+.gt-wc{width:28px;height:20px;position:relative;}
+.gt-bar{position:absolute;top:3px;bottom:3px;border-radius:6px;opacity:.82;}
+.ph1{background:var(--ch);}
+.ph2{background:var(--g);}
+.ph3{background:var(--bl);}
+.ph4{background:var(--sg);}
+.gl-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.gl-item{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--tl);}
+.gl-dot{width:9px;height:9px;border-radius:50%;}
+
+/* COACH */
+.coach-wrap{background:var(--wh);border:1px solid var(--pw);border-radius:3px;overflow:hidden;margin-bottom:12px;}
+.co-hdr{background:linear-gradient(135deg,#3A3330,#5A4A44);padding:14px 16px;display:flex;align-items:center;gap:9px;}
+.co-dot{width:7px;height:7px;border-radius:50%;background:var(--g);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.7);}}
+.co-title{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--p);font-weight:300;}
+.co-sub{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gl);margin-left:auto;}
+.hints{display:flex;flex-wrap:wrap;gap:6px;padding:10px 14px 4px;}
+.hint-btn{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:6px 11px;background:var(--p);border:1px solid var(--pw);border-radius:2px;cursor:pointer;color:var(--tl);}
+.hint-btn:hover{border-color:var(--g);color:var(--dk);}
+.msgs{height:300px;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth;}
+.msgs::-webkit-scrollbar{width:3px;}
+.msgs::-webkit-scrollbar-thumb{background:var(--ch);}
+.msg{max-width:88%;animation:fu .25s ease;}
+@keyframes fu{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+.msg.u{align-self:flex-end;}
+.msg.a{align-self:flex-start;}
+.mb{padding:10px 13px;border-radius:2px;font-size:13px;line-height:1.7;font-weight:300;}
+.msg.u .mb{background:var(--dk);color:var(--p);}
+.msg.a .mb{background:var(--pd);color:var(--tx);border:1px solid var(--pw);}
+.mt{font-size:8px;color:var(--st);margin-top:2px;}
+.msg.a .mt{text-align:left;}
+.msg.u .mt{text-align:right;}
+.co-inp-row{border-top:1px solid var(--pw);padding:11px 14px;display:flex;gap:8px;align-items:flex-end;}
+.co-ta{flex:1;min-height:38px;max-height:90px;resize:none;background:var(--p);border:1px solid var(--pw);border-radius:2px;padding:9px 10px;font-family:'Jost',sans-serif;font-size:13px;font-weight:300;color:var(--tx);outline:none;}
+.co-ta:focus{border-color:var(--g);background:var(--wh);}
+.co-send{font-family:'Jost',sans-serif;font-weight:300;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:9px 14px;background:var(--dk);border:none;color:var(--p);border-radius:2px;cursor:pointer;height:38px;}
+.co-send:hover{background:var(--g);}
+.ty{display:flex;gap:4px;align-items:center;}
+.td{width:5px;height:5px;background:var(--ch);border-radius:50%;animation:t 1.2s infinite;}
+.td:nth-child(2){animation-delay:.2s;}
+.td:nth-child(3){animation-delay:.4s;}
+@keyframes t{0%,100%{transform:translateY(0);opacity:.4;}50%{transform:translateY(-4px);opacity:1;}}
+
+/* FILTERS */
+.frow{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
+.fi{background:var(--wh);border:1px solid var(--pw);border-radius:2px;padding:8px 9px;font-family:'Jost',sans-serif;font-size:12px;font-weight:300;color:var(--tx);outline:none;flex:1;min-width:110px;}
+.fi:focus{border-color:var(--g);}
+
+/* MODAL */
+.mo{position:fixed;inset:0;background:rgba(58,51,48,.55);z-index:200;display:none;align-items:flex-end;justify-content:center;}
+.mo.on{display:flex;}
+.md{background:var(--wh);border-radius:16px 16px 0 0;padding:18px 20px calc(var(--sab) + 20px);width:100%;max-height:85vh;overflow-y:auto;animation:su .25s ease;}
+@keyframes su{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.md-handle{width:34px;height:4px;border-radius:2px;background:var(--pw);margin:0 auto 14px;}
+.md-title{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:300;color:var(--dk);margin-bottom:13px;}
+.mf{margin-bottom:11px;}
+.mf label{display:block;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--st);margin-bottom:5px;}
+.mf input,.mf select,.mf textarea{width:100%;font-family:'Jost',sans-serif;font-weight:300;font-size:13px;background:var(--p);border:1px solid var(--pw);border-radius:2px;padding:9px 10px;color:var(--tx);outline:none;}
+.mf input:focus,.mf select:focus,.mf textarea:focus{border-color:var(--g);background:var(--wh);}
+.mf textarea{min-height:60px;resize:vertical;}
+.ma{display:flex;gap:7px;margin-top:10px;}
+.mb-btn{flex:1;font-family:'Jost',sans-serif;font-weight:300;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:11px;border:none;border-radius:2px;cursor:pointer;}
+.mb-p{background:var(--dk);color:var(--p);}
+.mb-p:hover{background:var(--g);}
+.mb-s{background:transparent;border:1px solid var(--pw);color:var(--st);}
+.mb-d{background:#C47070;color:#fff;}
+
+/* FAB */
+.fab{position:fixed;bottom:calc(var(--sab) + 76px);right:18px;width:42px;height:42px;background:var(--dk);border:none;border-radius:50%;color:var(--p);font-size:20px;cursor:pointer;box-shadow:0 4px 14px rgba(58,51,48,.28);z-index:49;display:flex;align-items:center;justify-content:center;}
+.fab:hover{background:var(--g);}
+
+/* TOAST */
+.tst{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(8px);background:var(--dk);color:var(--p);padding:8px 18px;border-radius:20px;font-size:11px;letter-spacing:1px;opacity:0;transition:all .3s;pointer-events:none;z-index:300;white-space:nowrap;}
+.tst.on{opacity:1;transform:translateX(-50%) translateY(0);}
+
+.gold-line{height:1px;background:linear-gradient(90deg,transparent,var(--g),transparent);margin:16px 0;}
+
+@media(min-width:580px){.page,.msgs{max-width:540px;margin-left:auto;margin-right:auto;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-row">
+    <div>
+      <div class="h-eye">Pre-Wedding Beauty</div>
+      <div class="h-name">Beauty <i>❣️</i></div>
+    </div>
+    <div>
+      <div class="h-cd" id="cdn">—</div>
+      <div class="h-cl">Days to Go</div>
+    </div>
+  </div>
+</header>
+
+<!-- PAGES -->
+<div class="page on" id="pg-dash">
+  <div class="pg-h">Dashboard</div>
+  <div class="pg-s" id="dashsub"></div>
+  <div id="sunwrap"></div>
+  <div class="sg" id="stats"></div>
+  <div class="card"><div class="card-lbl">Overall</div><div id="ovprog"></div></div>
+  <div class="card"><div class="card-lbl">By Category — tap to filter</div><div id="catprog"></div></div>
+  <div id="urgwrap"></div>
+</div>
+
+<div class="page" id="pg-month">
+  <div class="pg-h" id="month-title">This Month</div>
+  <div class="pg-s">Urgents First</div>
+  <div id="month-list"></div>
+</div>
+
+<div class="page" id="pg-track">
+  <div class="pg-h">Progress</div>
+  <div class="pg-s">Photos · Measurements · Monthly</div>
+  <div class="card">
+    <div class="card-lbl">Measurements — <span id="meas-month"></span></div>
+    <div class="ms-grid" id="meas-display"></div>
+    <div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--st);margin-bottom:8px;">Log This Month</div>
+    <div class="ms-inp-grid">
+      <div class="ms-field"><label>Weight (lbs)</label><input type="number" id="m-w" placeholder="132" step="0.1"></div>
+      <div class="ms-field"><label>Waist (in)</label><input type="number" id="m-wa" placeholder="28.5" step="0.1"></div>
+      <div class="ms-field"><label>Hips (in)</label><input type="number" id="m-h" placeholder="—" step="0.1"></div>
+      <div class="ms-field"><label>Arms (in)</label><input type="number" id="m-a" placeholder="—" step="0.1"></div>
+    </div>
+    <button class="sun-btn" id="save-meas-btn">Save Measurements ✦</button>
+    <div class="gold-line"></div>
+    <div id="meas-hist"></div>
+  </div>
+  <div class="ph-sec-lbl">Body Progress</div>
+  <div class="ph-grid-3" id="ph-body"></div>
+  <div class="ph-sec-lbl">Face &amp; Skin</div>
+  <div class="ph-grid-2" id="ph-face"></div>
+  <div class="ph-sec-lbl">Hair</div>
+  <div class="ph-grid-3" id="ph-hair"></div>
+  <div class="ph-sec-lbl">Nail Sets</div>
+  <div class="ph-grid-3" id="ph-nails"></div>
+</div>
+
+<div class="page" id="pg-gantt">
+  <div class="pg-h">Timeline</div>
+  <div class="pg-s">Apr → Sep 2026</div>
+  <div class="gantt-wrap"><table class="gt" id="gantt-tbl"></table></div>
+  <div class="gl-row">
+    <div class="gl-item"><div class="gl-dot" style="background:var(--ch)"></div>Prep</div>
+    <div class="gl-item"><div class="gl-dot" style="background:var(--g)"></div>Active</div>
+    <div class="gl-item"><div class="gl-dot" style="background:var(--bl)"></div>Details</div>
+    <div class="gl-item"><div class="gl-dot" style="background:var(--sg)"></div>Goal</div>
+  </div>
+</div>
+
+<div class="page" id="pg-coach">
+  <div class="pg-h">Coach</div>
+  <div class="pg-s">Your Personal Beauty AI</div>
+  <div class="coach-wrap">
+    <div class="co-hdr">
+      <div class="co-dot"></div>
+      <div class="co-title">Suzanne's Beauty Coach</div>
+      <div class="co-sub">Always Here</div>
+    </div>
+    <div class="hints" id="hint-btns"></div>
+    <div class="msgs" id="msgs"></div>
+    <div class="co-inp-row">
+      <textarea class="co-ta" id="co-inp" placeholder="Ask anything…" rows="1"></textarea>
+      <button class="co-send" id="co-send-btn">Send</button>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="pg-all">
+  <div class="pg-h">All Tasks <span style="font-size:11px;color:var(--st);font-weight:300;" id="tc"></span></div>
+  <div class="pg-s">Search · Filter · Manage</div>
+  <div class="frow">
+    <input class="fi" id="f-srch" placeholder="Search tasks…">
+    <select class="fi" id="f-cat">
+      <option value="">All categories</option>
+      <option>Body</option><option>Skin</option><option>Hair</option>
+      <option>Face Treatments</option><option>Nails</option><option>Makeup</option>
+      <option>Nutrition &amp; Supplements</option><option>Fitness</option><option>Mental &amp; Spiritual</option>
+    </select>
+    <select class="fi" id="f-st">
+      <option value="">All status</option>
+      <option>Not started</option><option>In progress</option><option>Done</option><option>Blocked</option>
+    </select>
+    <select class="fi" id="f-mo">
+      <option value="">All months</option>
+      <option>April</option><option>May</option><option>June</option>
+      <option>July</option><option>August</option><option>September</option>
+    </select>
+  </div>
+  <div id="all-list"></div>
+</div>
+
+<button class="fab" id="fab-btn">＋</button>
+<div class="tst" id="tst"></div>
+
+<nav>
+  <button data-pg="dash"><span class="ic">◈</span><span class="lb">Dash</span></button>
+  <button data-pg="month"><span class="ic">✦</span><span class="lb">Month</span></button>
+  <button data-pg="track"><span class="ic">◻</span><span class="lb">Track</span></button>
+  <button data-pg="gantt"><span class="ic">▦</span><span class="lb">Gantt</span></button>
+  <button data-pg="coach"><span class="ic">◇</span><span class="lb">Coach</span></button>
+  <button data-pg="all"><span class="ic">☰</span><span class="lb">All</span></button>
+</nav>
+
+<div class="mo" id="modal">
+  <div class="md">
+    <div class="md-handle"></div>
+    <div class="md-title" id="md-title"></div>
+    <div id="md-body"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+// ── CONSTANTS ─────────────────────────────────────────────
+const WEDDING = new Date('2026-09-26');
+const MONTHS = ['April','May','June','July','August','September'];
+const CATS = ['Body','Skin','Hair','Face Treatments','Nails','Makeup','Nutrition & Supplements','Fitness','Mental & Spiritual'];
+const PH_MONTHS = ['Apr','May','Jun','Jul','Aug','Sep'];
+const NAIL_WKS = ['Wk1','Wk2','Wk3','Wk4','Wk5','Wk6'];
+
+const WEEKS = [];
+(function(){
+  var d = new Date('2026-04-06');
+  var end = new Date('2026-09-28');
+  while(d <= end){ WEEKS.push(new Date(d)); d.setDate(d.getDate()+7); }
+})();
+
+const SEED = [
+  ['Emsculpt Neo consultation','Body','April','2026-04-22','Not started'],
+  ['Emsculpt Neo session #1','Body','May','2026-05-05','Not started'],
+  ['Emsculpt Neo session #2','Body','May','2026-05-19','Not started'],
+  ['Emsculpt Neo session #3','Body','June','2026-06-02','Not started'],
+  ['Emsculpt Neo session #4','Body','June','2026-06-16','Not started'],
+  ['Morpheus8 — jawline & face','Body','July','2026-07-10','Not started'],
+  ['Lymphatic drainage — April','Body','April','2026-04-25','Not started'],
+  ['Lymphatic drainage — May','Body','May','2026-05-10','Not started'],
+  ['Lymphatic drainage — June','Body','June','2026-06-10','Not started'],
+  ['Lymphatic drainage — July','Body','July','2026-07-10','Not started'],
+  ['Pressotherapy session','Body','August','2026-08-15','Not started'],
+  ['Pre-wedding lymphatic (3-4 days before)','Body','September','2026-09-22','Not started'],
+  ['Daily dry brushing (pre-shower)','Body','April','2026-04-14','In progress'],
+  ['Weekly natural sun tanning session','Body','April','2026-04-20','Not started'],
+  ['AM skincare: niacinamide → moisturizer → SPF 50','Skin','April','2026-04-13','In progress'],
+  ['PM skincare: azelaic acid → moisturizer','Skin','April','2026-04-13','In progress'],
+  ['Nightly exfoliation (gentle AHA or scrub)','Skin','April','2026-04-13','Not started'],
+  ['Red light mask — nightly','Skin','April','2026-04-13','In progress'],
+  ['High frequency wand — nightly','Skin','April','2026-04-13','Not started'],
+  ['Microcurrent device — nightly','Skin','April','2026-04-13','Not started'],
+  ['Switch to silk pillowcase','Skin','April','2026-04-18','Not started'],
+  ['Add vitamin C serum AM (once skin stable)','Skin','June','2026-06-01','Not started'],
+  ['Stop all actives 2 weeks before wedding','Skin','September','2026-09-12','Not started'],
+  ['Weekly gua sha face massage','Skin','April','2026-04-20','Not started'],
+  ['Book med spa / injector consultation','Face Treatments','April','2026-04-18','Not started'],
+  ['Sculptra consultation','Face Treatments','April','2026-04-18','Not started'],
+  ['Sculptra session #1','Face Treatments','April','2026-04-28','Not started'],
+  ['Sculptra session #2','Face Treatments','May','2026-05-28','Not started'],
+  ['Sculptra session #3','Face Treatments','June','2026-06-28','Not started'],
+  ['Microneedling session #1','Face Treatments','April','2026-04-25','Not started'],
+  ['Microneedling session #2','Face Treatments','May','2026-05-25','Not started'],
+  ['Microneedling session #3','Face Treatments','June','2026-06-25','Not started'],
+  ['Book Halo laser consultation','Face Treatments','April','2026-04-20','Not started'],
+  ['Halo laser treatment','Face Treatments','May','2026-05-12','Not started'],
+  ['Botox — forehead + lip flip','Face Treatments','May','2026-05-20','Not started'],
+  ['Botox touch-up','Face Treatments','July','2026-07-20','Not started'],
+  ['Hydrafacial','Face Treatments','May','2026-05-15','Not started'],
+  ['Clear + Brilliant (final glow)','Face Treatments','August','2026-08-10','Not started'],
+  ['Final facial (min 2 wks before wedding)','Face Treatments','August','2026-08-28','Not started'],
+  ['Dermaplaning','Face Treatments','August','2026-08-20','Not started'],
+  ['Brow lamination #1','Face Treatments','June','2026-06-10','Not started'],
+  ['Brow lamination #2','Face Treatments','August','2026-08-05','Not started'],
+  ['Lash lift + tint trial','Face Treatments','July','2026-07-20','Not started'],
+  ['Final lash lift (wedding week)','Face Treatments','September','2026-09-22','Not started'],
+  ['Teeth whitening — get trays','Face Treatments','June','2026-06-01','Not started'],
+  ['Begin teeth whitening course','Face Treatments','July','2026-07-01','Not started'],
+  ['Order Nutrafol or Viviscal — start now','Hair','April','2026-04-13','Not started'],
+  ['Daily rosemary oil scalp massage (5 min)','Hair','April','2026-04-13','In progress'],
+  ['Weekly scalp exfoliation','Hair','April','2026-04-20','Not started'],
+  ['PRP scalp session #1','Hair','April','2026-04-25','Not started'],
+  ['PRP scalp session #2','Hair','May','2026-05-25','Not started'],
+  ['PRP scalp session #3','Hair','June','2026-06-25','Not started'],
+  ['Keravive scalp treatment','Hair','April','2026-04-28','Not started'],
+  ['Olaplex No.3 weekly treatment','Hair','April','2026-04-20','Not started'],
+  ['K18 peptide mask monthly','Hair','April','2026-04-30','Not started'],
+  ['First trim — clean base for growth','Hair','April','2026-04-20','Not started'],
+  ['Balayage / babylights color','Hair','June','2026-06-15','Not started'],
+  ['Glossing treatment #1','Hair','May','2026-05-01','Not started'],
+  ['Glossing treatment #2','Hair','July','2026-07-01','Not started'],
+  ['Self-test: hair trial #1','Hair','July','2026-07-15','Not started'],
+  ['Self-test: hair trial #2 (final look)','Hair','August','2026-08-15','Not started'],
+  ['Final color (2 wks before wedding)','Hair','September','2026-09-12','Not started'],
+  ['Start lash growth serum','Hair','July','2026-07-01','Not started'],
+  ['Switch to BIAB — nail health base','Nails','April','2026-04-14','Not started'],
+  ['Daily cuticle oil habit','Nails','April','2026-04-13','In progress'],
+  ['Paint nail set — week 1','Nails','April','2026-04-18','Not started'],
+  ['Paint nail set — week 2','Nails','April','2026-04-25','Not started'],
+  ['Paint nail set — week 3','Nails','May','2026-05-02','Not started'],
+  ['Paint nail set — week 4','Nails','May','2026-05-09','Not started'],
+  ['Paraffin wax hand treatment','Nails','August','2026-08-20','Not started'],
+  ['Wedding nails (1-2 days before)','Nails','September','2026-09-24','Not started'],
+  ['Self-test: makeup trial #1','Makeup','June','2026-06-15','Not started'],
+  ['Self-test: makeup trial #2','Makeup','July','2026-07-20','Not started'],
+  ['Self-test: final makeup rehearsal','Makeup','August','2026-08-15','Not started'],
+  ['Stock wedding day kit','Makeup','September','2026-09-20','Not started'],
+  ['Order quercetin 500mg (mast cell stabilizer)','Nutrition & Supplements','April','2026-04-13','Not started'],
+  ['Order algae omega-3','Nutrition & Supplements','April','2026-04-13','Not started'],
+  ['Order magnesium glycinate','Nutrition & Supplements','April','2026-04-13','Not started'],
+  ['Order biotin + vitamin C','Nutrition & Supplements','April','2026-04-13','Not started'],
+  ['Confirm supplements with doctor','Nutrition & Supplements','April','2026-04-18','Not started'],
+  ['See allergist / immunologist (MCAS)','Nutrition & Supplements','May','2026-05-15','Not started'],
+  ['Sunday meal prep — weekly','Nutrition & Supplements','April','2026-04-13','In progress'],
+  ['Hit 100g+ protein daily','Nutrition & Supplements','April','2026-04-13','Not started'],
+  ['No leftover protein >24hrs (histamine rule)','Nutrition & Supplements','April','2026-04-13','In progress'],
+  ['Log personal histamine triggers','Nutrition & Supplements','April','2026-04-30','Not started'],
+  ['Removed cucumber (confirmed trigger)','Nutrition & Supplements','April','2026-04-12','Done'],
+  ['Removed broccoli/broccolini (FODMAP)','Nutrition & Supplements','April','2026-04-12','Done'],
+  ['Strength training — Lower body','Fitness','April','2026-04-14','Not started'],
+  ['Strength training — Upper body + core','Fitness','April','2026-04-16','Not started'],
+  ['Strength training — Full body','Fitness','April','2026-04-18','Not started'],
+  ['Establish 3x/week strength habit','Fitness','April','2026-04-30','Not started'],
+  ['Hot yoga 2x this week','Fitness','April','2026-04-18','Not started'],
+  ['10k steps daily','Fitness','April','2026-04-13','Not started'],
+  ['Maintain daily gym or yoga habit','Fitness','May','2026-05-31','Not started'],
+  ['Locate infrared sauna (gym/studio)','Mental & Spiritual','April','2026-04-18','Not started'],
+  ['Infrared sauna 3x/week','Mental & Spiritual','April','2026-04-20','Not started'],
+  ['First float tank session','Mental & Spiritual','April','2026-04-25','Not started'],
+  ['Monthly float tank ritual','Mental & Spiritual','May','2026-05-25','Not started'],
+  ['Saturday self-care ritual','Mental & Spiritual','April','2026-04-19','Not started'],
+  ['Consistent sleep/wake time (incl. weekends)','Mental & Spiritual','April','2026-04-13','Not started'],
+  ['Magnesium glycinate before bed','Mental & Spiritual','April','2026-04-15','Not started'],
+  ['No caffeine after 1pm','Mental & Spiritual','April','2026-04-13','Not started'],
+  ['Monthly solo spa day','Mental & Spiritual','May','2026-05-17','Not started'],
+];
+
+const SCORE_KEYS = ['skin','energy','mood','fitness','nutrition','sleep'];
+
+// ── STORAGE ─────────────────────────────────────────────
+function lsGet(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+
+function buildTasks(){
+  return SEED.map(function(s,i){
+    return {id:'t'+i+'x'+Date.now().toString(36),name:s[0],cat:s[1],month:s[2],due:s[3],status:s[4],notes:''};
+  });
+}
+
+var tasks = lsGet('bv3_tasks', null);
+if(!tasks){ tasks = buildTasks(); lsSet('bv3_tasks', tasks); }
+var photos = lsGet('bv3_photos', {});
+var measurements = lsGet('bv3_meas', []);
+var sunHistory = lsGet('bv3_sun', []);
+var sunScores = lsGet('bv3_ss', {skin:5,energy:5,mood:5,fitness:5,nutrition:5,sleep:5});
+var chatHist = lsGet('bv3_chat', []);
+var curPage = 'dash';
+
+function saveTasks(){ lsSet('bv3_tasks', tasks); }
+
+// ── HELPERS ─────────────────────────────────────────────
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function showToast(m){
+  var t = document.getElementById('tst');
+  t.textContent = m; t.classList.add('on');
+  setTimeout(function(){ t.classList.remove('on'); }, 2200);
+}
+
+function openModal(title, html){
+  document.getElementById('md-title').textContent = title;
+  document.getElementById('md-body').innerHTML = html;
+  document.getElementById('modal').classList.add('on');
+}
+function closeModal(){ document.getElementById('modal').classList.remove('on'); }
+
+function isUrgent(t){
+  if(t.status==='Done'||!t.due) return false;
+  return (new Date(t.due)-new Date())/86400000 <= 7;
+}
+function isOverdue(t){
+  if(t.status==='Done'||!t.due) return false;
+  return new Date(t.due) < new Date();
+}
+function spClass(s){
+  if(s==='Done') return 'sp-dn';
+  if(s==='In progress') return 'sp-ip';
+  if(s==='Blocked') return 'sp-bl';
+  return 'sp-ns';
+}
+function cycleStatus(id){
+  var t = tasks.find(function(t){ return t.id===id; });
+  if(!t) return;
+  var c = ['Not started','In progress','Done','Blocked'];
+  t.status = c[(c.indexOf(t.status)+1)%c.length];
+  saveTasks(); renderCurrent();
+  if(t.status==='Done') showToast('✦ Done!');
+}
+
+function taskHTML(t){
+  var due = t.due ? new Date(t.due).toLocaleDateString('en-US',{month:'short',day:'numeric'}) : '';
+  var ov = isOverdue(t) ? ' ov' : '';
+  var dn = t.status==='Done' ? ' dn' : '';
+  var ug = isUrgent(t) ? ' ug' : '';
+  return '<div class="ti'+dn+ug+'" data-id="'+t.id+'">'
+    +'<div class="ti-l">'
+    +'<div class="ti-n">'+esc(t.name)+'</div>'
+    +'<div class="ti-m">'
+    +'<span class="ti-cat">'+esc(t.cat)+'</span>'
+    +(due?'<span class="ti-due'+ov+'">'+due+'</span>':'')
+    +'</div></div>'
+    +'<div class="ti-r">'
+    +'<button class="sp '+spClass(t.status)+'" data-cycle="'+t.id+'">'+t.status+'</button>'
+    +'<button class="ti-ed" data-edit="'+t.id+'">✎</button>'
+    +'</div></div>';
+}
+
+// ── NAV ─────────────────────────────────────────────────
+function showPage(id){
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('on'); });
+  document.querySelectorAll('nav button').forEach(function(b){ b.classList.remove('on'); });
+  var pg = document.getElementById('pg-'+id);
+  if(pg) pg.classList.add('on');
+  var btn = document.querySelector('nav button[data-pg="'+id+'"]');
+  if(btn) btn.classList.add('on');
+  curPage = id;
+  var map = {dash:renderDash,month:renderMonth,track:renderTrack,gantt:renderGantt,coach:renderCoach,all:renderAll};
+  if(map[id]) map[id]();
+}
+function renderCurrent(){
+  var map = {dash:renderDash,month:renderMonth,all:renderAll};
+  if(map[curPage]) map[curPage]();
+}
+
+document.querySelectorAll('nav button').forEach(function(btn){
+  btn.addEventListener('click', function(){ showPage(btn.getAttribute('data-pg')); });
+});
+
+// ── COUNTDOWN ───────────────────────────────────────────
+var days = Math.ceil((WEDDING - new Date())/86400000);
+document.getElementById('cdn').textContent = days > 0 ? days : '✦';
+document.getElementById('dashsub').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+document.getElementById('month-title').textContent = new Date().toLocaleDateString('en-US',{month:'long'});
+
+// ── SUNDAY WIDGET ────────────────────────────────────────
+function renderSunWidget(){
+  var now = new Date();
+  var mon = new Date(now); mon.setDate(now.getDate()-(now.getDay()===0?0:now.getDay()));
+  var wkStr = mon.toLocaleDateString('en-US',{month:'long',day:'numeric'});
+  var isSun = now.getDay()===0;
+
+  var scoresHTML = SCORE_KEYS.map(function(k){
+    var v = sunScores[k]||5;
+    var dots = [1,2,3,4,5].map(function(n){
+      return '<div class="ss-dot'+(n<=v?' on':'')+'" data-sk="'+k+'" data-sv="'+n+'"></div>';
+    }).join('');
+    return '<div class="ss-box"><div class="ss-lbl">'+k+'</div><div class="ss-dots">'+dots+'</div></div>';
+  }).join('');
+
+  var histHTML = '';
+  if(sunHistory.length){
+    histHTML = '<div class="sun-hist"><div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--gl);margin-bottom:4px;">Past Weeks</div>'
+      + sunHistory.slice(0,3).map(function(h){
+        var sv = SCORE_KEYS.map(function(k){ return '<span class="sh-sc">'+k+' <span>'+(h.scores[k]||'—')+'</span></span>'; }).join('');
+        return '<div class="sh-item"><div class="sh-date">'+esc(h.date)+'</div><div class="sh-row">'+sv+'</div>'+(h.notes?'<div class="sh-note">'+esc(h.notes)+'</div>':'')+'</div>';
+      }).join('')+'</div>';
+  }
+
+  document.getElementById('sunwrap').innerHTML = '<div class="sun-box">'
+    +'<div class="sun-title">'+(isSun?'Sunday Planning ✦':'Weekly Check-in')+'</div>'
+    +'<div class="sun-sub">Week of '+wkStr+'</div>'
+    +'<div class="sun-scores">'+scoresHTML+'</div>'
+    +'<textarea class="sun-ta" id="sun-notes" placeholder="This week\'s wins, how you\'re feeling, what to focus on…">'+esc(lsGet('bv3_sunnotes',''))+'</textarea>'
+    +'<button class="sun-btn" id="sun-save-btn">Save Week ✦</button>'
+    +histHTML+'</div>';
+
+  document.getElementById('sun-save-btn').addEventListener('click', saveSunday);
+  document.querySelectorAll('.ss-dot').forEach(function(d){
+    d.addEventListener('click', function(){
+      var k = d.getAttribute('data-sk'), v = parseInt(d.getAttribute('data-sv'));
+      sunScores[k] = v; lsSet('bv3_ss', sunScores);
+      document.querySelectorAll('.ss-dot[data-sk="'+k+'"]').forEach(function(x){
+        x.classList.toggle('on', parseInt(x.getAttribute('data-sv'))<=v);
+      });
+    });
+  });
+}
+
+function saveSunday(){
+  var notes = (document.getElementById('sun-notes')||{value:''}).value;
+  lsSet('bv3_sunnotes', notes);
+  sunHistory.unshift({date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),scores:Object.assign({},sunScores),notes:notes});
+  if(sunHistory.length>20) sunHistory.pop();
+  lsSet('bv3_sun', sunHistory);
+  showToast('Week saved ✦');
+  renderSunWidget();
+}
+
+// ── DASHBOARD ────────────────────────────────────────────
+function renderDash(){
+  renderSunWidget();
+  var total=tasks.length, done=tasks.filter(function(t){return t.status==='Done';}).length;
+  var ip=tasks.filter(function(t){return t.status==='In progress';}).length;
+  var urg=tasks.filter(isUrgent).length;
+  var pct=total?Math.round(done/total*100):0;
+
+  document.getElementById('stats').innerHTML =
+    '<div class="sc"><div class="sn">'+total+'</div><div class="sl">Total</div></div>'
+    +'<div class="sc gd"><div class="sn">'+done+'</div><div class="sl">Done</div></div>'
+    +'<div class="sc ge"><div class="sn">'+ip+'</div><div class="sl">In Progress</div></div>'
+    +'<div class="sc gb"><div class="sn">'+urg+'</div><div class="sl">Urgent</div></div>';
+
+  document.getElementById('ovprog').innerHTML =
+    '<div style="display:flex;justify-content:space-between;font-size:11px;color:var(--tl);margin-bottom:5px;">'
+    +'<span>'+done+' of '+total+'</span>'
+    +'<span style="color:var(--g);font-family:\'Cormorant Garamond\',serif;font-size:18px;">'+pct+'%</span></div>'
+    +'<div class="pb"><div class="pf" style="width:'+pct+'%"></div></div>';
+
+  document.getElementById('catprog').innerHTML = CATS.map(function(c){
+    var ct=tasks.filter(function(t){return t.cat===c;});
+    if(!ct.length) return '';
+    var cd=ct.filter(function(t){return t.status==='Done';}).length;
+    var cp=Math.round(cd/ct.length*100);
+    return '<div class="pr"><div class="pm"><strong>'+c+'</strong><span>'+cd+'/'+ct.length+'</span></div>'
+      +'<div class="pb" data-filter-cat="'+esc(c)+'"><div class="pf" style="width:'+cp+'%"></div></div></div>';
+  }).join('');
+
+  var urgTasks = tasks.filter(isUrgent);
+  document.getElementById('urgwrap').innerHTML = urgTasks.length
+    ? '<div class="urg-box"><div class="urg-lbl">Urgent — Due Within 7 Days</div>'+urgTasks.slice(0,6).map(taskHTML).join('')+'</div>'
+    : '';
+
+  document.querySelectorAll('.pb[data-filter-cat]').forEach(function(pb){
+    pb.addEventListener('click', function(){
+      document.getElementById('f-cat').value = pb.getAttribute('data-filter-cat');
+      showPage('all');
+    });
+  });
+  bindTaskEvents(document.getElementById('urgwrap'));
+}
+
+// ── MONTH ────────────────────────────────────────────────
+function renderMonth(){
+  var mName = new Date().toLocaleDateString('en-US',{month:'long'});
+  var mt = tasks.filter(function(t){ return t.month===mName; });
+  var now = new Date();
+  var bins = [
+    {l:'Urgent / This Week', f:function(t){ return isUrgent(t)&&t.status!=='Done'; }},
+    {l:'Week 2', f:function(t){ if(!t.due)return false; var dn=(new Date(t.due)-now)/86400000; return dn>7&&dn<=14; }},
+    {l:'Week 3', f:function(t){ if(!t.due)return false; var dn=(new Date(t.due)-now)/86400000; return dn>14&&dn<=21; }},
+    {l:'Week 4+', f:function(t){ if(!t.due)return false; var dn=(new Date(t.due)-now)/86400000; return dn>21; }},
+    {l:'Ongoing', f:function(t){ return !t.due; }},
+  ];
+  var html = '';
+  bins.forEach(function(b){
+    var bt = mt.filter(b.f);
+    if(!bt.length) return;
+    html += '<div class="wh">'+b.l+'</div>'+bt.map(taskHTML).join('');
+  });
+  var el = document.getElementById('month-list');
+  el.innerHTML = html || '<div style="text-align:center;padding:36px;color:var(--st);font-size:13px;">No tasks this month</div>';
+  bindTaskEvents(el);
+}
+
+// ── TRACK ────────────────────────────────────────────────
+function renderTrack(){
+  document.getElementById('meas-month').textContent = new Date().toLocaleDateString('en-US',{month:'long',year:'numeric'});
+  renderMeasDisplay();
+  renderPhotoGrid('ph-body', 'body', PH_MONTHS, 'port');
+  renderPhotoGrid('ph-face', 'face', PH_MONTHS, 'sq');
+  renderPhotoGrid('ph-hair', 'hair', PH_MONTHS, 'port');
+  renderPhotoGrid('ph-nails', 'nail', NAIL_WKS, 'sq');
+}
+
+function renderPhotoGrid(elId, prefix, slots, cls){
+  var el = document.getElementById(elId);
+  el.innerHTML = slots.map(function(slot){
+    var k = prefix+'_'+slot;
+    var src = photos[k];
+    return '<div class="ph-slot '+cls+'" data-ph-key="'+k+'">'
+      +'<input type="file" accept="image/*" style="display:none" data-ph-input="'+k+'">'
+      +(src
+        ? '<img src="'+src+'"><div class="ph-date">'+slot+'</div><button class="ph-rm" data-ph-rm="'+k+'">×</button>'
+        : '<div class="ph-plus">＋</div><div class="ph-lbl">'+slot+'</div>')
+      +'</div>';
+  }).join('');
+  el.querySelectorAll('.ph-slot').forEach(function(s){
+    s.addEventListener('click', function(e){
+      if(e.target.classList.contains('ph-rm')) return;
+      s.querySelector('input[type=file]').click();
+    });
+  });
+  el.querySelectorAll('input[type=file]').forEach(function(inp){
+    inp.addEventListener('change', function(){
+      if(!inp.files[0]) return;
+      var k = inp.getAttribute('data-ph-input');
+      var slot = k.split('_')[1];
+      var r = new FileReader();
+      r.onload = function(ev){
+        photos[k] = ev.target.result;
+        lsSet('bv3_photos', photos);
+        renderTrack();
+        showToast('Photo saved ✦');
+      };
+      r.readAsDataURL(inp.files[0]);
+    });
+  });
+  el.querySelectorAll('.ph-rm').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      delete photos[btn.getAttribute('data-ph-rm')];
+      lsSet('bv3_photos', photos);
+      renderTrack();
+    });
+  });
+}
+
+function renderMeasDisplay(){
+  var latest = measurements[0]||null;
+  var prev = measurements[1]||null;
+  var fs = ['weight','waist','hips','arms'];
+  var ls = ['Weight','Waist','Hips','Arms'];
+  var us = ['lbs','in','in','in'];
+  var base = {weight:132,waist:28.5,hips:null,arms:null};
+  document.getElementById('meas-display').innerHTML = fs.map(function(f,i){
+    var v = latest?latest[f]:base[f];
+    var pv = prev?prev[f]:base[f];
+    var chg = (v&&pv) ? parseFloat((v-pv).toFixed(1)) : null;
+    var chgCls = chg!==null ? (chg<0?'pos':'neg') : '';
+    return '<div class="ms-card">'
+      +'<div class="ms-lbl">'+ls[i]+'</div>'
+      +'<div class="ms-val">'+(v||'—')+(v?'<span class="ms-unit"> '+us[i]+'</span>':'')+'</div>'
+      +(chg!==null?'<div class="ms-chg '+chgCls+'">'+(chg>0?'+':'')+chg+' from last</div>':'')
+      +'</div>';
+  }).join('');
+
+  document.getElementById('meas-hist').innerHTML = measurements.length
+    ? measurements.slice(0,8).map(function(m){
+        return '<div class="ms-hist-row">'
+          +'<span class="ms-hist-d">'+m.date+'</span>'
+          +'<div class="ms-hist-vs">'
+          +(m.weight?'<span class="ms-hist-v">'+m.weight+'<small style="font-size:9px;color:var(--st)">lb</small></span>':'')
+          +(m.waist?'<span class="ms-hist-v">'+m.waist+'<small style="font-size:9px;color:var(--st)">w</small></span>':'')
+          +(m.hips?'<span class="ms-hist-v">'+m.hips+'<small style="font-size:9px;color:var(--st)">h</small></span>':'')
+          +(m.arms?'<span class="ms-hist-v">'+m.arms+'<small style="font-size:9px;color:var(--st)">a</small></span>':'')
+          +'</div></div>';
+      }).join('')
+    : '<div style="font-size:11px;color:var(--st);padding:8px 0;">No measurements logged yet</div>';
+}
+
+document.getElementById('save-meas-btn').addEventListener('click', function(){
+  var entry = {
+    date: new Date().toLocaleDateString('en-US',{month:'short',year:'numeric'}),
+    weight: parseFloat(document.getElementById('m-w').value)||null,
+    waist: parseFloat(document.getElementById('m-wa').value)||null,
+    hips: parseFloat(document.getElementById('m-h').value)||null,
+    arms: parseFloat(document.getElementById('m-a').value)||null,
+  };
+  measurements.unshift(entry);
+  if(measurements.length>24) measurements.pop();
+  lsSet('bv3_meas', measurements);
+  ['m-w','m-wa','m-h','m-a'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
+  renderMeasDisplay();
+  showToast('Measurements saved ✦');
+});
+
+// ── GANTT ────────────────────────────────────────────────
+function renderGantt(){
+  var density = WEEKS.map(function(w){
+    var we = new Date(w); we.setDate(we.getDate()+6);
+    return tasks.filter(function(t){
+      if(!t.due) return false;
+      var d = new Date(t.due); return d>=w&&d<=we;
+    }).length;
+  });
+  var maxD = Math.max.apply(null, density.concat([1]));
+
+  var thead = '<thead><tr><th class="gth">Category</th>'
+    + WEEKS.map(function(w,i){
+        var hot = density[i]/maxD;
+        var mo = w.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+        return '<th style="opacity:'+(0.4+hot*0.6)+';'+(hot>0.5?'color:var(--g)':'')+'">'+mo+'</th>';
+      }).join('')+'</tr></thead>';
+
+  var tbody = '<tbody>'+CATS.map(function(cat){
+    var ct = tasks.filter(function(t){ return t.cat===cat&&t.due; });
+    if(!ct.length) return '';
+    var dues = ct.map(function(t){ return new Date(t.due); }).sort(function(a,b){ return a-b; });
+    var first=dues[0], last=dues[dues.length-1], span=last-first||1;
+    var done=tasks.filter(function(t){ return t.cat===cat&&t.status==='Done'; }).length;
+    var total=tasks.filter(function(t){ return t.cat===cat; }).length;
+    var cells = WEEKS.map(function(w,wi){
+      var we = new Date(w); we.setDate(we.getDate()+6);
+      if(we<first||w>last) return '<td class="gt-wc"></td>';
+      var prog=(w-first)/span;
+      var ph=prog<.15?'ph1':prog>.85?'ph4':prog>.6?'ph3':'ph2';
+      var l=(wi===0||we<first)?'4px':'0', r=(we>=last)?'4px':'0';
+      var br=(l==='4px'?'8px':'0')+' '+(r==='4px'?'8px':'0')+' '+(r==='4px'?'8px':'0')+' '+(l==='4px'?'8px':'0');
+      return '<td class="gt-wc"><div class="gt-bar '+ph+'" style="left:'+l+';right:'+r+';border-radius:'+br+'"></div></td>';
+    }).join('');
+    return '<tr><td class="gtc" data-filter-cat="'+esc(cat)+'">'+cat+' <span style="font-size:8px;color:var(--st);">'+Math.round(done/total*100)+'%</span></td>'+cells+'</tr>';
+  }).join('')+'</tbody>';
+
+  document.getElementById('gantt-tbl').innerHTML = thead+tbody;
+  document.querySelectorAll('.gtc[data-filter-cat]').forEach(function(td){
+    td.addEventListener('click', function(){
+      document.getElementById('f-cat').value = td.getAttribute('data-filter-cat');
+      showPage('all');
+    });
+  });
+}
+
+// ── ALL TASKS ────────────────────────────────────────────
+function renderAll(){
+  var q = (document.getElementById('f-srch').value||'').toLowerCase();
+  var fc = document.getElementById('f-cat').value||'';
+  var fs = document.getElementById('f-st').value||'';
+  var fm = document.getElementById('f-mo').value||'';
+  var filtered = tasks.filter(function(t){
+    if(q&&t.name.toLowerCase().indexOf(q)<0&&t.cat.toLowerCase().indexOf(q)<0) return false;
+    if(fc&&t.cat!==fc) return false;
+    if(fs&&t.status!==fs) return false;
+    if(fm&&t.month!==fm) return false;
+    return true;
+  });
+  document.getElementById('tc').textContent = filtered.length;
+  var el = document.getElementById('all-list');
+  el.innerHTML = filtered.length
+    ? filtered.map(taskHTML).join('')
+    : '<div style="text-align:center;padding:36px;color:var(--st);font-size:13px;">No tasks match</div>';
+  bindTaskEvents(el);
+}
+
+['f-srch','f-cat','f-st','f-mo'].forEach(function(id){
+  document.getElementById(id).addEventListener('input', function(){ if(curPage==='all') renderAll(); });
+  document.getElementById(id).addEventListener('change', function(){ if(curPage==='all') renderAll(); });
+});
+
+// ── TASK EVENTS (delegation) ─────────────────────────────
+function bindTaskEvents(container){
+  container.addEventListener('click', function(e){
+    var cyc = e.target.closest('[data-cycle]');
+    if(cyc){ cycleStatus(cyc.getAttribute('data-cycle')); return; }
+    var ed = e.target.closest('[data-edit]');
+    if(ed){ openEditModal(ed.getAttribute('data-edit')); return; }
+  });
+}
+
+// ── EDIT / ADD MODALS ────────────────────────────────────
+function openEditModal(id){
+  var t = tasks.find(function(t){ return t.id===id; });
+  if(!t) return;
+  var catOpts = CATS.map(function(c){ return '<option'+(c===t.cat?' selected':'')+'>'+c+'</option>'; }).join('');
+  var stOpts = ['Not started','In progress','Done','Blocked'].map(function(s){ return '<option'+(s===t.status?' selected':'')+'>'+s+'</option>'; }).join('');
+  var moOpts = MONTHS.map(function(m){ return '<option'+(m===t.month?' selected':'')+'>'+m+'</option>'; }).join('');
+  openModal('Edit Task',
+    '<div class="mf"><label>Task</label><input id="ed-n" value="'+esc(t.name)+'"></div>'
+    +'<div class="mf"><label>Status</label><select id="ed-s">'+stOpts+'</select></div>'
+    +'<div class="mf"><label>Category</label><select id="ed-c">'+catOpts+'</select></div>'
+    +'<div class="mf"><label>Month</label><select id="ed-m">'+moOpts+'</select></div>'
+    +'<div class="mf"><label>Due Date</label><input type="date" id="ed-d" value="'+(t.due||'')+'"></div>'
+    +'<div class="mf"><label>Notes</label><textarea id="ed-no">'+esc(t.notes)+'</textarea></div>'
+    +'<div class="ma">'
+    +'<button class="mb-btn mb-p" id="ed-save">Save</button>'
+    +'<button class="mb-btn mb-d" id="ed-del">Delete</button>'
+    +'<button class="mb-btn mb-s" id="ed-cancel">Cancel</button>'
+    +'</div>');
+  document.getElementById('ed-save').onclick = function(){
+    t.name = document.getElementById('ed-n').value.trim()||t.name;
+    t.status = document.getElementById('ed-s').value;
+    t.cat = document.getElementById('ed-c').value;
+    t.month = document.getElementById('ed-m').value;
+    t.due = document.getElementById('ed-d').value;
+    t.notes = document.getElementById('ed-no').value;
+    saveTasks(); closeModal(); renderCurrent(); showToast('Saved ✦');
+  };
+  document.getElementById('ed-del').onclick = function(){
+    tasks = tasks.filter(function(x){ return x.id!==id; });
+    saveTasks(); closeModal(); renderCurrent(); showToast('Deleted');
+  };
+  document.getElementById('ed-cancel').onclick = closeModal;
+}
+
+function openAddModal(){
+  var catOpts = CATS.map(function(c){ return '<option>'+c+'</option>'; }).join('');
+  var moOpts = MONTHS.map(function(m){ return '<option>'+m+'</option>'; }).join('');
+  openModal('Add Task',
+    '<div class="mf"><label>Task Name</label><input id="ad-n" placeholder="e.g. Sculptra session #2"></div>'
+    +'<div class="mf"><label>Category</label><select id="ad-c">'+catOpts+'</select></div>'
+    +'<div class="mf"><label>Month</label><select id="ad-m">'+moOpts+'</select></div>'
+    +'<div class="mf"><label>Due Date</label><input type="date" id="ad-d"></div>'
+    +'<div class="mf"><label>Notes</label><textarea id="ad-no" placeholder="Optional…"></textarea></div>'
+    +'<div class="ma">'
+    +'<button class="mb-btn mb-p" id="ad-save">Add Task</button>'
+    +'<button class="mb-btn mb-s" id="ad-cancel">Cancel</button>'
+    +'</div>');
+  setTimeout(function(){ var el=document.getElementById('ad-n'); if(el) el.focus(); }, 80);
+  document.getElementById('ad-save').onclick = function(){
+    var name = document.getElementById('ad-n').value.trim();
+    if(!name) return;
+    tasks.push({id:'t'+Date.now(),name:name,cat:document.getElementById('ad-c').value,
+      month:document.getElementById('ad-m').value,due:document.getElementById('ad-d').value,
+      status:'Not started',notes:document.getElementById('ad-no').value});
+    saveTasks(); closeModal(); renderCurrent(); showToast('Task added ✦');
+  };
+  document.getElementById('ad-cancel').onclick = closeModal;
+}
+
+document.getElementById('fab-btn').addEventListener('click', openAddModal);
+document.getElementById('modal').addEventListener('click', function(e){
+  if(e.target===document.getElementById('modal')) closeModal();
+});
+
+// ── COACH ────────────────────────────────────────────────
+var SYS = 'You are Suzanne\'s personal pre-wedding beauty and wellness coach. Wedding: September 26, 2026.\n\n'
+  +'PROFILE: Age 35, 5\'3"-5\'6", 132 lbs, size 6, goal size 4. Waist 28.5" → ~26". Meds: Lexapro, Clonazepam, GLP-1. Histamine issues/possible MCAS. Confirmed triggers: cucumber, broccoli. Allergies: soy, dairy. No alcohol. Melanated skin (natural tanning). Loves cooking, travels 1-2 days/week, full gym access.\n\n'
+  +'DAILY NON-NEGOTIABLES: Nightly red light mask + high frequency wand + microcurrent + exfoliation. Gym or hot yoga daily + 10k steps. Meal prep Sundays. Weekly nail sets (self-painted). Self-testing makeup and hair.\n\n'
+  +'TREATMENT PLAN: Sculptra x3 (Apr-Jun), Microneedling x3 (Apr-Jun), Halo laser (May), Botox+lip flip (May), Morpheus8 (Jul), Emsculpt Neo x4 (May-Jun), PRP scalp x3 (Apr-Jun), Lymphatic monthly, Brow lamination (Jun+Aug), Lash lift (Jul+Sep), Teeth whitening (Jul).\n\n'
+  +'Be warm, specific, personalized. Short helpful responses. Celebrate wins.';
+
+var HINTS = [
+  ['This week','What should I focus on this week?'],
+  ['Upcoming','What treatments are coming up soon?'],
+  ['Flare help','I had a histamine flare. What do I do?'],
+  ['Progress','How is my overall progress?'],
+  ['Sunday plan','Give me my Sunday plan for this week'],
+  ['Meal ideas','What should I eat today?'],
+];
+
+function renderCoach(){
+  var hb = document.getElementById('hint-btns');
+  if(hb && !hb.children.length){
+    HINTS.forEach(function(h){
+      var btn = document.createElement('button');
+      btn.className='hint-btn'; btn.textContent=h[0];
+      btn.addEventListener('click', function(){ document.getElementById('co-inp').value=h[1]; document.getElementById('co-inp').focus(); });
+      hb.appendChild(btn);
+    });
+  }
+  var msgs = document.getElementById('msgs');
+  if(msgs && !msgs.children.length){
+    if(chatHist.length){
+      chatHist.forEach(function(m){ appendMsg(m.role, m.content, false); });
+    } else {
+      appendMsg('a','Hello Suzanne ✦ Your beauty coach is here. I know your full plan — all 9 categories, your histamine sensitivities, your nightly device routine, your September 26th wedding. What do you need today?', false);
+    }
+  }
+}
+
+function appendMsg(role, text, save){
+  var msgs = document.getElementById('msgs'); if(!msgs) return;
+  var now = new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  var d = document.createElement('div');
+  d.className='msg '+(role==='u'||role==='user'?'u':'a');
+  d.innerHTML='<div class="mb">'+text.replace(/\n/g,'<br>')+'</div><div class="mt">'+now+'</div>';
+  msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight;
+  if(save!==false){
+    chatHist.push({role:role,content:text});
+    if(chatHist.length>60) chatHist.shift();
+    lsSet('bv3_chat',chatHist);
+  }
+}
+function appendTyping(){
+  var msgs=document.getElementById('msgs'); if(!msgs) return '';
+  var id='ty'+Date.now();
+  var d=document.createElement('div'); d.className='msg a'; d.id=id;
+  d.innerHTML='<div class="mb"><div class="ty"><div class="td"></div><div class="td"></div><div class="td"></div></div></div>';
+  msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight; return id;
+}
+
+async function sendMsg(){
+  var inp=document.getElementById('co-inp');
+  var msg=inp.value.trim(); if(!msg) return;
+  appendMsg('u',msg); inp.value='';
+  var tid=appendTyping();
+  var stats='Tasks: '+tasks.length+' total, '+tasks.filter(function(t){return t.status==='Done';}).length+' done, '+tasks.filter(isUrgent).length+' urgent.';
+  try{
+    var res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,
+        system:SYS+'\n\n'+stats,
+        messages:chatHist.slice(-20).map(function(m){return{role:(m.role==='u'||m.role==='user')?'user':'assistant',content:m.content};})
+      })
+    });
+    var data=await res.json();
+    var el=document.getElementById(tid); if(el) el.remove();
+    var reply=(data.content||[]).map(function(b){return b.text||'';}).join('')||'Try again in a moment.';
+    appendMsg('a',reply);
+  }catch(e){
+    var el=document.getElementById(tid); if(el) el.remove();
+    appendMsg('a','Connection issue — please try again.');
+  }
+}
+
+document.getElementById('co-send-btn').addEventListener('click', sendMsg);
+document.getElementById('co-inp').addEventListener('keydown', function(e){
+  if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); sendMsg(); }
+});
+
+// ── INIT ────────────────────────────────────────────────
+renderDash();
+
+})(); // end IIFE
+</script>
+</body>
+</html>
