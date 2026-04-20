@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garden · September 26</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1c1a17;
+  --cream: #faf6ef;
+  --parchment: #f0e8d5;
+  --border: #e2d9c8;
+  --moss: #3a4f2f;
+  --sage: #6e8f5e;
+  --sage-light: #b2c9a4;
+  --sage-pale: #eaf2e4;
+  --gold: #b8882a;
+  --gold-pale: #faf0dc;
+  --blush: #c47060;
+  --blush-pale: #faecea;
+  --warm-gray: #8c8278;
+  --alert: #b84030;
+  --alert-pale: #faeae8;
+  --white: #ffffff;
+
+  --phase-sow: #5878a8;
+  --phase-grow: #6e8f5e;
+  --phase-harvest: #c09040;
+  --phase-use: #c06070;
+
+  --status-ns: #8c8278;
+  --status-ip: #5878a8;
+  --status-done: #6e8f5e;
+  --status-blocked: #b84030;
+
+  --cat-a: #6e8f5e;
+  --cat-b: #5878a8;
+  --cat-c: #a87838;
+  --cat-d: #7858a8;
+  --cat-front: #c06070;
+  --cat-moon: #487888;
+  --cat-pots: #a84858;
+  --cat-lawn: #48a858;
+  --cat-fence: #887038;
+  --cat-structure: #686868;
+  --cat-wedding: #c09040;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);font-weight:300;font-size:14px;height:100vh;display:flex;flex-direction:column;overflow:hidden;}
+
+/* ── HEADER ── */
+.app-header{background:var(--moss);padding:0.9rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:relative;overflow:hidden;}
+.app-header::before{content:'';position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;border:1px solid rgba(178,201,164,0.1);}
+.app-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;color:white;position:relative;}
+.app-title em{font-style:italic;color:var(--sage-light);}
+.app-meta{font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.4);position:relative;}
+.header-right{text-align:right;position:relative;}
+.days-count{font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--sage-light);line-height:1;}
+.days-lbl{font-size:0.55rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.3);}
+
+/* ── TABS ── */
+.tabs{display:flex;background:var(--ink);padding:0 1rem;overflow-x:auto;flex-shrink:0;}
+.tab{padding:0.7rem 1rem;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;color:rgba(255,255,255,0.4);border-bottom:2px solid transparent;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;font-family:'DM Sans',sans-serif;transition:all 0.15s;}
+.tab:hover{color:rgba(255,255,255,0.7);}
+.tab.active{color:var(--sage-light);border-bottom-color:var(--sage);}
+
+/* ── PANELS ── */
+.panels{flex:1;overflow:hidden;position:relative;}
+.panel{display:none;height:100%;overflow-y:auto;padding:1.5rem;}
+.panel.active{display:block;}
+
+/* ── SHARED ── */
+.section-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:400;color:var(--moss);margin-bottom:1rem;}
+.card{background:white;border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+.pill{display:inline-flex;align-items:center;padding:0.18rem 0.55rem;border-radius:20px;font-size:0.62rem;letter-spacing:0.06em;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all 0.15s;}
+.pill-ns{background:#f0ece6;color:var(--status-ns);}
+.pill-ip{background:#e4ecf8;color:var(--status-ip);}
+.pill-done{background:#e4f0e0;color:var(--status-done);}
+.pill-blocked{background:#faeae8;color:var(--status-blocked);}
+
+/* ── DASHBOARD ── */
+.dash-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:0.75rem;margin-bottom:1.5rem;}
+.stat-card{background:white;border:1px solid var(--border);border-radius:6px;padding:0.9rem 1rem;}
+.stat-n{font-family:'Cormorant Garamond',serif;font-size:2rem;line-height:1;color:var(--moss);}
+.stat-l{font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--warm-gray);margin-top:0.2rem;}
+.progress-section{margin-bottom:1.5rem;}
+.progress-row{display:flex;align-items:center;gap:0.75rem;padding:0.5rem 0;border-bottom:1px solid var(--parchment);cursor:pointer;}
+.progress-row:hover .prog-label{color:var(--moss);}
+.prog-label{width:160px;font-size:0.75rem;flex-shrink:0;color:var(--ink);}
+.prog-track{flex:1;height:5px;background:#ece7df;border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:3px;transition:width 0.4s ease;}
+.prog-num{width:40px;font-size:0.68rem;color:var(--warm-gray);text-align:right;flex-shrink:0;}
+.urgent-section{margin-top:1.5rem;}
+.urgent-card{display:flex;align-items:flex-start;gap:0.75rem;padding:0.75rem 1rem;background:var(--alert-pale);border:1px solid #e8c0bc;border-left:3px solid var(--alert);border-radius:5px;margin-bottom:0.5rem;cursor:pointer;}
+.urgent-card:hover{box-shadow:0 2px 8px rgba(184,64,48,0.1);}
+
+/* ── MONTH VIEW ── */
+.month-filters{display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1rem;}
+.mf-btn{padding:0.28rem 0.7rem;border-radius:20px;font-size:0.62rem;letter-spacing:0.07em;cursor:pointer;border:1px solid var(--border);background:white;color:var(--warm-gray);font-family:'DM Sans',sans-serif;transition:all 0.15s;}
+.mf-btn:hover{border-color:var(--sage);}
+.mf-btn.active{background:var(--moss);color:white;border-color:var(--moss);}
+.week-group{margin-bottom:1.5rem;}
+.week-label{font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:0.5rem;padding-bottom:0.3rem;border-bottom:1px solid var(--parchment);}
+.urgent-banner{background:var(--alert-pale);border:1px solid #e8c0bc;border-left:3px solid var(--alert);border-radius:5px;padding:0.6rem 1rem;margin-bottom:1rem;font-size:0.75rem;}
+.urgent-banner strong{color:var(--alert);}
+
+/* ── TASK CARD ── */
+.task-card{display:flex;align-items:flex-start;gap:0.75rem;padding:0.65rem 0.9rem;background:white;border:1px solid var(--border);border-radius:5px;margin-bottom:0.4rem;transition:box-shadow 0.15s;}
+.task-card:hover{box-shadow:0 2px 8px rgba(30,26,23,0.07);}
+.task-card.done-card{opacity:0.55;}
+.task-main{flex:1;min-width:0;}
+.task-name-text{font-size:0.8rem;line-height:1.4;font-weight:400;}
+.task-card.done-card .task-name-text{text-decoration:line-through;}
+.task-badges{display:flex;gap:0.35rem;margin-top:0.25rem;flex-wrap:wrap;align-items:center;}
+.cat-badge{display:inline-block;padding:0.1rem 0.4rem;border-radius:3px;font-size:0.58rem;letter-spacing:0.06em;font-weight:500;}
+.phase-badge{display:inline-block;padding:0.1rem 0.4rem;border-radius:3px;font-size:0.58rem;letter-spacing:0.06em;font-weight:500;}
+.phase-sow{background:#e4ecf8;color:var(--phase-sow);}
+.phase-grow{background:#e4f0e0;color:var(--phase-grow);}
+.phase-harvest{background:#faf0dc;color:var(--phase-harvest);}
+.phase-use{background:#faecea;color:var(--phase-use);}
+.owner-txt{font-size:0.62rem;color:var(--warm-gray);}
+.task-note-txt{font-size:0.7rem;color:var(--warm-gray);font-style:italic;margin-top:0.2rem;line-height:1.4;}
+.task-actions{display:flex;gap:0.3rem;align-items:flex-start;flex-shrink:0;}
+.edit-btn{padding:0.2rem 0.5rem;border-radius:3px;font-size:0.6rem;cursor:pointer;border:1px solid var(--border);background:white;color:var(--warm-gray);font-family:'DM Sans',sans-serif;transition:all 0.15s;}
+.edit-btn:hover{border-color:var(--sage);color:var(--moss);}
+
+/* ── GANTT ── */
+.gantt-wrap{overflow-x:auto;}
+.gantt-table{border-collapse:collapse;min-width:1200px;width:100%;}
+.gantt-table th{font-size:0.55rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.4rem 0.3rem;background:var(--parchment);border-bottom:1px solid var(--border);color:var(--warm-gray);white-space:nowrap;font-weight:500;}
+.gantt-table th.project-th{text-align:left;min-width:160px;padding-left:0.75rem;}
+.gantt-table th.week-th{text-align:center;width:44px;border-left:1px solid var(--border);}
+.gantt-table td{padding:0.3rem 0.3rem;border-bottom:1px solid #f5f0e8;vertical-align:middle;}
+.gantt-table tr:hover td{background:#fdfaf5;cursor:pointer;}
+.project-cell{min-width:160px;padding-left:0.75rem;}
+.project-name-g{font-size:0.75rem;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:155px;}
+.project-cat-g{font-size:0.58rem;color:var(--warm-gray);}
+.week-td{width:44px;text-align:center;border-left:1px solid #f5f0e8;padding:0.2rem;}
+.g-bar{height:12px;border-radius:3px;width:90%;margin:0 auto;}
+.g-bar-sow{background:var(--phase-sow);}
+.g-bar-grow{background:var(--phase-grow);}
+.g-bar-harvest{background:var(--phase-harvest);}
+.g-bar-use{background:var(--phase-use);}
+.g-bar-done{background:var(--sage-light);}
+.heat-0{background:white;}
+.heat-1{background:#f5f8f2;}
+.heat-2{background:#e8f2e0;}
+.heat-3{background:#d4e8c4;}
+.heat-4{background:#b8d8a0;}
+.gantt-panel-overlay{position:fixed;inset:0;background:rgba(30,26,23,0.5);z-index:500;display:none;align-items:flex-end;}
+.gantt-panel-overlay.open{display:flex;}
+.gantt-side-panel{background:white;width:380px;max-width:95vw;height:100vh;overflow-y:auto;padding:1.5rem;box-shadow:-4px 0 20px rgba(30,26,23,0.15);margin-left:auto;}
+.gp-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:400;color:var(--moss);margin-bottom:0.25rem;}
+.gp-close{float:right;background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--warm-gray);margin-top:-0.2rem;}
+
+/* ── ALL TASKS ── */
+.search-bar{display:flex;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap;}
+.search-input{flex:1;min-width:160px;padding:0.5rem 0.75rem;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:0.8rem;background:white;outline:none;}
+.search-input:focus{border-color:var(--sage);}
+.filter-sel{padding:0.5rem 0.6rem;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:0.75rem;background:white;color:var(--ink);outline:none;cursor:pointer;}
+.task-count{font-size:0.7rem;color:var(--warm-gray);margin-bottom:0.75rem;}
+.add-task-btn{padding:0.5rem 1rem;background:var(--moss);color:white;border:none;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:0.75rem;cursor:pointer;transition:background 0.15s;white-space:nowrap;}
+.add-task-btn:hover{background:#2a3f22;}
+
+/* ── ASSISTANT ── */
+.assistant-wrap{display:flex;flex-direction:column;height:100%;gap:0;}
+.chat-history{flex:1;overflow-y:auto;padding-bottom:1rem;}
+.chat-msg{margin-bottom:1rem;max-width:85%;}
+.chat-msg.user{margin-left:auto;}
+.chat-bubble{padding:0.75rem 1rem;border-radius:10px;font-size:0.8rem;line-height:1.6;}
+.chat-msg.assistant .chat-bubble{background:white;border:1px solid var(--border);}
+.chat-msg.user .chat-bubble{background:var(--moss);color:white;}
+.chat-msg .chat-meta{font-size:0.6rem;color:var(--warm-gray);margin-top:0.2rem;}
+.chat-msg.user .chat-meta{text-align:right;}
+.hint-row{display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.75rem;}
+.hint-btn{padding:0.3rem 0.7rem;border-radius:20px;border:1px solid var(--border);background:white;font-size:0.68rem;color:var(--warm-gray);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s;}
+.hint-btn:hover{border-color:var(--sage);color:var(--moss);}
+.chat-input-row{display:flex;gap:0.5rem;padding-top:0.75rem;border-top:1px solid var(--border);}
+.chat-input{flex:1;padding:0.6rem 0.9rem;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:0.8rem;outline:none;resize:none;}
+.chat-input:focus{border-color:var(--sage);}
+.chat-send{padding:0.6rem 1rem;background:var(--moss);color:white;border:none;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:0.75rem;cursor:pointer;}
+.thinking{color:var(--warm-gray);font-style:italic;font-size:0.75rem;}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(30,26,23,0.5);z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem;}
+.modal-overlay.open{display:flex;}
+.modal{background:white;border-radius:8px;width:480px;max-width:100%;max-height:90vh;overflow-y:auto;padding:1.5rem;}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--moss);margin-bottom:1.25rem;}
+.form-row{margin-bottom:0.9rem;}
+.form-label{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:0.3rem;display:block;}
+.form-input,.form-select,.form-textarea{width:100%;padding:0.5rem 0.7rem;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:0.8rem;background:white;color:var(--ink);outline:none;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--sage);}
+.form-textarea{resize:vertical;min-height:70px;}
+.modal-actions{display:flex;gap:0.5rem;margin-top:1.25rem;flex-wrap:wrap;}
+.btn-primary{padding:0.55rem 1.2rem;background:var(--moss);color:white;border:none;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:0.78rem;cursor:pointer;}
+.btn-secondary{padding:0.55rem 1rem;background:white;color:var(--ink);border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:0.78rem;cursor:pointer;}
+.btn-danger{padding:0.55rem 1rem;background:var(--alert-pale);color:var(--alert);border:1px solid #e8c0bc;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:0.78rem;cursor:pointer;margin-left:auto;}
+.gantt-impact{background:var(--sage-pale);border-radius:4px;padding:0.6rem 0.8rem;font-size:0.72rem;color:var(--moss);margin-top:0.5rem;line-height:1.5;}
+
+/* ── ROBBIE ── */
+.robbie-header{background:linear-gradient(135deg,#2a3f55,#1a2f45);border-radius:6px;padding:1.2rem 1.5rem;margin-bottom:1.5rem;color:white;}
+.robbie-header h2{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;}
+.robbie-header p{font-size:0.72rem;opacity:0.6;margin-top:0.25rem;}
+
+/* mobile */
+@media(max-width:600px){
+  .app-header{padding:0.75rem 1rem;}
+  .panel{padding:1rem;}
+  .dash-stats{grid-template-columns:repeat(3,1fr);}
+}
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div>
+    <div class="app-title">Garden · <em>September 26</em></div>
+    <div class="app-meta">Catskill NY · 34 varieties · 9 zones</div>
+  </div>
+  <div class="header-right">
+    <div class="days-count" id="daysNum">—</div>
+    <div class="days-lbl">days to go</div>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('dashboard',this)">Dashboard</button>
+  <button class="tab" onclick="showTab('month',this)">This Month</button>
+  <button class="tab" onclick="showTab('gantt',this)">◈ Gantt</button>
+  <button class="tab" onclick="showTab('assistant',this)">✦ Assistant</button>
+  <button class="tab" onclick="showTab('alltasks',this)">All Tasks</button>
+  <button class="tab" onclick="showTab('robbie',this)">Robbie</button>
+</div>
+
+<div class="panels">
+  <div class="panel active" id="panel-dashboard"></div>
+  <div class="panel" id="panel-month"></div>
+  <div class="panel" id="panel-gantt"></div>
+  <div class="panel" id="panel-assistant"></div>
+  <div class="panel" id="panel-alltasks"></div>
+  <div class="panel" id="panel-robbie"></div>
+</div>
+
+<!-- Gantt side panel -->
+<div class="gantt-panel-overlay" id="ganttOverlay" onclick="closeGanttPanel(event)">
+  <div class="gantt-side-panel" id="ganttSidePanel">
+    <button class="gp-close" onclick="closeGanttPanelDirect()">✕</button>
+    <div class="gp-title" id="gpTitle">—</div>
+    <div id="gpBody"></div>
+  </div>
+</div>
+
+<!-- Edit/Add Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-title" id="modalTitle">Edit Task</div>
+    <div class="form-row">
+      <label class="form-label">Task Name</label>
+      <input class="form-input" id="fName" placeholder="Task name">
+    </div>
+    <div class="form-row">
+      <label class="form-label">Status</label>
+      <select class="form-select" id="fStatus">
+        <option value="Not Started">Not Started</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Done">Done</option>
+        <option value="Blocked">Blocked</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Owner</label>
+      <select class="form-select" id="fOwner">
+        <option value="Kite">Kite</option>
+        <option value="Robbie">Robbie</option>
+        <option value="Both">Both</option>
+        <option value="Landscaper">Landscaper</option>
+        <option value="Friends">Friends</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Project / Zone</label>
+      <select class="form-select" id="fProject"></select>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Phase</label>
+      <select class="form-select" id="fPhase">
+        <option value="Sow">Sow</option>
+        <option value="Grow">Grow</option>
+        <option value="Harvest">Harvest</option>
+        <option value="Use">Use</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Due Date</label>
+      <input class="form-input" id="fDue" type="date">
+    </div>
+    <div class="form-row">
+      <label class="form-label">Month</label>
+      <select class="form-select" id="fMonth">
+        <option>April</option><option>May</option><option>June</option>
+        <option>July</option><option>August</option><option>September</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Notes</label>
+      <textarea class="form-textarea" id="fNotes" placeholder="Additional notes..."></textarea>
+    </div>
+    <div class="gantt-impact" id="ganttImpact" style="display:none"></div>
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="saveTask()">Save</button>
+      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn-danger" id="deleteBtn" onclick="deleteTask()" style="display:none">Delete</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════
+
+const PROJECTS = [
+  // Cutting beds
+  "Bed A — Dahlias","Bed A — Sunflower","Bed A — Roses",
+  "Bed B — Zinnias","Bed C — Cosmos","Bed C — Nicotiana",
+  "Bed C — Amaranth","Bed D — Scabiosa","Bed D — Feverfew",
+  "Bed D — Celosia","Bed D — Grasses",
+  // Other garden zones
+  "Front Yard — Roses + Trellises","Front Yard — Cottage Bed",
+  "Front Yard — Window Boxes","Front Yard — Maple Ring",
+  "Front Yard — Steps + Pots","Front Yard — Lawn",
+  "Back Fence — Clematis","Back Fence — Planting",
+  "Moon Garden — Structure","Moon Garden — Planting","Moon Garden — Lighting",
+  "Arch — Tall Pots","Arch — Short Pots","Arch — Floating Bowl",
+  "Deck + Doorstep Pots",
+  // Infrastructure
+  "Irrigation System","Bulk Materials","Seedling Care",
+  // Wedding florals
+  "Bridal Bouquet","Bridesmaids + Boutonnieres",
+  "Table Centerpieces","Welcome Arrangement","Rehearsal Dinner Florals",
+  // General
+  "Lawn","Friend Weekends","September Harvest"
+];
+
+const CAT_COLORS = {
+  "Bed A": "var(--cat-a)", "Bed B": "var(--cat-b)",
+  "Bed C": "var(--cat-c)", "Bed D": "var(--cat-d)",
+  "Front Yard": "var(--cat-front)", "Moon Garden": "var(--cat-moon)",
+  "Arch": "var(--cat-pots)", "Deck": "var(--cat-pots)",
+  "Back Fence": "var(--cat-fence)", "Lawn": "var(--cat-lawn)",
+  "Irrigation": "var(--cat-structure)", "Bulk": "var(--cat-structure)",
+  "Seedling": "var(--cat-structure)", "Bridal": "var(--cat-wedding)",
+  "Bridesmaids": "var(--cat-wedding)", "Table": "var(--cat-wedding)",
+  "Welcome": "var(--cat-wedding)", "Rehearsal": "var(--cat-wedding)",
+  "Friend": "var(--cat-pots)", "September": "var(--cat-wedding)",
+};
+
+function catColor(project) {
+  for (const [k,v] of Object.entries(CAT_COLORS)) {
+    if (project.startsWith(k)) return v;
+  }
+  return "var(--warm-gray)";
+}
+
+const SEED_TASKS = [
+  // ── SEEDLING CARE ──
+  {id:"s001",project:"Seedling Care",category:"Prep",name:"Pot up root-bound seedlings to 4\" cells",owner:"Kite",due:"2026-04-18",month:"April",status:"Not Started",phase:"Sow",notes:"Zinnias + cosmos may be root-bound if started March 8"},
+  {id:"s002",project:"Seedling Care",category:"Prep",name:"Harden off celosia on mild afternoons >45°F",owner:"Kite",due:"2026-04-20",month:"April",status:"Not Started",phase:"Sow",notes:"Bring in each evening for another 1–2 weeks"},
+  {id:"s003",project:"Seedling Care",category:"Prep",name:"Harden off nicotiana — begin this week",owner:"Kite",due:"2026-04-20",month:"April",status:"Not Started",phase:"Sow",notes:"Started Apr 5 — should be hardening now"},
+  {id:"s004",project:"Seedling Care",category:"Prep",name:"Start zinnia + cosmos wave 2 indoors",owner:"Kite",due:"2026-04-20",month:"April",status:"Not Started",phase:"Sow",notes:"Wave 2 of 3 succession plantings — critical for September harvest"},
+  {id:"s005",project:"Seedling Care",category:"Prep",name:"Start moonflower seeds — nick + soak overnight first",owner:"Kite",due:"2026-04-18",month:"April",status:"Not Started",phase:"Sow",notes:"URGENT — need 8 weeks before transplant. 8–10 seeds total for arch + moon garden"},
+  {id:"s006",project:"Seedling Care",category:"Prep",name:"Start ornamental grass + panicum succession indoors",owner:"Kite",due:"2026-04-25",month:"April",status:"Not Started",phase:"Sow",notes:"Both varieties at -35 stem gap — need more starts"},
+
+  // ── BED A — DAHLIAS ──
+  {id:"da01",project:"Bed A — Dahlias",category:"Cutting Beds",name:"Start dahlia tubers in pots indoors",owner:"Kite",due:"2026-04-25",month:"April",status:"Not Started",phase:"Sow",notes:"One tuber per 1-gallon pot, eye facing up, barely covered. Apr 20–30 window"},
+  {id:"da02",project:"Bed A — Dahlias",category:"Cutting Beds",name:"Transplant dahlias out — Bed A middle + back rows",owner:"Both",due:"2026-05-15",month:"May",status:"Not Started",phase:"Sow",notes:"After last frost ~May 10–15. Install stakes at planting time"},
+  {id:"da03",project:"Bed A — Dahlias",category:"Cutting Beds",name:"Stake dahlias as growth accelerates",owner:"Kite",due:"2026-06-15",month:"June",status:"Not Started",phase:"Grow",notes:"Tie loosely — don't damage stems"},
+  {id:"da04",project:"Bed A — Dahlias",category:"Cutting Beds",name:"Deep water dahlias 2x/week in summer heat",owner:"Landscaper",due:"2026-07-01",month:"July",status:"Not Started",phase:"Grow",notes:"They love water — do not let dry out"},
+  {id:"da05",project:"Bed A — Dahlias",category:"Cutting Beds",name:"Disbud side buds on focal varieties",owner:"Kite",due:"2026-07-15",month:"July",status:"Not Started",phase:"Grow",notes:"Remove small side buds — energy goes to main flower for larger blooms"},
+  {id:"da06",project:"Bed A — Dahlias",category:"Cutting Beds",name:"Harvest dahlias — condition 12hrs minimum",owner:"Kite",due:"2026-09-21",month:"September",status:"Not Started",phase:"Harvest",notes:"Cut when 3/4 open. Plunge into cool water immediately. Early morning only"},
+  {id:"da07",project:"Bed A — Dahlias",category:"Cutting Beds",name:"Backup tubers: order 3 tubers each of Tiny Treasure, Bridezilla, Center Court, I Do",owner:"Kite",due:"2026-04-20",month:"April",status:"Not Started",phase:"Sow",notes:"Insurance tubers — all four varieties"},
+
+  // ── BED A — SUNFLOWER ──
+  {id:"su01",project:"Bed A — Sunflower",category:"Cutting Beds",name:"Buy second Sunfill seed packet — URGENT",owner:"Kite",due:"2026-04-18",month:"April",status:"Not Started",phase:"Sow",notes:"CRITICAL: only 15 stems projected vs 30 needed. -15 gap on ceremony focal flower"},
+  {id:"su02",project:"Bed A — Sunflower",category:"Cutting Beds",name:"Direct sow sunflower succession wave — Bed A front",owner:"Kite",due:"2026-04-20",month:"April",status:"Not Started",phase:"Sow",notes:"Sow densely. Direct sow only — no transplant"},
+  {id:"su03",project:"Bed A — Sunflower",category:"Cutting Beds",name:"Transplant sunflower seedlings out May 15",owner:"Both",due:"2026-05-15",month:"May",status:"Not Started",phase:"Sow",notes:"16 plants total in front 10ft of Bed A"},
+
+  // ── BED A — ROSES ──
+  {id:"ro01",project:"Bed A — Roses",category:"Cutting Beds",name:"Transplant white garden roses — Bed A edge row",owner:"Both",due:"2026-05-20",month:"May",status:"Not Started",phase:"Sow",notes:"10 plants. Strip lower leaves + hydrate on transplant"},
+  {id:"ro02",project:"Bed A — Roses",category:"Cutting Beds",name:"Deadhead roses aggressively — cut and come again",owner:"Landscaper",due:"2026-06-01",month:"June",status:"Not Started",phase:"Grow",notes:"Every bloom picked = 3 more. Very productive variety"},
+  {id:"ro03",project:"Bed A — Roses",category:"Cutting Beds",name:"Monitor for aphids on roses — blast with water",owner:"Landscaper",due:"2026-06-15",month:"June",status:"Not Started",phase:"Grow",notes:"Check undersides of leaves weekly"},
+  {id:"ro04",project:"Bed A — Roses",category:"Cutting Beds",name:"Harvest roses — cut when 2–3 flowers open per stem",owner:"Kite",due:"2026-09-20",month:"September",status:"Not Started",phase:"Harvest",notes:"Strip lower leaves before conditioning"},
+
+  // ── BED B — ZINNIAS ──
+  {id:"zi01",project:"Bed B — Zinnias",category:"Cutting Beds",name:"Transplant zinnia wave 1 — Bed B full bed",owner:"Both",due:"2026-05-25",month:"May",status:"Not Started",phase:"Sow",notes:"All 3 varieties: Polar Bear, Benary Lime, Oklahoma White"},
+  {id:"zi02",project:"Bed B — Zinnias",category:"Cutting Beds",name:"Pinch zinnias at 8–10\" for branching",owner:"Kite",due:"2026-06-01",month:"June",status:"Not Started",phase:"Grow",notes:"Pinch to just above leaf node — doubles stem count"},
+  {id:"zi03",project:"Bed B — Zinnias",category:"Cutting Beds",name:"Cut zinnias every 2–3 days at bud stage",owner:"Landscaper",due:"2026-07-01",month:"July",status:"Not Started",phase:"Grow",notes:"Harvest drives more branching — do not let flowers go to seed"},
+  {id:"zi04",project:"Bed B — Zinnias",category:"Cutting Beds",name:"Monitor for powdery mildew — space for airflow",owner:"Landscaper",due:"2026-06-15",month:"June",status:"Not Started",phase:"Grow",notes:"Humidity in Catskills makes zinnias susceptible"},
+  {id:"zi05",project:"Bed B — Zinnias",category:"Cutting Beds",name:"Sow zinnia + cosmos wave 3 direct in Bed B",owner:"Kite",due:"2026-05-25",month:"May",status:"Not Started",phase:"Sow",notes:"Third and final succession wave — wedding harvest wave"},
+  {id:"zi06",project:"Bed B — Zinnias",category:"Cutting Beds",name:"Harvest zinnias — Polar Bear, Benary Lime, Oklahoma",owner:"Kite",due:"2026-09-19",month:"September",status:"Not Started",phase:"Harvest",notes:"Cut when fully open. Hydrate overnight. Label buckets by variety"},
+
+  // ── BED C — COSMOS ──
+  {id:"co01",project:"Bed C — Cosmos",category:"Cutting Beds",name:"Transplant cosmos wave 1 — Bed C rows 1+2",owner:"Both",due:"2026-05-25",month:"May",status:"Not Started",phase:"Sow",notes:"Afternoon White + Double Click Snow Puff. 24 plants each"},
+  {id:"co02",project:"Bed C — Cosmos",category:"Cutting Beds",name:"Pinch cosmos at 8–10\" for branching",owner:"Kite",due:"2026-06-01",month:"June",status:"Not Started",phase:"Grow",notes:"Critical for yield — every pinch = multiple stems"},
+  {id:"co03",project:"Bed C — Cosmos",category:"Cutting Beds",name:"Deadhead cosmos to keep producing",owner:"Landscaper",due:"2026-07-01",month:"July",status:"Not Started",phase:"Grow",notes:"Stop deadheading late August to let mature for harvest"},
+  {id:"co04",project:"Bed C — Cosmos",category:"Cutting Beds",name:"Harvest cosmos — cut when 1–2 petals just open",owner:"Kite",due:"2026-09-19",month:"September",status:"Not Started",phase:"Harvest",notes:"Hydrate in cool water. Delicate stems — handle gently"},
+
+  // ── BED C — NICOTIANA ──
+  {id:"ni01",project:"Bed C — Nicotiana",category:"Cutting Beds",name:"Transplant nicotiana Starlight Dancer — Bed C row 3",owner:"Both",due:"2026-05-15",month:"May",status:"Not Started",phase:"Sow",notes:"6 plants only but very productive — 324 stems projected"},
+  {id:"ni02",project:"Bed C — Nicotiana",category:"Cutting Beds",name:"Harvest nicotiana — cut when 2–3 flowers open on stem",owner:"Kite",due:"2026-09-19",month:"September",status:"Not Started",phase:"Harvest",notes:"Handle gently — fragile stems. Major surplus +224 stems"},
+
+  // ── BED C — AMARANTH ──
+  {id:"am01",project:"Bed C — Amaranth",category:"Cutting Beds",name:"Transplant amaranth Emerald Tassels — Bed C row 3",owner:"Both",due:"2026-05-20",month:"May",status:"Not Started",phase:"Sow",notes:"6 plants. Condition in warm water first"},
+  {id:"am02",project:"Bed C — Amaranth",category:"Cutting Beds",name:"Pinch amaranth tassels to encourage branching",owner:"Kite",due:"2026-07-01",month:"July",status:"Not Started",phase:"Grow",notes:""},
+  {id:"am03",project:"Bed C — Amaranth",category:"Cutting Beds",name:"Harvest amaranth — cut when tassels fully formed",owner:"Kite",due:"2026-09-20",month:"September",status:"Not Started",phase:"Harvest",notes:"Trailing texture — great for garlands"},
+
+  // ── BED D — SCABIOSA ──
+  {id:"sc01",project:"Bed D — Scabiosa",category:"Cutting Beds",name:"BUY second scabiosa seed packet — URGENT",owner:"Kite",due:"2026-04-18",month:"April",status:"Not Started",phase:"Sow",notes:"CRITICAL GAP: -65 stems. 15 projected vs 80 needed"},
+  {id:"sc02",project:"Bed D — Scabiosa",category:"Cutting Beds",name:"Direct sow scabiosa densely — Bed D row 1",owner:"Kite",due:"2026-04-20",month:"April",status:"Not Started",phase:"Sow",notes:"Harvest pods not flowers. Sow immediately"},
+  {id:"sc03",project:"Bed D — Scabiosa",category:"Cutting Beds",name:"Harvest scabiosa pods when firm + green",owner:"Kite",due:"2026-06-15",month:"June",status:"Not Started",phase:"Harvest",notes:"Do not wait for full maturity. Condition 2hrs cool water"},
+
+  // ── BED D — FEVERFEW ──
+  {id:"fe01",project:"Bed D — Feverfew",category:"Cutting Beds",name:"Transplant double white feverfew — Bed D row 2",owner:"Both",due:"2026-05-20",month:"May",status:"Not Started",phase:"Sow",notes:"40 plants. Slight gap -4 stems — add more transplants if possible"},
+  {id:"fe02",project:"Bed D — Feverfew",category:"Cutting Beds",name:"Harvest feverfew pods — firm + green",owner:"Kite",due:"2026-09-19",month:"September",status:"Not Started",phase:"Harvest",notes:"Allow some to mature into pods. Condition 2–4hrs cool water"},
+
+  // ── BED D — CELOSIA ──
+  {id:"ce01",project:"Bed D — Celosia",category:"Cutting Beds",name:"Transplant celosia Spring Green — Bed D row 3",owner:"Both",due:"2026-05-15",month:"May",status:"Not Started",phase:"Sow",notes:"40 plants. Condition in warm water"},
+  {id:"ce02",project:"Bed D — Celosia",category:"Cutting Beds",name:"Transplant celosia mix — Bed D row 4",owner:"Both",due:"2026-05-15",month:"May",status:"Not Started",phase:"Sow",notes:"13 plants. Slight surplus +4 stems"},
+  {id:"ce03",project:"Bed D — Celosia",category:"Cutting Beds",name:"Harvest celosia — cut when comb fully formed",owner:"Kite",due:"2026-09-20",month:"September",status:"Not Started",phase:"Harvest",notes:"Warm water conditioning"},
+
+  // ── BED D — GRASSES ──
+  {id:"gr01",project:"Bed D — Grasses",category:"Cutting Beds",name:"Sow more ornamental grass + panicum indoors NOW",owner:"Kite",due:"2026-04-25",month:"April",status:"Not Started",phase:"Sow",notes:"Both at -35 stem gap. More starts = more texture for garlands"},
+  {id:"gr02",project:"Bed D — Grasses",category:"Cutting Beds",name:"Transplant grasses + panicum — Bed D row 4",owner:"Both",due:"2026-05-20",month:"May",status:"Not Started",phase:"Sow",notes:"13 plants each currently — add more from new starts"},
+  {id:"gr03",project:"Bed D — Grasses",category:"Cutting Beds",name:"Harvest grasses when plumes fully open",owner:"Kite",due:"2026-09-19",month:"September",status:"Not Started",phase:"Harvest",notes:"No special conditioning. Critical for garlands"},
+
+  // ── IRRIGATION ──
+  {id:"ir01",project:"Irrigation System",category:"Infrastructure",name:"Order soaker hose kit for 4 cutting beds",owner:"Kite",due:"2026-04-20",month:"April",status:"Not Started",phase:"Sow",notes:"URGENT — most important practical gap in the plan"},
+  {id:"ir02",project:"Irrigation System",category:"Infrastructure",name:"Order 4-way manifold splitter + 2 battery timers",owner:"Kite",due:"2026-04-20",month:"April",status:"Not Started",phase:"Sow",notes:"Amazon or Home Depot. Set up at transplant time"},
+  {id:"ir03",project:"Irrigation System",category:"Infrastructure",name:"Order drip emitter kit for all containers",owner:"Kite",due:"2026-04-20",month:"April",status:"Not Started",phase:"Sow",notes:"Raindrip or DIG brand. Containers in full sun need daily water"},
+  {id:"ir04",project:"Irrigation System",category:"Infrastructure",name:"Install soaker hoses in Beds A–D at transplant time",owner:"Both",due:"2026-05-10",month:"May",status:"Not Started",phase:"Sow",notes:"Lay hose first, then plant around it"},
+  {id:"ir05",project:"Irrigation System",category:"Infrastructure",name:"Install drip emitters in all arch + doorstep containers",owner:"Both",due:"2026-05-25",month:"May",status:"Not Started",phase:"Sow",notes:""},
+  {id:"ir06",project:"Irrigation System",category:"Infrastructure",name:"Test all irrigation zones — confirm coverage",owner:"Both",due:"2026-05-28",month:"May",status:"Not Started",phase:"Sow",notes:""},
+
+  // ── BULK MATERIALS ──
+  {id:"bm01",project:"Bulk Materials",category:"Infrastructure",name:"Schedule truck run — bulk mulch + compost + topsoil",owner:"Kite",due:"2026-04-28",month:"April",status:"Not Started",phase:"Sow",notes:"5 yards mulch, 3 yards compost, 1 yard topsoil. Late April or first week of May"},
+  {id:"bm02",project:"Bulk Materials",category:"Infrastructure",name:"Distribute mulch to all zones with wheelbarrow",owner:"Friends",due:"2026-05-03",month:"May",status:"Not Started",phase:"Sow",notes:"Friend weekend #1 task — 4 people, half day"},
+  {id:"bm03",project:"Bulk Materials",category:"Infrastructure",name:"Buy potting mix for all containers (6–8 large bags)",owner:"Kite",due:"2026-05-10",month:"May",status:"Not Started",phase:"Sow",notes:"Premium potting mix + perlite for arch pots"},
+  {id:"bm04",project:"Bulk Materials",category:"Infrastructure",name:"Buy micro clover seed + fescue mix for lawn",owner:"Kite",due:"2026-04-28",month:"April",status:"Not Started",phase:"Sow",notes:"80/20 fescue/clover blend. American Meadows or Jonathan Green"},
+
+  // ── FRONT YARD — ROSES + TRELLISES ──
+  {id:"fr01",project:"Front Yard — Roses + Trellises",category:"Front Yard",name:"Call nurseries — reserve 2–3 gallon climbing roses",owner:"Kite",due:"2026-04-20",month:"April",status:"Not Started",phase:"Sow",notes:"URGENT — good climbing roses sell out in May. New Dawn + Climbing Iceberg"},
+  {id:"fr02",project:"Front Yard — Roses + Trellises",category:"Front Yard",name:"Install trellis wire hardware on front of house",owner:"Robbie",due:"2026-05-05",month:"May",status:"Not Started",phase:"Sow",notes:"Screw-in eye hooks + wire. Do before planting"},
+  {id:"fr03",project:"Front Yard — Roses + Trellises",category:"Front Yard",name:"Plant climbing roses on front trellises",owner:"Both",due:"2026-05-10",month:"May",status:"Not Started",phase:"Sow",notes:"Train main canes horizontally — far more blooms than vertical"},
+  {id:"fr04",project:"Front Yard — Roses + Trellises",category:"Front Yard",name:"Install eucalyptus garland on trellises for wedding day",owner:"Kite",due:"2026-09-24",month:"September",status:"Not Started",phase:"Use",notes:"Gap-fill where roses haven't covered yet. Zip-tied — 20 min"},
+
+  // ── FRONT YARD — COTTAGE BED ──
+  {id:"fc01",project:"Front Yard — Cottage Bed",category:"Front Yard",name:"Scatter cottage wildflower seed mix mid-April",owner:"Kite",due:"2026-04-20",month:"April",status:"Not Started",phase:"Sow",notes:"White/pink/yellow mix. Thin to color drifts once 3\" tall"},
+  {id:"fc02",project:"Front Yard — Cottage Bed",category:"Front Yard",name:"Plant echinacea + rudbeckia + peonies in color drifts",owner:"Both",due:"2026-05-12",month:"May",status:"Not Started",phase:"Sow",notes:"Yellow drift → pink drift → white drift. Irregular groups of 5–7"},
+  {id:"fc03",project:"Front Yard — Cottage Bed",category:"Front Yard",name:"Plant cosmos + feverfew in white drift at front",owner:"Both",due:"2026-05-15",month:"May",status:"Not Started",phase:"Sow",notes:"Ties front bed to cutting garden palette visually"},
+  {id:"fc04",project:"Front Yard — Cottage Bed",category:"Front Yard",name:"Deadhead front bed weekly — cosmos, rudbeckia",owner:"Landscaper",due:"2026-06-15",month:"June",status:"Not Started",phase:"Grow",notes:"Critical for continuous bloom through September"},
+  {id:"fc05",project:"Front Yard — Cottage Bed",category:"Front Yard",name:"Sharply edge front bed border before wedding",owner:"Kite",due:"2026-09-19",month:"September",status:"Not Started",phase:"Use",notes:"Half-moon edger along all borders. Makes everything look 10x more intentional"},
+
+  // ── FRONT YARD — WINDOW BOXES ──
+  {id:"wb01",project:"Front Yard — Window Boxes",category:"Front Yard",name:"Buy window box plants: calibrachoa + bacopa + alyssum + lobelia",owner:"Kite",due:"2026-05-15",month:"May",status:"Not Started",phase:"Sow",notes:"After frost. Water daily — boxes dry fast in full sun"},
+  {id:"wb02",project:"Front Yard — Window Boxes",category:"Front Yard",name:"Plant window boxes with thriller/spiller/filler recipe",owner:"Kite",due:"2026-05-20",month:"May",status:"Not Started",phase:"Sow",notes:"Calibrachoa center, bacopa + alyssum body, trailing calibrachoa edge"},
+  {id:"wb03",project:"Front Yard — Window Boxes",category:"Front Yard",name:"Deadhead window boxes regularly",owner:"Kite",due:"2026-06-01",month:"June",status:"Not Started",phase:"Grow",notes:""},
+
+  // ── FRONT YARD — MAPLE RING ──
+  {id:"mr01",project:"Front Yard — Maple Ring",category:"Front Yard",name:"Refresh mulch in maple tree ring",owner:"Kite",due:"2026-05-01",month:"May",status:"Not Started",phase:"Sow",notes:"Pull old mulch, loosen soil gently, 2\" fresh dark hardwood"},
+  {id:"mr02",project:"Front Yard — Maple Ring",category:"Front Yard",name:"Buy + plant hostas: Halcyon + Patriot alternating",owner:"Both",due:"2026-05-12",month:"May",status:"Not Started",phase:"Sow",notes:"6–8 starts. Keep 18\" from trunk. Don't plant over surface roots"},
+  {id:"mr03",project:"Front Yard — Maple Ring",category:"Front Yard",name:"Plant white impatiens between hostas",owner:"Both",due:"2026-05-15",month:"May",status:"Not Started",phase:"Sow",notes:"1–2 flats (36–48 plants) at 8–10\" spacing"},
+  {id:"mr04",project:"Front Yard — Maple Ring",category:"Front Yard",name:"Plant white alyssum at outer edge of maple ring",owner:"Kite",due:"2026-05-15",month:"May",status:"Not Started",phase:"Sow",notes:"Spills onto grass, honey fragrance, self-seeds over time"},
+
+  // ── FRONT YARD — STEPS + POTS ──
+  {id:"sp01",project:"Front Yard — Steps + Pots",category:"Front Yard",name:"Source 2 large pots (16–18\") for front steps",owner:"Kite",due:"2026-04-28",month:"April",status:"Not Started",phase:"Sow",notes:"FB Marketplace or nursery"},
+  {id:"sp02",project:"Front Yard — Steps + Pots",category:"Front Yard",name:"Plant front step pots — mirrored pair",owner:"Kite",due:"2026-05-20",month:"May",status:"Not Started",phase:"Sow",notes:"Yellow thriller + white cosmos + trailing white bacopa each side"},
+  {id:"sp03",project:"Front Yard — Steps + Pots",category:"Front Yard",name:"Plant creeping thyme at step edges",owner:"Kite",due:"2026-05-20",month:"May",status:"Not Started",phase:"Sow",notes:"Releases fragrance when brushed. Hardy + spreads over time"},
+
+  // ── FRONT YARD — LAWN ──
+  {id:"fl01",project:"Front Yard — Lawn",category:"Lawn",name:"Spread lime on all bare lawn patches",owner:"Kite",due:"2026-04-26",month:"April",status:"Not Started",phase:"Sow",notes:"Catskill soil acidic. Needs 4–6 weeks to work"},
+  {id:"fl02",project:"Front Yard — Lawn",category:"Lawn",name:"Rake + aerate bare patches — prep for seeding",owner:"Kite",due:"2026-04-28",month:"April",status:"Not Started",phase:"Sow",notes:"Loosen top 1–2\" only. Don't need full lawn"},
+  {id:"fl03",project:"Front Yard — Lawn",category:"Lawn",name:"Seed bare patches — fescue + micro clover 80/20",owner:"Kite",due:"2026-05-02",month:"May",status:"Not Started",phase:"Sow",notes:"Cover with straw. Water 2x daily until germination (10–14 days)"},
+  {id:"fl04",project:"Front Yard — Lawn",category:"Lawn",name:"Set up hose timer + sprinkler on seeded areas",owner:"Both",due:"2026-05-05",month:"May",status:"Not Started",phase:"Grow",notes:"Most critical step for lawn establishment"},
+  {id:"fl05",project:"Front Yard — Lawn",category:"Lawn",name:"Raise mower deck to 4\" for summer",owner:"Robbie",due:"2026-06-01",month:"June",status:"Not Started",phase:"Grow",notes:"Never mow shorter — tall grass outcompetes weeds"},
+  {id:"fl06",project:"Front Yard — Lawn",category:"Lawn",name:"Touch-up overseed bare patches that didn't fill in",owner:"Kite",due:"2026-06-20",month:"June",status:"Not Started",phase:"Grow",notes:"Fescue seeded late June still establishes by September"},
+  {id:"fl07",project:"Front Yard — Lawn",category:"Lawn",name:"Fertilize lawn — high-potassium hardener feed",owner:"Robbie",due:"2026-08-15",month:"August",status:"Not Started",phase:"Grow",notes:"Deepens color + firms for foot traffic. 3–4 weeks before wedding"},
+  {id:"fl08",project:"Front Yard — Lawn",category:"Lawn",name:"Final mow at exactly 3\" — 2 days before wedding",owner:"Robbie",due:"2026-09-24",month:"September",status:"Not Started",phase:"Use",notes:"3\" photographs beautifully. Edge all borders cleanly"},
+  {id:"fl09",project:"Front Yard — Lawn",category:"Lawn",name:"Apply lawn paint to thin spots if needed",owner:"Kite",due:"2026-09-22",month:"September",status:"Not Started",phase:"Use",notes:"Endurant or Lawnlift. Washes off in rain, completely safe"},
+
+  // ── BACK FENCE ──
+  {id:"bf01",project:"Back Fence — Clematis",category:"Back Fence",name:"Clear dead vines from fence — pull stems + roots",owner:"Kite",due:"2026-04-22",month:"April",status:"Not Started",phase:"Sow",notes:"Must be done before planting. Dispose — don't compost"},
+  {id:"bf02",project:"Back Fence — Clematis",category:"Back Fence",name:"Install wire/trellis netting on fence behind arch",owner:"Robbie",due:"2026-05-05",month:"May",status:"Not Started",phase:"Sow",notes:"Screw-in eye hooks + wire. Install before planting"},
+  {id:"bf03",project:"Back Fence — Clematis",category:"Back Fence",name:"Plant clematis Henryi on fence (3–4 plants)",owner:"Both",due:"2026-05-18",month:"May",status:"Not Started",phase:"Sow",notes:"4–5ft apart. Roots in shade, face in morning sun"},
+  {id:"bf04",project:"Back Fence — Clematis",category:"Back Fence",name:"Plant clematis Alba Luxurians on fence",owner:"Both",due:"2026-05-18",month:"May",status:"Not Started",phase:"Sow",notes:"Late summer/fall bloomer — peaks at wedding date"},
+  {id:"bf05",project:"Back Fence — Clematis",category:"Back Fence",name:"Begin training clematis canes onto wire",owner:"Kite",due:"2026-06-10",month:"June",status:"Not Started",phase:"Grow",notes:""},
+  {id:"bf06",project:"Back Fence — Clematis",category:"Back Fence",name:"Order preserved greenery panels as backup if needed",owner:"Kite",due:"2026-08-25",month:"August",status:"Not Started",phase:"Use",notes:"Boxwood/eucalyptus — zip-tied to fence, takes 20 min"},
+
+  // ── BACK FENCE — PLANTING ──
+  {id:"bp01",project:"Back Fence — Planting",category:"Back Fence",name:"Prep + mulch back fence bed — 2\" hardwood mulch",owner:"Friends",due:"2026-05-03",month:"May",status:"Not Started",phase:"Sow",notes:"Friend weekend #1 task. Full 40ft length"},
+  {id:"bp02",project:"Back Fence — Planting",category:"Back Fence",name:"Plant astilbe Bridal Veil along fence (5–7 plants)",owner:"Both",due:"2026-05-18",month:"May",status:"Not Started",phase:"Sow",notes:"Back layer. Feathery plumes July–August, still beautiful in September"},
+  {id:"bp03",project:"Back Fence — Planting",category:"Back Fence",name:"Plant hostas mid-layer: Halcyon + Patriot",owner:"Both",due:"2026-05-18",month:"May",status:"Not Started",phase:"Sow",notes:"6–8 plants. Bold foliage reads strongly from distance"},
+  {id:"bp04",project:"Back Fence — Planting",category:"Back Fence",name:"Plant white impatiens as front fill",owner:"Both",due:"2026-05-18",month:"May",status:"Not Started",phase:"Sow",notes:"8–10\" spacing. Peak in late summer — perfect for September"},
+
+  // ── MOON GARDEN — STRUCTURE ──
+  {id:"mg01",project:"Moon Garden — Structure",category:"Moon Garden",name:"Build corner bench + trellis (6–10ft cedar)",owner:"Robbie",due:"2026-05-05",month:"May",status:"Not Started",phase:"Sow",notes:"Friend weekend #1 — carpenter friend ideal. Build before planting"},
+  {id:"mg02",project:"Moon Garden — Structure",category:"Moon Garden",name:"Rake pine needle floor even + lay stepping stones",owner:"Both",due:"2026-05-18",month:"May",status:"Not Started",phase:"Sow",notes:"3–4 flat stones from lawn through pine grove to bench"},
+  {id:"mg03",project:"Moon Garden — Structure",category:"Moon Garden",name:"Install string lights — trellis to pine branch overhead",owner:"Robbie",due:"2026-06-25",month:"June",status:"Not Started",phase:"Grow",notes:"Warm white not cool white. Test before wedding week"},
+  {id:"mg04",project:"Moon Garden — Structure",category:"Moon Garden",name:"Test full evening lighting setup — lights + lanterns",owner:"Both",due:"2026-08-20",month:"August",status:"Not Started",phase:"Grow",notes:"No surprises on wedding night"},
+  {id:"mg05",project:"Moon Garden — Structure",category:"Moon Garden",name:"Set out candle lanterns + do final lighting check",owner:"Kite",due:"2026-09-25",month:"September",status:"Not Started",phase:"Use",notes:"Bench lanterns + stepping stone path lanterns"},
+
+  // ── MOON GARDEN — PLANTING ──
+  {id:"mp01",project:"Moon Garden — Planting",category:"Moon Garden",name:"Order sweet autumn clematis + climbing hydrangea online",owner:"Kite",due:"2026-04-22",month:"April",status:"Not Started",phase:"Sow",notes:"Easier online than nurseries. Need for bench trellis"},
+  {id:"mp02",project:"Moon Garden — Planting",category:"Moon Garden",name:"Plant moonflower vine at trellis base",owner:"Kite",due:"2026-05-20",month:"May",status:"Not Started",phase:"Sow",notes:"Only once nights reliably above 50°F. Opens at dusk — perfect for evening ceremony"},
+  {id:"mp03",project:"Moon Garden — Planting",category:"Moon Garden",name:"Plant sweet autumn clematis at trellis",owner:"Both",due:"2026-05-20",month:"May",status:"Not Started",phase:"Sow",notes:"Peaks Aug–Sept — vanilla fragrance, white star flowers"},
+  {id:"mp04",project:"Moon Garden — Planting",category:"Moon Garden",name:"Plant climbing hydrangea at trellis base",owner:"Both",due:"2026-05-20",month:"May",status:"Not Started",phase:"Sow",notes:"Long-term investment — won't be full by Sept but starts establishing"},
+  {id:"mp05",project:"Moon Garden — Planting",category:"Moon Garden",name:"Plant cinnamon/interrupted ferns at pine grove perimeter",owner:"Both",due:"2026-05-20",month:"May",status:"Not Started",phase:"Sow",notes:"6–8 native fern starts. Thrive in full shade under pines"},
+  {id:"mp06",project:"Moon Garden — Planting",category:"Moon Garden",name:"Buy + plant moon garden night-bloomers",owner:"Kite",due:"2026-05-28",month:"May",status:"Not Started",phase:"Sow",notes:"Moonflower + white nicotiana + evening primrose + white phlox"},
+  {id:"mp07",project:"Moon Garden — Planting",category:"Moon Garden",name:"Plant fountain edge: astilbe + white iris + creeping jenny",owner:"Kite",due:"2026-07-01",month:"July",status:"Not Started",phase:"Sow",notes:"Water-tolerant whites"},
+  {id:"mp08",project:"Moon Garden — Planting",category:"Moon Garden",name:"Guide moonflower tendrils onto trellis",owner:"Kite",due:"2026-06-10",month:"June",status:"Not Started",phase:"Grow",notes:""},
+  {id:"mp09",project:"Moon Garden — Planting",category:"Moon Garden",name:"Add fresh bud vases to bench on wedding day",owner:"Kite",due:"2026-09-25",month:"September",status:"Not Started",phase:"Use",notes:"Simple posies from cutting garden on the bench itself"},
+
+  // ── ARCH — TALL POTS ──
+  {id:"at01",project:"Arch — Tall Pots",category:"Arch + Pots",name:"Source 2 tall pots 20–24\" for arch",owner:"Kite",due:"2026-04-28",month:"April",status:"Not Started",phase:"Sow",notes:"FB Marketplace. Weight with gravel to prevent tipping in wind"},
+  {id:"at02",project:"Arch — Tall Pots",category:"Arch + Pots",name:"Plant tall arch pots: dahlia + cosmos + nicotiana + panicum + bacopa",owner:"Both",due:"2026-05-25",month:"May",status:"Not Started",phase:"Sow",notes:"8 plants per pot. Don't stake cosmos — let it lean for whimsy"},
+  {id:"at03",project:"Arch — Tall Pots",category:"Arch + Pots",name:"Water arch pots daily in summer heat",owner:"Landscaper",due:"2026-07-01",month:"July",status:"Not Started",phase:"Grow",notes:"Containers in full sun dry fast. Drip system helps"},
+  {id:"at04",project:"Arch — Tall Pots",category:"Arch + Pots",name:"Move tall arch pots to final position flanking arch",owner:"Both",due:"2026-09-20",month:"September",status:"Not Started",phase:"Use",notes:"Stake dahlia loosely to arch leg — anchors visually + practically"},
+  {id:"at05",project:"Arch — Tall Pots",category:"Arch + Pots",name:"Wire fresh stems onto arch: dahlias + cosmos + grasses",owner:"Kite",due:"2026-09-25",month:"September",status:"Not Started",phase:"Use",notes:"Floral wire + waterproof stem wrap. Morning of Sept 25 or 26"},
+
+  // ── ARCH — SHORT POTS ──
+  {id:"as01",project:"Arch — Short Pots",category:"Arch + Pots",name:"Source 2 short pots 14–16\" for arch",owner:"Kite",due:"2026-04-28",month:"April",status:"Not Started",phase:"Sow",notes:"FB Marketplace"},
+  {id:"as02",project:"Arch — Short Pots",category:"Arch + Pots",name:"Plant short arch pots: zinnia + cosmos + amaranth + bacopa",owner:"Both",due:"2026-05-25",month:"May",status:"Not Started",phase:"Sow",notes:"7 plants per pot. Loose meadow feel — no staking"},
+  {id:"as03",project:"Arch — Short Pots",category:"Arch + Pots",name:"Fertilize arch pots every 10–14 days",owner:"Kite",due:"2026-06-15",month:"June",status:"Not Started",phase:"Grow",notes:"Containers need more frequent feeding than beds"},
+
+  // ── ARCH — FLOATING BOWL ──
+  {id:"fb01",project:"Arch — Floating Bowl",category:"Arch + Pots",name:"Source wide shallow bowl for floating flowers",owner:"Kite",due:"2026-05-15",month:"May",status:"Not Started",phase:"Sow",notes:"Wide + shallow = best for floating. Ceramic or galvanized"},
+  {id:"fb02",project:"Arch — Floating Bowl",category:"Arch + Pots",name:"Fill bowl with water evening before — let reach ambient temp",owner:"Kite",due:"2026-09-25",month:"September",status:"Not Started",phase:"Use",notes:"Add 1 tsp bleach to keep clear. Don't fill in direct sun"},
+  {id:"fb03",project:"Arch — Floating Bowl",category:"Arch + Pots",name:"Float dahlias + zinnias + candles in bowl",owner:"Kite",due:"2026-09-26",month:"September",status:"Not Started",phase:"Use",notes:"3–4 dahlia heads + zinnia rounds + panicum plumes + 3 pillar candles in glass"},
+
+  // ── DECK + DOORSTEP ──
+  {id:"dp01",project:"Deck + Doorstep Pots",category:"Pots",name:"Source doorstep pots 16\"+ and deck edge planters",owner:"Kite",due:"2026-04-28",month:"April",status:"Not Started",phase:"Sow",notes:"FB Marketplace. Source cement planters for house side too"},
+  {id:"dp02",project:"Deck + Doorstep Pots",category:"Pots",name:"Plant doorstep pots: white dahlia + trailing mix",owner:"Kite",due:"2026-05-20",month:"May",status:"Not Started",phase:"Sow",notes:"Statement pots flanking front door"},
+  {id:"dp03",project:"Deck + Doorstep Pots",category:"Pots",name:"Plant deck edge planters — mixed seasonal",owner:"Kite",due:"2026-05-20",month:"May",status:"Not Started",phase:"Sow",notes:"Replace old planters. Nicer ones being sourced"},
+  {id:"dp04",project:"Deck + Doorstep Pots",category:"Pots",name:"Plant cement house side planters",owner:"Kite",due:"2026-06-01",month:"June",status:"Not Started",phase:"Sow",notes:"Source planters FB Marketplace then plant annuals"},
+
+  // ── FRIEND WEEKENDS ──
+  {id:"fw01",project:"Friend Weekends",category:"Friends",name:"Plan + invite friends for Weekend #1 — May 2–4",owner:"Kite",due:"2026-04-20",month:"April",status:"Not Started",phase:"Sow",notes:"Heavy labor: mulch distribution, bench build, fence wire, front yard prep, house painting prep"},
+  {id:"fw02",project:"Friend Weekends",category:"Friends",name:"Plan + invite friends for Weekend #2 — May 16–18",owner:"Kite",due:"2026-04-25",month:"April",status:"Not Started",phase:"Sow",notes:"THE BIG TRANSPLANT PARTY — all beds, front yard, moon garden, arch pots, window boxes"},
+  {id:"fw03",project:"Friend Weekends",category:"Friends",name:"Plan harvest party Weekend #3 — Sept 19–21",owner:"Kite",due:"2026-09-01",month:"September",status:"Not Started",phase:"Harvest",notes:"Harvest + condition stems together. Evening dinner pre-wedding"},
+  {id:"fw04",project:"Friend Weekends",category:"Friends",name:"Prep friend assignments + zone map for Weekend #2",owner:"Kite",due:"2026-05-10",month:"May",status:"Not Started",phase:"Sow",notes:"1 person per zone. Kite coordinates. Print planting plans"},
+
+  // ── SEPTEMBER HARVEST ──
+  {id:"sh01",project:"September Harvest",category:"Wedding",name:"Full stem inventory — confirm all gaps vs surplus",owner:"Kite",due:"2026-07-15",month:"July",status:"Not Started",phase:"Harvest",notes:"If grasses/scabiosa/roses still short — order florist backup now"},
+  {id:"sh02",project:"September Harvest",category:"Wedding",name:"Order florist backup if gaps confirmed",owner:"Kite",due:"2026-08-01",month:"August",status:"Not Started",phase:"Harvest",notes:"Roses, calla lilies. Consider Sunburst Floral Rhinebeck area"},
+  {id:"sh03",project:"September Harvest",category:"Wedding",name:"Source all vessels: buckets, bud vases, bowls, tall vases",owner:"Kite",due:"2026-08-05",month:"August",status:"Not Started",phase:"Harvest",notes:"Need: conditioning buckets, bud vases for cocktail tables, wide bowl for floating"},
+  {id:"sh04",project:"September Harvest",category:"Wedding",name:"Practice trial arrangement — test palette + quantities",owner:"Kite",due:"2026-07-20",month:"July",status:"Not Started",phase:"Harvest",notes:"Identify gaps in color, texture, volume. Do this twice"},
+  {id:"sh05",project:"September Harvest",category:"Wedding",name:"HARVEST: zinnias, cosmos, grasses, nicotiana, amaranth",owner:"Kite",due:"2026-09-19",month:"September",status:"Not Started",phase:"Harvest",notes:"Cool early morning only. Label buckets by variety. Friends helping"},
+  {id:"sh06",project:"September Harvest",category:"Wedding",name:"Condition all stems 12–24hrs in basement",owner:"Kite",due:"2026-09-20",month:"September",status:"Not Started",phase:"Harvest",notes:"Cool dark basement. 1 tsp bleach per bucket to keep water clear"},
+  {id:"sh07",project:"September Harvest",category:"Wedding",name:"HARVEST: dahlias — condition 12hrs minimum",owner:"Kite",due:"2026-09-21",month:"September",status:"Not Started",phase:"Harvest",notes:"Cut when 3/4 open. Cool water immediately. Morning only"},
+  {id:"sh08",project:"September Harvest",category:"Wedding",name:"Clean up all cutting beds — remove dead foliage",owner:"Landscaper",due:"2026-09-15",month:"September",status:"Not Started",phase:"Use",notes:"Fresh mulch too. Beds should look beautiful for wedding day"},
+
+  // ── BRIDAL BOUQUET ──
+  {id:"bb01",project:"Bridal Bouquet",category:"Wedding Florals",name:"Practice bridal bouquet — test stem counts + wiring",owner:"Kite",due:"2026-08-18",month:"August",status:"Not Started",phase:"Use",notes:"Deep condition all stems 12hrs. Assemble, photograph, assess"},
+  {id:"bb02",project:"Bridal Bouquet",category:"Wedding Florals",name:"Deep condition all bridal stems night before",owner:"Kite",due:"2026-09-25",month:"September",status:"Not Started",phase:"Use",notes:"12hrs in cool water. Dahlias + roses + cosmos + nicotiana + grasses"},
+  {id:"bb03",project:"Bridal Bouquet",category:"Wedding Florals",name:"Assemble bridal bouquet morning of Sept 26",owner:"Kite",due:"2026-09-26",month:"September",status:"Not Started",phase:"Use",notes:"Keep in water until ceremony. Mist if warm outdoors"},
+
+  // ── BRIDESMAIDS + BOUTS ──
+  {id:"bm_01",project:"Bridesmaids + Boutonnieres",category:"Wedding Florals",name:"Assemble bridesmaids bouquets morning of Sept 26",owner:"Kite",due:"2026-09-26",month:"September",status:"Not Started",phase:"Use",notes:"Similar palette to bridal — slightly smaller. Condition same way"},
+  {id:"bm_02",project:"Bridesmaids + Boutonnieres",category:"Wedding Florals",name:"Assemble boutonnieres morning of Sept 26",owner:"Kite",due:"2026-09-26",month:"September",status:"Not Started",phase:"Use",notes:"Single dahlia or cosmos + grass stem. Wire + tape same day"},
+
+  // ── TABLE CENTERPIECES ──
+  {id:"tc01",project:"Table Centerpieces",category:"Wedding Florals",name:"Confirm table count: long farm tables + round tables",owner:"Kite",due:"2026-07-01",month:"July",status:"Not Started",phase:"Use",notes:"Different centerpiece style for each: linear runner vs central arrangement"},
+  {id:"tc02",project:"Table Centerpieces",category:"Wedding Florals",name:"Farm table runners: loose garden stems laid directly on table",owner:"Kite",due:"2026-09-25",month:"September",status:"Not Started",phase:"Use",notes:"Cosmos + grasses + feverfew + small dahlias. Very Instagrammable"},
+  {id:"tc03",project:"Table Centerpieces",category:"Wedding Florals",name:"Round table arrangements: medium vessels with dahlia focal",owner:"Kite",due:"2026-09-25",month:"September",status:"Not Started",phase:"Use",notes:"Dahlias + roses + cosmos + nicotiana per arrangement"},
+
+  // ── WELCOME ARRANGEMENT ──
+  {id:"wa01",project:"Welcome Arrangement",category:"Wedding Florals",name:"Large welcome arrangement for entry table",owner:"Kite",due:"2026-09-26",month:"September",status:"Not Started",phase:"Use",notes:"Dahlias + cosmos + nicotiana + roses. Bucket condition night before. Morning of Sept 26"},
+
+  // ── REHEARSAL DINNER ──
+  {id:"rd01",project:"Rehearsal Dinner Florals",category:"Wedding Florals",name:"Buy rehearsal flowers: calla lilies + peonies + monstera",owner:"Kite",due:"2026-09-22",month:"September",status:"Not Started",phase:"Use",notes:"Buy Sept 22. Condition 4hrs upright warm water. For 27 Cafe mirror table"},
+  {id:"rd02",project:"Rehearsal Dinner Florals",category:"Wedding Florals",name:"Arrange rehearsal centerpiece — Sept 24",owner:"Kite",due:"2026-09-24",month:"September",status:"Not Started",phase:"Use",notes:"Black calla lilies + white peonies + monstera leaf + white feathers"},
+];
+
+// ── LOCAL STORAGE ──
+const STORAGE_KEY = 'garden_app_tasks_v2';
+
+function loadTasks() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      // Merge: keep saved statuses, add any new seed tasks
+      const savedMap = new Map(parsed.map(t => [t.id, t]));
+      return SEED_TASKS.map(t => savedMap.has(t.id) ? {...t, ...savedMap.get(t.id), name:t.name} : t);
+    }
+  } catch(e) {}
+  return [...SEED_TASKS];
+}
+
+function saveTasks() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks)); } catch(e) {}
+}
+
+let tasks = loadTasks();
+let editingId = null;
+let filterZoneGantt = null;
+let atFilters = { search:'', month:'', owner:'', status:'', project:'' };
+let chatHistory = [];
+
+// ── HELPERS ──
+const MONTHS_ORDER = ['April','May','June','July','August','September'];
+const WEEKS = [
+  {label:'Apr 6', start:'2026-04-06'},{label:'Apr 13',start:'2026-04-13'},
+  {label:'Apr 20',start:'2026-04-20'},{label:'Apr 27',start:'2026-04-27'},
+  {label:'May 4', start:'2026-05-04'},{label:'May 11',start:'2026-05-11'},
+  {label:'May 18',start:'2026-05-18'},{label:'May 25',start:'2026-05-25'},
+  {label:'Jun 1', start:'2026-06-01'},{label:'Jun 8', start:'2026-06-08'},
+  {label:'Jun 15',start:'2026-06-15'},{label:'Jun 22',start:'2026-06-22'},
+  {label:'Jun 29',start:'2026-06-29'},{label:'Jul 6', start:'2026-07-06'},
+  {label:'Jul 13',start:'2026-07-13'},{label:'Jul 20',start:'2026-07-20'},
+  {label:'Jul 27',start:'2026-07-27'},{label:'Aug 3', start:'2026-08-03'},
+  {label:'Aug 10',start:'2026-08-10'},{label:'Aug 17',start:'2026-08-17'},
+  {label:'Aug 24',start:'2026-08-24'},{label:'Sep 7', start:'2026-09-07'},
+  {label:'Sep 14',start:'2026-09-14'},{label:'Sep 21',start:'2026-09-21'},
+  {label:'Sep 26',start:'2026-09-26'},
+];
+
+function weekIndex(dateStr) {
+  if (!dateStr) return -1;
+  const d = new Date(dateStr);
+  for (let i = WEEKS.length-1; i>=0; i--) {
+    if (d >= new Date(WEEKS[i].start)) return i;
+  }
+  return 0;
+}
+
+function statusPillClass(s) {
+  if (s==='Done') return 'pill-done';
+  if (s==='In Progress') return 'pill-ip';
+  if (s==='Blocked') return 'pill-blocked';
+  return 'pill-ns';
+}
+
+function cycleStatus(id) {
+  const t = tasks.find(x=>x.id===id);
+  if (!t) return;
+  const cycle = ['Not Started','In Progress','Done','Blocked'];
+  t.status = cycle[(cycle.indexOf(t.status)+1)%cycle.length];
+  saveTasks();
+  renderCurrentTab();
+}
+
+function phaseClass(p) {
+  const m = {Sow:'phase-sow',Grow:'phase-grow',Harvest:'phase-harvest',Use:'phase-use'};
+  return m[p]||'phase-sow';
+}
+
+function isUrgent(t) {
+  if (t.status==='Done') return false;
+  const d = new Date(t.due);
+  const now = new Date('2026-04-20');
+  return d <= new Date(now.getTime() + 14*86400000);
+}
+
+function taskCard(t, showProject=true) {
+  const cc = catColor(t.project);
+  return `<div class="task-card ${t.status==='Done'?'done-card':''}" id="tc-${t.id}">
+    <div class="task-main">
+      <div class="task-name-text">${t.name}</div>
+      <div class="task-badges">
+        <button class="pill ${statusPillClass(t.status)}" onclick="cycleStatus('${t.id}')">${t.status}</button>
+        <span class="phase-badge ${phaseClass(t.phase)}">${t.phase}</span>
+        ${showProject?`<span class="cat-badge" style="background:${cc}22;color:${cc}">${t.project}</span>`:''}
+        <span class="owner-txt">${t.owner}</span>
+        ${t.due?`<span class="owner-txt">· ${t.due.slice(5).replace('-','/')}</span>`:''}
+      </div>
+      ${t.notes?`<div class="task-note-txt">${t.notes}</div>`:''}
+    </div>
+    <div class="task-actions">
+      <button class="edit-btn" onclick="openEdit('${t.id}')">Edit</button>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════
+// TABS
+// ══════════════════════════════════════════
+let currentTab = 'dashboard';
+
+function showTab(tab, btn) {
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.getElementById('panel-'+tab).classList.add('active');
+  currentTab = tab;
+  renderTab(tab);
+}
+
+function renderCurrentTab() { renderTab(currentTab); }
+
+function renderTab(tab) {
+  if (tab==='dashboard') renderDashboard();
+  else if (tab==='month') renderMonth();
+  else if (tab==='gantt') renderGantt();
+  else if (tab==='alltasks') renderAllTasks();
+  else if (tab==='robbie') renderRobbie();
+  else if (tab==='assistant') renderAssistant();
+}
+
+// ══════════════════════════════════════════
+// DASHBOARD
+// ══════════════════════════════════════════
+function renderDashboard() {
+  const total = tasks.length;
+  const done = tasks.filter(t=>t.status==='Done').length;
+  const ip = tasks.filter(t=>t.status==='In Progress').length;
+  const blocked = tasks.filter(t=>t.status==='Blocked').length;
+  const urgent = tasks.filter(t=>isUrgent(t)&&t.status!=='Done').length;
+  const pct = Math.round(done/total*100);
+
+  // Month progress
+  const monthBars = MONTHS_ORDER.map(m=>{
+    const mt = tasks.filter(t=>t.month===m);
+    const md = mt.filter(t=>t.status==='Done').length;
+    const mp = mt.length ? Math.round(md/mt.length*100) : 0;
+    return `<div class="progress-row" onclick="filterByMonth('${m}')">
+      <div class="prog-label">${m}</div>
+      <div class="prog-track"><div class="prog-fill" style="width:${mp}%;background:var(--sage)"></div></div>
+      <div class="prog-num">${md}/${mt.length}</div>
+    </div>`;
+  }).join('');
+
+  // Project progress
+  const projBars = PROJECTS.map(p=>{
+    const pt = tasks.filter(t=>t.project===p);
+    if (!pt.length) return '';
+    const pd = pt.filter(t=>t.status==='Done').length;
+    const pp = Math.round(pd/pt.length*100);
+    const cc = catColor(p);
+    return `<div class="progress-row" onclick="filterByProject('${p}')">
+      <div class="prog-label" style="font-size:0.7rem">${p}</div>
+      <div class="prog-track"><div class="prog-fill" style="width:${pp}%;background:${cc}"></div></div>
+      <div class="prog-num">${pd}/${pt.length}</div>
+    </div>`;
+  }).filter(Boolean).join('');
+
+  const urgentCards = tasks.filter(t=>isUrgent(t)&&t.status!=='Done').slice(0,8).map(t=>`
+    <div class="urgent-card" onclick="openEdit('${t.id}')">
+      <div style="flex:1">
+        <div style="font-size:0.78rem;font-weight:400">${t.name}</div>
+        <div style="font-size:0.65rem;color:var(--warm-gray);margin-top:0.15rem">${t.project} · Due ${t.due||'TBD'} · ${t.owner}</div>
+      </div>
+      <button class="pill ${statusPillClass(t.status)}" onclick="event.stopPropagation();cycleStatus('${t.id}')">${t.status}</button>
+    </div>`).join('');
+
+  document.getElementById('panel-dashboard').innerHTML = `
+    <div class="dash-stats">
+      <div class="stat-card"><div class="stat-n">${total}</div><div class="stat-l">Total tasks</div></div>
+      <div class="stat-card"><div class="stat-n" style="color:var(--status-done)">${done}</div><div class="stat-l">Done</div></div>
+      <div class="stat-card"><div class="stat-n" style="color:var(--status-ip)">${ip}</div><div class="stat-l">In progress</div></div>
+      <div class="stat-card"><div class="stat-n" style="color:var(--status-blocked)">${blocked}</div><div class="stat-l">Blocked</div></div>
+      <div class="stat-card"><div class="stat-n" style="color:var(--alert)">${urgent}</div><div class="stat-l">Urgent</div></div>
+      <div class="stat-card"><div class="stat-n">${pct}%</div><div class="stat-l">Complete</div></div>
+    </div>
+    <div style="background:white;border:1px solid var(--border);border-radius:6px;padding:0.75rem 1rem;margin-bottom:1.5rem;">
+      <div style="display:flex;justify-content:space-between;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:0.4rem;">
+        <span>Overall progress</span><span>${pct}%</span>
+      </div>
+      <div style="height:8px;background:#ece7df;border-radius:4px;overflow:hidden;">
+        <div style="height:100%;width:${pct}%;background:linear-gradient(to right,var(--sage),var(--gold));border-radius:4px;transition:width 0.6s ease;"></div>
+      </div>
+    </div>
+    <div class="progress-section">
+      <div class="section-title">By Month <span style="font-size:0.7rem;color:var(--warm-gray);font-family:'DM Sans',sans-serif;font-weight:300"> — click to filter</span></div>
+      ${monthBars}
+    </div>
+    <div class="progress-section">
+      <div class="section-title">By Project <span style="font-size:0.7rem;color:var(--warm-gray);font-family:'DM Sans',sans-serif;font-weight:300"> — click to filter</span></div>
+      ${projBars}
+    </div>
+    ${urgentCards ? `<div class="urgent-section"><div class="section-title" style="color:var(--alert)">🔴 Urgent — due within 2 weeks</div>${urgentCards}</div>` : ''}
+  `;
+}
+
+function filterByMonth(m) {
+  atFilters.month = m;
+  showTab('alltasks', document.querySelectorAll('.tab')[4]);
+}
+function filterByProject(p) {
+  atFilters.project = p;
+  showTab('alltasks', document.querySelectorAll('.tab')[4]);
+}
+
+// ══════════════════════════════════════════
+// THIS MONTH
+// ══════════════════════════════════════════
+let monthFilter = 'April';
+
+function renderMonth() {
+  const monthTasks = tasks.filter(t=>t.month===monthFilter);
+  const urgents = monthTasks.filter(t=>isUrgent(t)&&t.status!=='Done');
+
+  const monthBtns = MONTHS_ORDER.map(m=>`<button class="mf-btn ${m===monthFilter?'active':''}" onclick="setMonthFilter('${m}',this)">${m}</button>`).join('');
+
+  // Group by week
+  const weekGroups = {};
+  monthTasks.forEach(t=>{
+    const wi = weekIndex(t.due);
+    const wl = wi>=0 ? WEEKS[wi].label : 'No date';
+    if (!weekGroups[wl]) weekGroups[wl] = [];
+    weekGroups[wl].push(t);
+  });
+
+  const urgentBanner = urgents.length ? `<div class="urgent-banner">🔴 <strong>${urgents.length} urgent task${urgents.length>1?'s':''} need attention this week</strong></div>` : '';
+  const urgentCards = urgents.map(t=>taskCard(t)).join('');
+
+  const weekHTML = Object.entries(weekGroups).map(([wl,wt])=>`
+    <div class="week-group">
+      <div class="week-label">Week of ${wl}</div>
+      ${wt.map(t=>taskCard(t)).join('')}
+    </div>`).join('');
+
+  document.getElementById('panel-month').innerHTML = `
+    <div class="month-filters">${monthBtns}</div>
+    ${urgentBanner}
+    ${urgents.length ? `<div class="week-group"><div class="week-label" style="color:var(--alert)">Urgent this period</div>${urgentCards}</div>` : ''}
+    ${weekHTML}
+  `;
+}
+
+function setMonthFilter(m, btn) {
+  monthFilter = m;
+  renderMonth();
+}
+
+// ══════════════════════════════════════════
+// GANTT
+// ══════════════════════════════════════════
+function renderGantt() {
+  // Heat map: tasks per week
+  const heatMap = WEEKS.map((_,i)=>{
+    const c = tasks.filter(t=>weekIndex(t.due)===i&&t.status!=='Done').length;
+    return c;
+  });
+  const maxHeat = Math.max(...heatMap, 1);
+
+  const weekHeaders = WEEKS.map((w,i)=>{
+    const heat = Math.min(4, Math.ceil(heatMap[i]/maxHeat*4));
+    return `<th class="week-th heat-${heat}" title="${heatMap[i]} tasks">${w.label}</th>`;
+  }).join('');
+
+  const rows = PROJECTS.map(p=>{
+    const pt = tasks.filter(t=>t.project===p);
+    if (!pt.length) return '';
+    const done = pt.filter(t=>t.status==='Done').length;
+    const cc = catColor(p);
+
+    // Phase ranges from task due dates
+    const sowTasks = pt.filter(t=>t.phase==='Sow');
+    const growTasks = pt.filter(t=>t.phase==='Grow');
+    const harvestTasks = pt.filter(t=>t.phase==='Harvest');
+    const useTasks = pt.filter(t=>t.phase==='Use');
+
+    const phaseDates = {
+      Sow: sowTasks.map(t=>t.due).filter(Boolean),
+      Grow: growTasks.map(t=>t.due).filter(Boolean),
+      Harvest: harvestTasks.map(t=>t.due).filter(Boolean),
+      Use: useTasks.map(t=>t.due).filter(Boolean),
+    };
+
+    // Get week range for each phase
+    function phaseRange(dates) {
+      if (!dates.length) return null;
+      const idxs = dates.map(d=>weekIndex(d)).filter(i=>i>=0);
+      if (!idxs.length) return null;
+      return [Math.min(...idxs), Math.max(...idxs)];
+    }
+
+    const ranges = {
+      Sow: phaseRange(phaseDates.Sow),
+      Grow: phaseRange(phaseDates.Grow),
+      Harvest: phaseRange(phaseDates.Harvest),
+      Use: phaseRange(phaseDates.Use),
+    };
+
+    const cells = WEEKS.map((_,wi)=>{
+      let barClass = '';
+      for (const [phase, range] of Object.entries(ranges)) {
+        if (range && wi>=range[0] && wi<=range[1]) {
+          barClass = `g-bar-${phase.toLowerCase()}`;
+          break;
+        }
+      }
+      const bar = barClass ? `<div class="g-bar ${barClass}"></div>` : '';
+      return `<td class="week-td">${bar}</td>`;
+    }).join('');
+
+    const pct = Math.round(done/pt.length*100);
+    return `<tr onclick="openGanttPanel('${p.replace(/'/g,"\\'")}')">
+      <td class="project-cell">
+        <div class="project-name-g">${p}</div>
+        <div class="project-cat-g">${done}/${pt.length} · ${pct}%</div>
+      </td>
+      ${cells}
+    </tr>`;
+  }).filter(Boolean).join('');
+
+  document.getElementById('panel-gantt').innerHTML = `
+    <div style="margin-bottom:0.75rem;font-size:0.72rem;color:var(--warm-gray)">Click any project row to view its tasks. Colors: <span style="color:var(--phase-sow)">■ Sow</span> · <span style="color:var(--phase-grow)">■ Grow</span> · <span style="color:var(--phase-harvest)">■ Harvest</span> · <span style="color:var(--phase-use)">■ Use</span>. Week headers heat-colored by task density.</div>
+    <div class="gantt-wrap">
+      <table class="gantt-table">
+        <thead><tr>
+          <th class="project-th">Project</th>
+          ${weekHeaders}
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  `;
+}
+
+function openGanttPanel(project) {
+  const pt = tasks.filter(t=>t.project===project);
+  document.getElementById('gpTitle').textContent = project;
+  document.getElementById('gpBody').innerHTML = `
+    <div style="font-size:0.68rem;color:var(--warm-gray);margin-bottom:1rem">${pt.length} tasks · ${pt.filter(t=>t.status==='Done').length} done</div>
+    ${pt.map(t=>taskCard(t,false)).join('')}
+    <button class="add-task-btn" style="margin-top:1rem;width:100%" onclick="openAdd('${project.replace(/'/g,"\\'")}')">+ Add task to this project</button>
+  `;
+  document.getElementById('ganttOverlay').classList.add('open');
+}
+
+function closeGanttPanel(e) {
+  if (e.target===document.getElementById('ganttOverlay')) closeGanttPanelDirect();
+}
+function closeGanttPanelDirect() {
+  document.getElementById('ganttOverlay').classList.remove('open');
+}
+
+// ══════════════════════════════════════════
+// ALL TASKS
+// ══════════════════════════════════════════
+function renderAllTasks() {
+  const filtered = tasks.filter(t=>{
+    if (atFilters.search && !t.name.toLowerCase().includes(atFilters.search.toLowerCase()) && !t.project.toLowerCase().includes(atFilters.search.toLowerCase())) return false;
+    if (atFilters.month && t.month!==atFilters.month) return false;
+    if (atFilters.owner && t.owner!==atFilters.owner) return false;
+    if (atFilters.status && t.status!==atFilters.status) return false;
+    if (atFilters.project && t.project!==atFilters.project) return false;
+    return true;
+  });
+
+  const projOpts = ['<option value="">All projects</option>',...PROJECTS.map(p=>`<option value="${p}" ${atFilters.project===p?'selected':''}>${p}</option>`)].join('');
+
+  document.getElementById('panel-alltasks').innerHTML = `
+    <div class="search-bar">
+      <input class="search-input" placeholder="Search tasks..." value="${atFilters.search}" oninput="atFilters.search=this.value;renderAllTasks()">
+      <select class="filter-sel" onchange="atFilters.month=this.value;renderAllTasks()">
+        <option value="">All months</option>
+        ${MONTHS_ORDER.map(m=>`<option value="${m}" ${atFilters.month===m?'selected':''}>${m}</option>`).join('')}
+      </select>
+      <select class="filter-sel" onchange="atFilters.owner=this.value;renderAllTasks()">
+        <option value="">All owners</option>
+        ${['Kite','Robbie','Both','Landscaper','Friends'].map(o=>`<option value="${o}" ${atFilters.owner===o?'selected':''}>${o}</option>`).join('')}
+      </select>
+      <select class="filter-sel" onchange="atFilters.status=this.value;renderAllTasks()">
+        <option value="">All statuses</option>
+        ${['Not Started','In Progress','Done','Blocked'].map(s=>`<option value="${s}" ${atFilters.status===s?'selected':''}>${s}</option>`).join('')}
+      </select>
+      <select class="filter-sel" onchange="atFilters.project=this.value;renderAllTasks()">${projOpts}</select>
+      <button class="add-task-btn" onclick="openAdd()">+ Add task</button>
+    </div>
+    ${atFilters.search||atFilters.month||atFilters.owner||atFilters.status||atFilters.project?`<button class="mf-btn" onclick="atFilters={search:'',month:'',owner:'',status:'',project:''};renderAllTasks()">✕ Clear filters</button><br><br>`:''}
+    <div class="task-count">${filtered.length} task${filtered.length!==1?'s':''}</div>
+    ${filtered.map(t=>taskCard(t)).join('')}
+  `;
+}
+
+// ══════════════════════════════════════════
+// ROBBIE
+// ══════════════════════════════════════════
+function renderRobbie() {
+  const rt = tasks.filter(t=>t.owner==='Robbie'||t.owner==='Both');
+  const byStatus = {
+    'In Progress': rt.filter(t=>t.status==='In Progress'),
+    'Not Started': rt.filter(t=>t.status==='Not Started'),
+    'Blocked': rt.filter(t=>t.status==='Blocked'),
+    'Done': rt.filter(t=>t.status==='Done'),
+  };
+  const html = Object.entries(byStatus).map(([s,ts])=>{
+    if (!ts.length) return '';
+    return `<div class="week-group">
+      <div class="week-label">${s} (${ts.length})</div>
+      ${ts.map(t=>taskCard(t)).join('')}
+    </div>`;
+  }).join('');
+
+  document.getElementById('panel-robbie').innerHTML = `
+    <div class="robbie-header">
+      <h2>Robbie's Tasks</h2>
+      <p>${rt.length} tasks assigned · ${rt.filter(t=>t.status==='Done').length} done</p>
+    </div>
+    ${html}
+  `;
+}
+
+// ══════════════════════════════════════════
+// ASSISTANT
+// ══════════════════════════════════════════
+function renderAssistant() {
+  if (document.getElementById('chatHistory')) return; // already rendered
+  document.getElementById('panel-assistant').innerHTML = `
+    <div class="assistant-wrap">
+      <div class="chat-history" id="chatHistory">
+        <div class="chat-msg assistant">
+          <div class="chat-bubble">Hi! I'm your garden assistant. I know all ${tasks.length} tasks across your ${PROJECTS.length} projects. I can help you update task status, add new tasks, answer questions about your plan, or think through next steps. What do you need?</div>
+        </div>
+      </div>
+      <div class="hint-row" id="hintRow">
+        <button class="hint-btn" onclick="sendHint('What are the most urgent tasks right now?')">Urgent tasks?</button>
+        <button class="hint-btn" onclick="sendHint('What does Robbie need to do this week?')">Robbie this week</button>
+        <button class="hint-btn" onclick="sendHint('How are the dahlias looking?')">Dahlia status</button>
+        <button class="hint-btn" onclick="sendHint('What\\'s the biggest gap in my plan?')">Biggest gap</button>
+        <button class="hint-btn" onclick="sendHint('What should I focus on in May?')">May priorities</button>
+      </div>
+      <div class="chat-input-row">
+        <textarea class="chat-input" id="chatInput" rows="2" placeholder="Ask about your garden plan..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat();}"></textarea>
+        <button class="chat-send" onclick="sendChat()">Send</button>
+      </div>
+    </div>
+  `;
+}
+
+function sendHint(msg) {
+  document.getElementById('chatInput').value = msg;
+  sendChat();
+}
+
+async function sendChat() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+
+  appendMsg('user', msg);
+  appendMsg('assistant', '<span class="thinking">Thinking...</span>', 'thinking-msg');
+
+  chatHistory.push({role:'user', content: msg});
+
+  // Build context
+  const urgentList = tasks.filter(t=>isUrgent(t)&&t.status!=='Done').map(t=>`- ${t.name} (${t.project}, due ${t.due}, ${t.owner})`).join('\n');
+  const statusSummary = `Total: ${tasks.length}, Done: ${tasks.filter(t=>t.status==='Done').length}, In Progress: ${tasks.filter(t=>t.status==='In Progress').length}, Blocked: ${tasks.filter(t=>t.status==='Blocked').length}`;
+  const projectList = PROJECTS.join(', ');
+
+  const systemPrompt = `You are a knowledgeable garden assistant for a wedding garden in Catskill, NY. The wedding is September 26, 2026. You have access to the full garden task database.
+
+TASK STATUS SUMMARY: ${statusSummary}
+PROJECTS: ${projectList}
+URGENT TASKS (due within 2 weeks):
+${urgentList || 'None currently'}
+
+KEY GARDEN FACTS:
+- 4 cutting beds (A: dahlias/sunflower/roses, B: zinnias, C: cosmos/nicotiana/amaranth, D: scabiosa/feverfew/celosia/grasses)
+- Critical gaps: scabiosa (-65 stems), sunflower (-15), grasses (-35 each)
+- Strong surpluses: nicotiana (+224), zinnias (+96-180), cosmos (+70-94)
+- Seeds just sprouting now (started late) — succession waves critical
+- Staffing: Kite solo now, Kite+Robbie+landscaper all May, half-time June, slammed July, fully present August
+- Three friend weekends: May 2-4 (labor), May 16-18 (big transplant), Sept 19-21 (harvest party)
+- Irrigation system still needs to be ordered — urgent gap
+- Moon garden bench + trellis needs to be built in May
+- Climbing roses reserved but first-year only — eucalyptus garland as backup
+
+Be concise, practical, and specific. Reference actual task names and project names when relevant. If asked to add or update tasks, describe what you would do and ask for confirmation.`;
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: chatHistory.slice(-10),
+      })
+    });
+    const data = await response.json();
+    const reply = data.content?.[0]?.text || 'Sorry, I had trouble with that.';
+    chatHistory.push({role:'assistant', content: reply});
+    document.getElementById('thinking-msg')?.remove();
+    appendMsg('assistant', reply);
+  } catch(e) {
+    document.getElementById('thinking-msg')?.remove();
+    appendMsg('assistant', 'Connection issue — please try again.');
+  }
+}
+
+function appendMsg(role, content, id='') {
+  const div = document.createElement('div');
+  div.className = `chat-msg ${role}`;
+  if (id) div.id = id;
+  div.innerHTML = `<div class="chat-bubble">${content}</div>`;
+  document.getElementById('chatHistory').appendChild(div);
+  document.getElementById('chatHistory').scrollTop = 999999;
+}
+
+// ══════════════════════════════════════════
+// MODAL — EDIT + ADD
+// ══════════════════════════════════════════
+function populateProjectSelect(selected='') {
+  document.getElementById('fProject').innerHTML = PROJECTS.map(p=>`<option value="${p}" ${p===selected?'selected':''}>${p}</option>`).join('');
+}
+
+function openEdit(id) {
+  const t = tasks.find(x=>x.id===id);
+  if (!t) return;
+  editingId = id;
+  document.getElementById('modalTitle').textContent = 'Edit Task';
+  document.getElementById('fName').value = t.name;
+  document.getElementById('fStatus').value = t.status;
+  document.getElementById('fOwner').value = t.owner;
+  populateProjectSelect(t.project);
+  document.getElementById('fPhase').value = t.phase||'Sow';
+  document.getElementById('fDue').value = t.due||'';
+  document.getElementById('fMonth').value = t.month||'April';
+  document.getElementById('fNotes').value = t.notes||'';
+  document.getElementById('deleteBtn').style.display = 'inline-block';
+  updateGanttImpact(t.project);
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function openAdd(project='') {
+  editingId = null;
+  document.getElementById('modalTitle').textContent = 'Add Task';
+  document.getElementById('fName').value = '';
+  document.getElementById('fStatus').value = 'Not Started';
+  document.getElementById('fOwner').value = 'Kite';
+  populateProjectSelect(project);
+  document.getElementById('fPhase').value = 'Sow';
+  document.getElementById('fDue').value = '';
+  document.getElementById('fMonth').value = 'April';
+  document.getElementById('fNotes').value = '';
+  document.getElementById('deleteBtn').style.display = 'none';
+  document.getElementById('ganttImpact').style.display = 'none';
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function updateGanttImpact(project) {
+  const pt = tasks.filter(t=>t.project===project);
+  if (!pt.length) { document.getElementById('ganttImpact').style.display='none'; return; }
+  const sowDates = pt.filter(t=>t.phase==='Sow'&&t.due).map(t=>t.due).sort();
+  const harvestDates = pt.filter(t=>t.phase==='Harvest'&&t.due).map(t=>t.due).sort();
+  const el = document.getElementById('ganttImpact');
+  el.style.display = 'block';
+  el.innerHTML = `<strong>Gantt impact for ${project}:</strong><br>
+    ${sowDates.length ? `Sow phase: ${sowDates[0]} → ${sowDates[sowDates.length-1]}` : 'No sow tasks'}<br>
+    ${harvestDates.length ? `Harvest: ${harvestDates[0]}` : 'No harvest tasks set'}`;
+}
+
+function saveTask() {
+  const name = document.getElementById('fName').value.trim();
+  if (!name) return;
+  if (editingId) {
+    const t = tasks.find(x=>x.id===editingId);
+    if (t) {
+      t.name = name;
+      t.status = document.getElementById('fStatus').value;
+      t.owner = document.getElementById('fOwner').value;
+      t.project = document.getElementById('fProject').value;
+      t.phase = document.getElementById('fPhase').value;
+      t.due = document.getElementById('fDue').value;
+      t.month = document.getElementById('fMonth').value;
+      t.notes = document.getElementById('fNotes').value;
+    }
+  } else {
+    tasks.push({
+      id: 'u'+Date.now(),
+      project: document.getElementById('fProject').value,
+      category: 'Custom',
+      name, owner: document.getElementById('fOwner').value,
+      due: document.getElementById('fDue').value,
+      month: document.getElementById('fMonth').value,
+      status: document.getElementById('fStatus').value,
+      phase: document.getElementById('fPhase').value,
+      notes: document.getElementById('fNotes').value,
+    });
+  }
+  saveTasks();
+  closeModal();
+  renderCurrentTab();
+  // Refresh gantt panel if open
+  if (document.getElementById('ganttOverlay').classList.contains('open')) {
+    const title = document.getElementById('gpTitle').textContent;
+    openGanttPanel(title);
+  }
+}
+
+function deleteTask() {
+  if (!editingId) return;
+  if (!confirm('Delete this task?')) return;
+  tasks = tasks.filter(t=>t.id!==editingId);
+  saveTasks();
+  closeModal();
+  renderCurrentTab();
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  editingId = null;
+}
+
+document.getElementById('modalOverlay').addEventListener('click', e=>{
+  if (e.target===document.getElementById('modalOverlay')) closeModal();
+});
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+const wedding = new Date('2026-09-26');
+const today = new Date('2026-04-20');
+document.getElementById('daysNum').textContent = Math.ceil((wedding-today)/86400000);
+
+populateProjectSelect();
+renderDashboard();
+</script>
+</body>
+</html>
