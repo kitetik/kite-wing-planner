@@ -141,7 +141,6 @@ nav button.active{color:var(--sage-d);border-bottom-color:var(--sage);font-weigh
     <div><div class="logo">Kite + Wing</div><div class="logo-sub">Sept 26, 2026 · Catskill, NY</div></div>
     <div style="display:flex;align-items:center;gap:8px">
       <div class="days-pill" id="days-pill">67 days</div>
-      <button onclick="resetApp()" style="font-size:9px;padding:2px 8px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:'Jost',sans-serif;letter-spacing:0.5px">Reset</button>
       <span style="font-size:10px;color:var(--muted)" id="save-status">saved</span>
     </div>
   </div>
@@ -230,14 +229,14 @@ const SEED = [
   {id:"en5",project:"Public Ceremony",task:"Run magician show test walkthrough",owner:"Both",due:"2026-09-10",month:"Sep 2026",status:"Not started",notes:"",substeps:[{text:"Have magician visit site or describe space",done:false},{text:"Walk through his show plan",done:false},{text:"Confirm timing in the evening schedule",done:false},{text:"Confirm guest flow around his space",done:false}]},
   {id:"en6",project:"Night Rainbow Install",task:"Ask people to make mixes",owner:"Suzanne",due:"2026-07-25",month:"Jul 2026",status:"Not started",notes:"",substeps:[{text:"Decide who is making mixes",done:false},{text:"Text each person this week",done:false},{text:"Give them a vibe or time slot",done:false},{text:"Set a submission deadline — Aug 31",done:false},{text:"Plan how mixes will be played",done:false}]},
   {id:"lg1",project:"Public Ceremony",task:"Meet with coordinator — full site walkthrough",owner:"Both",due:"2026-07-31",month:"Jul 2026",status:"Not started",notes:"",substeps:[{text:"Schedule visit this week",done:false},{text:"Walk ceremony area",done:false},{text:"Walk dinner area",done:false},{text:"Walk Night Rainbow space",done:false},{text:"Walk Avalon route",done:false},{text:"Share full day-of timeline",done:false}]},
-  {id:"lg2",project:"Public Ceremony",task:"Share day-of timeline with all vendors",owner:"Both",due:"2026-08-31",month:"Aug 2026",status:"Done",notes:"Danielle handles per contract",substeps:[{text:"Build master timeline document",done:false},{text:"Send to photographer",done:false},{text:"Send to Scott + servers",done:false},{text:"Send to magician + tarot reader",done:false},{text:"Send to DJ or mix-makers",done:false},{text:"Send to coordinator",done:false}]},
+  {id:"lg2",project:"Public Ceremony",task:"Share day-of timeline with all vendors",owner:"Both",due:"2026-08-31",month:"Aug 2026",status:"Not started",notes:"",substeps:[{text:"Build master timeline document",done:false},{text:"Send to photographer",done:false},{text:"Send to Scott + servers",done:false},{text:"Send to magician + tarot reader",done:false},{text:"Send to DJ or mix-makers",done:false},{text:"Send to coordinator",done:false}]},
   {id:"lg3",project:"Guest List + RSVPs",task:"Build seating chart",owner:"Suzanne",due:"2026-08-15",month:"Aug 2026",status:"Not started",notes:"",substeps:[{text:"Get final headcount",done:false},{text:"Map table layout",done:false},{text:"Assign guests to tables",done:false},{text:"Check for family dynamics or conflicts",done:false},{text:"Share with coordinator",done:false}]},
   {id:"lg4",project:"Catering — Native Dinner",task:"Confirm caterer headcount + contract",owner:"Both",due:"2026-07-28",month:"Jul 2026",status:"Not started",notes:"",substeps:[{text:"Call Scott this week",done:false},{text:"Confirm final headcount",done:false},{text:"Agree on his prep days",done:false},{text:"Sort any payment",done:false}]},
   {id:"lg5",project:"Night Rainbow Install",task:"Confirm balloon delivery to Avalon",owner:"Suzanne",due:"2026-08-15",month:"Aug 2026",status:"Not started",notes:"",substeps:[{text:"Decide balloon type and quantity",done:false},{text:"Find supplier who delivers to Catskill",done:false},{text:"Schedule delivery for Sep 26",done:false},{text:"Confirm with Avalon",done:false}]},
   {id:"lg6",project:"Final Week + Teardown",task:"Book house cleaner — day before and day after",owner:"Suzanne",due:"2026-07-25",month:"Jul 2026",status:"Not started",notes:"Books up fast",substeps:[{text:"Search cleaners in Catskill area",done:false},{text:"Book Sep 25 — deep clean day before",done:false},{text:"Book Sep 28 — post-wedding clean",done:false},{text:"Confirm access and key plan",done:false}]},
   {id:"lg7",project:"Final Week + Teardown",task:"Book cat sitter for Oct 1–8 honeymoon",owner:"Suzanne",due:"2026-07-25",month:"Jul 2026",status:"Not started",notes:"Book now",substeps:[{text:"Contact trusted sitter",done:false},{text:"Confirm Oct 1–8 availability",done:false},{text:"Give them key and instructions",done:false},{text:"Confirm backup contact",done:false}]},
   {id:"lg8",project:"Transportation",task:"Confirm Royale bus — Sep 26 7pm",owner:"Both",due:"2026-07-25",month:"Jul 2026",status:"Not started",notes:"Reconfirm booking",substeps:[{text:"Call Royale — (518) 286-4444",done:false},{text:"Confirm date, time, pickup location",done:false},{text:"Confirm 25-passenger Execu-Lounge",done:false},{text:"Confirm balance due",done:false}]},
-  {id:"lg9",project:"Vendor Payments",task:"Confirm all vendor payment schedule",owner:"Both",due:"2026-08-01",month:"Aug 2026",status:"Done",notes:"Danielle handles per contract",substeps:[{text:"List all outstanding balances",done:false},{text:"Photography — $4,000 due day of",done:false},{text:"Avalon — $3,000 due day of",done:false},{text:"Bus — confirm balance",done:false},{text:"Make payment calendar",done:false}]},
+  {id:"lg9",project:"Vendor Payments",task:"Confirm all vendor payment schedule",owner:"Both",due:"2026-08-01",month:"Aug 2026",status:"Not started",notes:"",substeps:[{text:"List all outstanding balances",done:false},{text:"Photography — $4,000 due day of",done:false},{text:"Avalon — $3,000 due day of",done:false},{text:"Bus — confirm balance",done:false},{text:"Make payment calendar",done:false}]},
   {id:"db1",project:"Final Week + Teardown",task:"Full setup — tents, tables, chairs, decor",owner:"Both",due:"2026-09-21",month:"Sep 2026",status:"Not started",notes:"Setup week Mon–Fri before wedding",substeps:[{text:"Columbia Tent delivery and setup",done:false},{text:"Place all tables and chairs",done:false},{text:"Install Night Rainbow lighting",done:false},{text:"Place decor and cut-outs",done:false},{text:"Set moon garden",done:false},{text:"Final walkthrough",done:false}]},
   {id:"db2",project:"Final Week + Teardown",task:"Set tablescape and place settings",owner:"Suzanne",due:"2026-09-25",month:"Sep 2026",status:"Not started",notes:"Day before",substeps:[{text:"Set all linens",done:false},{text:"Place centerpieces",done:false},{text:"Set each place — plates, glasses, flatware",done:false},{text:"Place escort cards",done:false},{text:"Place setting notes",done:false},{text:"Food label stands ready",done:false}]},
   {id:"db3",project:"Catering — Native Dinner",task:"Final kitchen setup for Scott",owner:"Suzanne",due:"2026-09-25",month:"Sep 2026",status:"Not started",notes:"Day before",substeps:[{text:"Clear and clean all prep surfaces",done:false},{text:"Label every container and shelf",done:false},{text:"Set out all equipment",done:false},{text:"Confirm cold storage",done:false},{text:"Leave Scott a setup note",done:false}]},
@@ -245,29 +244,78 @@ const SEED = [
   {id:"db5",project:"Night Rainbow Install",task:"Fog machine final positioning and test",owner:"Both",due:"2026-09-26",month:"Sep 2026",status:"Not started",notes:"Morning of wedding",substeps:[{text:"Position in back corner",done:false},{text:"Test run in daylight",done:false},{text:"Check fluid level",done:false},{text:"Set timer or trigger plan",done:false},{text:"Assign someone to monitor",done:false}]},
   {id:"db6",project:"Beauty + Body",task:"Wedding morning — hair and makeup",owner:"Suzanne",due:"2026-09-26",month:"Sep 2026",status:"Not started",notes:"",substeps:[{text:"Stylist arrives — confirm time",done:false},{text:"Hair first",done:false},{text:"Makeup second",done:false},{text:"Press-on nails already done",done:false},{text:"Final dress fitting and zip",done:false}]},
   {id:"db7",project:"Final Week + Teardown",task:"Rehearsal night — 27 Cafe setup",owner:"Both",due:"2026-09-25",month:"Sep 2026",status:"Not started",notes:"",substeps:[{text:"Deliver rehearsal centerpiece",done:false},{text:"Set mirror table",done:false},{text:"Place porcelain swan",done:false},{text:"Set black calla lilies and peonies",done:false},{text:"Place white feathers",done:false},{text:"Arrive early to style",done:false}]},
-  {id:"db8",project:"Final Week + Teardown",task:"Decorate just-married truck",owner:"Both",due:"2026-09-26",month:"Sep 2026",status:"Not started",notes:"Assign to bridesmaid",substeps:[{text:"Assign specific bridesmaid",done:false},{text:"Give her cans, ribbons, car paint markers",done:false},{text:"She decorates while you get ready",done:false},{text:"Confirm car is accessible",done:false}]},
-  {id:"sp1",project:"Large Cut-Out Decor",task:"STUDIO SPRINT — Saturday Aug 1 — full crew day",owner:"Both",due:"2026-08-01",month:"Aug 2026",status:"Not started",notes:"4-5 people. Music on. Snacks ready. Split into 4 stations.",substeps:[{text:"Text crew this week — Aug 1 studio, Aug 2 home, full days",done:false},{text:"Get all mask bases + supplies to studio before Saturday",done:false},{text:"Have all design files ready Friday night — no setup time Saturday",done:false},{text:"Station 1 — laser cutter + printer (1 person): mailbox sign, aprons, matchbox stickers, all paper goods",done:false},{text:"Station 2 — scanner + cut-out prep (1 person): scan reference books, send to fabricator, cut signage",done:false},{text:"Station 3 — animal masks (2 people): base coat, detail paint, embellish — assembly line all day",done:false},{text:"Station 4 — drilling bowls + wire stars (1 person): drill holes, thread lights, make wire star frames",done:false},{text:"Suzanne — float + bead in any gaps",done:false},{text:"End of day check: masks done, paper goods printing, cut-out order placed, bowls drilled",done:false}]},
-  {id:"sp2",project:"Large Cut-Out Decor",task:"Studio sprint prep — get mask bases + all supplies to studio",owner:"Suzanne",due:"2026-07-29",month:"Jul 2026",status:"Not started",notes:"Must be there before Saturday — don't waste sprint time gathering supplies",substeps:[{text:"Count how many masks needed — confirm animal list",done:false},{text:"Buy blank mask bases",done:false},{text:"Buy paints, embellishments, elastic",done:false},{text:"Deliver everything to studio by Friday",done:false}]},
-  {id:"sp3",project:"Day-Of Paper",task:"Studio sprint prep — all design files ready by Friday night",owner:"Suzanne",due:"2026-07-31",month:"Jul 2026",status:"Not started",notes:"No setup time on Saturday — everything print-ready before you arrive",substeps:[{text:"Mailbox sign file — finalized and sized",done:false},{text:"Apron design file — bird motif ready to cut or print",done:false},{text:"Matchbox sticker art — designed and sized",done:false},{text:"All day-of paper goods designed — programs, menus, escort cards, food labels",done:false},{text:"Signage files — all frame sizes accounted for",done:false},{text:"Save all files to one folder, bring drive or upload to cloud",done:false}]},
-  {id:"sp4",project:"Guest Room",task:"HOME SPRINT — Sunday Aug 2 — painting + builds day",owner:"Both",due:"2026-08-02",month:"Aug 2026",status:"Not started",notes:"4-5 people. Arrive 9am. 3 rooms painted, hallway done, Robbie on outdoor builds all day.",substeps:[{text:"Buy paint for all 3 rooms this week — have it ready Sunday morning",done:false},{text:"Team 1 — guest room (2 people): tape, prime, 2 coats — done by 3pm",done:false},{text:"Team 2 — guest bathroom (1 person): repaint walls, clean fixtures, style",done:false},{text:"Team 3 — closet room light blue (1 person): manageable solo",done:false},{text:"Robbie — outdoor builds all day: arbor, platform, or fence — whichever is closest to done",done:false},{text:"Suzanne — coordinate, feed crew, hang hallway pictures afternoon, fireplace",done:false},{text:"End of day check: 3 rooms painted, hallway pictures hung, fireplace done, 1+ outdoor build advanced",done:false}]},
-  {id:"sp5",project:"General Repairs + Paint",task:"Home sprint prep — buy all paint before Sunday",owner:"Suzanne",due:"2026-07-30",month:"Jul 2026",status:"Not started",notes:"Don't lose Sunday morning to a hardware store run",substeps:[{text:"Confirm guest room color — buy paint + primer",done:false},{text:"Confirm guest bathroom color — buy paint",done:false},{text:"Confirm closet room light blue — buy paint",done:false},{text:"Buy rollers, trays, tape, drop cloths for 3 rooms",done:false},{text:"Have everything at the house Saturday night",done:false}]},
-  {id:"sp6",project:"Bridal Party Coordination",task:"Text crew this week — lock in Aug 1 studio + Aug 2 home",owner:"Suzanne",due:"2026-07-22",month:"Jul 2026",status:"Not started",notes:"Do this TODAY — people make plans fast",substeps:[{text:"Write the text: 'Aug 1 at the studio, Aug 2 at the house — all hands weekend, I need you'",done:false},{text:"Send to everyone you want there",done:false},{text:"Confirm who is coming to which day",done:false},{text:"Assign stations in advance so people know what they're doing",done:false}]},
+  {id:"db8",project:"Final Week + Teardown",task:"Decorate just-married truck",owner:"Both",due:"2026-09-26",month:"Sep 2026",status:"Not started",notes:"Assign to bridesmaid",substeps:[{text:"Assign specific bridesmaid",done:false},{text:"Give her cans, ribbons, car paint markers",done:false},{text:"She decorates while you get ready",done:false},{text:"Confirm car is accessible",done:false}]}
 ,
-  {id:"dan1",project:"Vendor Payments",task:"PAY DANIELLE deposit $1,500",owner:"Suzanne",due:"2026-07-21",month:"Jul 2026",status:"Done",notes:"Venmo @Danielle-Paulding OR Zelle Danielle Paulding 8457062535. Date is not secured until paid.",substeps:[{text:"Venmo @Danielle-Paulding $1,500 OR Zelle 8457062535",done:false},{text:"Text Danielle to confirm receipt",done:false},{text:"Save confirmation screenshot",done:false}]},
-  {id:"dan2",project:"Vendor Payments",task:"Pay Danielle final payment $3,500 — due Sep 10",owner:"Both",due:"2026-09-10",month:"Sep 2026",status:"Not started",notes:"Final payment due September 10th 2026. Danielle: Hvtrendsetters@gmail.com / (845)706-2535",substeps:[{text:"Add Sep 10 to calendar as hard deadline",done:false},{text:"Venmo @Danielle-Paulding $3,500 OR Zelle 8457062535",done:false},{text:"Confirm receipt",done:false}]},
-  {id:"dan3",project:"Public Ceremony",task:"Send Danielle your vendor list + contacts",owner:"Suzanne",due:"2026-07-28",month:"Jul 2026",status:"Not started",notes:"She coordinates all vendors — she needs names, numbers, emails for everyone",substeps:[{text:"List every vendor: Ibarra Studios, Columbia Tent, Royale bus, Scott, magician, tarot reader, DJ/mixes",done:false},{text:"Include contact name, phone, email for each",done:false},{text:"Include their arrival time and what they need on arrival",done:false},{text:"Email to Hvtrendsetters@gmail.com",done:false}]},
-  {id:"dan4",project:"Public Ceremony",task:"Send Danielle your draft day-of timeline",owner:"Suzanne",due:"2026-07-28",month:"Jul 2026",status:"Not started",notes:"She builds the official vendor timeline from your draft — get her something to work with",substeps:[{text:"Write rough timeline: creek ceremony AM, public ceremony 2pm, dinner, Night Rainbow 7pm, bus, Avalon",done:false},{text:"Note any special moments: first dance, cake cutting, magician slot, tarot",done:false},{text:"Send to Danielle — she refines and distributes to vendors",done:false}]},
-  {id:"dan5",project:"Linens + Tabletop",task:"Send Danielle floor plan ideas for tables + seating",owner:"Suzanne",due:"2026-07-31",month:"Jul 2026",status:"Done",notes:"She builds the official floor plan — give her your vision and she executes",substeps:[{text:"Sketch rough table layout — how many rectangular vs round",done:false},{text:"Note where cake goes, gift table, entertainment, Night Rainbow space",done:false},{text:"Send sketch or description to Danielle",done:false}]},
-  {id:"dan6",project:"Public Ceremony",task:"Schedule site visit with Danielle",owner:"Both",due:"2026-08-01",month:"Aug 2026",status:"Not started",notes:"Danielle: (845)706-2535 / Hvtrendsetters@gmail.com — site visit included in contract",substeps:[{text:"Text or email Danielle this week to schedule",done:false},{text:"Pick a date in August — ideally before Aug 15",done:false},{text:"Walk her through: ceremony area, dinner tent, moon garden, Night Rainbow space, Avalon route",done:false},{text:"Share your vision for each space",done:false}]},
-  {id:"dan7",project:"Public Ceremony",task:"Send Danielle bridal party announcements list",owner:"Suzanne",due:"2026-08-15",month:"Aug 2026",status:"Done",notes:"She needs names + order for the processional and reception announcements",substeps:[{text:"Write full bridal party list in order",done:false},{text:"Note pronunciation of any names",done:false},{text:"Include groomsmen pairings",done:false},{text:"Send to Danielle",done:false}]},
-  {id:"dan8",project:"Night Rainbow Install",task:"Send Danielle Avalon contact + Night Rainbow plan",owner:"Suzanne",due:"2026-08-01",month:"Aug 2026",status:"Not started",notes:"Multiple locations add-on is confirmed — she manages the Avalon transition and vendor coordination there",substeps:[{text:"Send Danielle Avalon Lounge contact info",done:false},{text:"Describe Night Rainbow setup at Avalon — what vendors, what time bus arrives",done:false},{text:"Confirm she knows balloon delivery, DJ, any Avalon-specific vendors",done:false}]},
+{id:"hd1",project:"Public Ceremony",task:"Send Danielle vendor list + contacts",owner:"Suzanne",due:"2026-07-28",month:"Jul 2026",status:"Not started",notes:"Email to Hvtrendsetters@gmail.com — every vendor name, phone, email, arrival time",substeps:[{text:"List every vendor: Ibarra Studios, Columbia Tent, Royale bus, Scott, magician, tarot reader, DJ",done:false},{text:"Include contact name, phone, email for each",done:false},{text:"Email to Hvtrendsetters@gmail.com",done:false}]},
+{id:"hd2",project:"Public Ceremony",task:"Send Danielle draft day-of timeline",owner:"Suzanne",due:"2026-07-28",month:"Jul 2026",status:"Not started",notes:"She refines and distributes to all vendors",substeps:[{text:"Write rough timeline: creek AM, public ceremony 2pm, dinner, Night Rainbow 7pm, bus, Avalon",done:false},{text:"Note special moments: first dance, cake, magician, tarot",done:false},{text:"Email to Danielle",done:false}]},
+{id:"hd3",project:"Public Ceremony",task:"Schedule site visit with Danielle",owner:"Both",due:"2026-08-01",month:"Aug 2026",status:"Not started",notes:"(845)706-2535 / Hvtrendsetters@gmail.com — included in contract",substeps:[{text:"Text or email Danielle this week",done:false},{text:"Pick a date before Aug 15",done:false},{text:"Walk her through all spaces",done:false}]},
+{id:"hd4",project:"Night Rainbow Install",task:"Send Danielle Avalon contact + Night Rainbow plan",owner:"Suzanne",due:"2026-08-01",month:"Aug 2026",status:"Not started",notes:"Multiple locations add-on confirmed",substeps:[{text:"Send Avalon Lounge contact info",done:false},{text:"Describe Night Rainbow setup and bus arrival time",done:false}]},
+{id:"hd5",project:"Vendor Payments",task:"Pay Danielle final payment $3,500 — due Sep 10",owner:"Both",due:"2026-09-10",month:"Sep 2026",status:"Not started",notes:"Venmo @Danielle-Paulding or Zelle 8457062535",substeps:[{text:"Pay $3,500 by Sep 10",done:false},{text:"Text Danielle to confirm receipt",done:false}]}
+];
 
+const FAIRIES = [
+  {emoji:"\uD83C\uDF0A",title:"Water Fairy",subtitle:"Guardian of Calm",blessing:"May you remind us to rest before we are weary, to drink before we are thirsty, and to care for one another with gentleness.",name:"",color:"#4a7a9a",bg:"#eef4f8",duties:["Water","Snacks","Emergency kit","Quiet moments","Medications","Sunscreen","Making sure the bride is actually taking care of herself"]},
+  {emoji:"\u231B",title:"Time Fairy",subtitle:"Steward of the Bells",blessing:"May you hold the hours lightly and guide us through each threshold with grace and without hurry.",name:"",color:"#7a5a9a",bg:"#f4f0f8",duties:["Timeline","Hair and makeup pacing","Ceremony schedule","Transition announcements","Bride's bedtime","Five minutes until we leave"]},
+  {emoji:"\uD83C\uDF5E",title:"Feast Fairy",subtitle:"Guardian of Hospitality",blessing:"May you pour generously, share freely, and ensure that no one at this table goes unseen or unfed.",name:"",color:"#9a6a3a",bg:"#f8f2ea",duties:["Meals","Guest comfort","Shared expenses when needed","Coffee runs","Vendor meals","Welcome bags","Making sure no one goes hungry"]},
+  {emoji:"\uD83C\uDF2C",title:"Wind Fairy",subtitle:"Steward of the Unexpected",blessing:"May you bend without breaking and find the path forward when the map no longer matches the road.",name:"",color:"#4a8a7a",bg:"#eef8f4",duties:["Weather","Backup plans","Umbrellas","Transportation hiccups","Missing items","Last-minute problem solving"]},
+  {emoji:"\u2728",title:"Adornment Fairy",subtitle:"Guardian of Transformation",blessing:"May you see beauty clearly and tend to it with loving hands, knowing that how we present ourselves to the world is a sacred act.",name:"",color:"#9a7a3a",bg:"#f8f4ea",duties:["Dress","Veil","Jewelry","Hair touch-ups","Bustle","Bouquet","Looking over everyone with an artist's eye"]},
+  {emoji:"\uD83D\uDD14",title:"Firelight Fairy",subtitle:"Guardian of Merriment",blessing:"May you be the spark that catches, the laugh that spreads, the one who remembers that joy is the whole point.",name:"",color:"#9a4a3a",bg:"#f8eeea",duties:["Music","Dance floor","Candles","Atmosphere","Encouraging play","Helping everyone feel included"]},
+  {emoji:"\uD83C\uDF3F",title:"Garden Fairy",subtitle:"Steward of Growing Things",blessing:"May you tend with patience, harvest with care, and protect all the things that slowly, quietly, become the wedding.",name:"",color:"#4a7a4a",bg:"#eef4ee",duties:["Flower garden","Harvest timing","Floral prep","DIY projects","Craft nights","Packing delicate handmade pieces"]}
+];
+
+
+const GROOMSMEN = [
+  {name:"",role:"Best Man",icon:"1",duties:["Rings","Groom support all day","Toast at dinner","Coordinate groomsmen","Last to leave with groom"],color:"#3a5a3a"},
+  {name:"",role:"Officiant Liaison",icon:"2",duties:["Coordinate with officiant","Cue music transitions","Manage processional timing","Signal ceremony start"],color:"#3a4a6a"},
+  {name:"",role:"Guest Welcome",icon:"3",duties:["Welcome guests on arrival","Direct parking","Hand out programs","Seat elderly guests","Field questions"],color:"#6a3a3a"},
+  {name:"",role:"Setup + Load Out",icon:"4",duties:["Oversee setup day before","Heavy lifting","Breakdown after reception","Load vehicles at end of night"],color:"#5a4a2a"},
+  {name:"",role:"Transportation Captain",icon:"5",duties:["Coordinate bus to Avalon","Make sure no one is left behind","Manage late-night logistics","Know the plan for every guest"],color:"#2a5a5a"},
+  {name:"",role:"Groom's Day Shadow",icon:"6",duties:["Stay with Robbie all morning","Make sure he eats","Keep him calm","Get him to ceremony on time","Emergency kit"],color:"#4a3a5a"}
+];
+
+const COORDINATOR = [
+  {id:"co1",task:"Coordinate and confirm all vendors + arrival times",notes:"Per contract — 15hrs pre-planning allocated"},
+  {id:"co2",task:"Communicate with Columbia Tent on delivery + placement",notes:"Tent delivery, placement, equipment counts, correct drop locations"},
+  {id:"co3",task:"Build official wedding day vendor timeline",notes:"Built from your draft — she distributes to all vendors"},
+  {id:"co4",task:"Official floor plan for tables + seating",notes:"She builds from your sketch"},
+  {id:"co5",task:"Table setting diagram for staff",notes:"Per contract"},
+  {id:"co6",task:"Bridal party announcements list + processional order",notes:"Send her names — she manages it day-of"},
+  {id:"co7",task:"Cake cutting coordination on the day",notes:"Per contract"},
+  {id:"co8",task:"Compile all decor end of night for easy loading",notes:"Per contract"},
+  {id:"co9",task:"Confirm Royale bus — Sep 26 7pm",notes:"She confirms all vendor arrivals"},
+  {id:"co10",task:"Confirm balloon delivery to Avalon",notes:"Part of multiple locations coordination"},
+  {id:"co11",task:"Confirm magician timing, space and power needs",notes:"She coordinates all vendor requirements"},
+  {id:"co12",task:"Confirm tarot reader timing, space and power needs",notes:"She coordinates all vendor requirements"},
+  {id:"co13",task:"Confirm caterer headcount and contract details",notes:"She confirms with all vendors"},
+  {id:"co14",task:"Manage Avalon transition and Night Rainbow vendor coordination",notes:"Multiple locations fee added — she manages the transition"},
+  {id:"co15",task:"Day-of timeline management — keep everyone on track",notes:"Per contract — she manages vendors all day"},
+  {id:"co16",task:"Special dances and moments on vendor timeline",notes:"Per contract"},
+  {id:"co17",task:"Onsite half hour before ceremony — get couple ready",notes:"Per contract"},
+  {id:"dj1",task:"DJ Kahele — Avalon, Night Rainbow, dancing, full evening",notes:"Arrives Avalon before 7pm bus. Coordinates with Danielle on setup needs and sound requirements."},
+  {id:"ss1",task:"Sprig and Social — ceremony arch flowers x2",notes:"Asymmetrically mounted on your own trellis arch. $700"},
+  {id:"ss2",task:"Sprig and Social — fireplace florals x2",notes:"Mantle + floor arrangement. $600"},
+  {id:"ss3",task:"Sprig and Social — misc arrangements x3",notes:"Entrance table, bar, cocktail hour table. $675"},
+  {id:"ss4",task:"Sprig and Social — reception round table florals x2",notes:"Low Ikebana style in bowls for 60 inch round tables. $450"},
+  {id:"ss5",task:"Sprig and Social — reception long table florals x6",notes:"Small low Ikebana for 8ft long tables. $1,350"},
+  {id:"ss6",task:"Sprig and Social — all candles",notes:"Tapers, votives, gold candelabras for long tables, brass candlesticks. $828 + $120"},
+  {id:"ss7",task:"Sprig and Social — bridesmaids bouquets x5",notes:"Medium cantaloupe size. $825 — NOTE: confirm if 5 or 7 needed"},
+  {id:"ss8",task:"Sprig and Social — boutonnieres x6",notes:"$132"},
+  {id:"ss9",task:"Sprig and Social — bridal bouquet x1",notes:"Soccer ball size — GIFTED"},
+  {id:"ss10",task:"Sprig and Social — delivery, install, breakdown",notes:"Install team fee + delivery + late night or following morning breakdown. $910"},
+];
+const COORD_PAYMENTS = [
+  {id:"cp1",task:"Deposit $1,500",status:"Paid",due:"2026-07-10",notes:"Paid"},
+  {id:"cp2",task:"Final payment $3,500 — Danielle",status:"Due Sep 10",due:"2026-09-10",notes:"Venmo @Danielle-Paulding or Zelle 8457062535"},
+  {id:"cp3",task:"Sprig and Social deposit $2,372.40",status:"Paid",due:"2026-06-12",notes:"Paid via Zelle June 12"},
+  {id:"cp4",task:"Sprig and Social balance $4,744.80",status:"Due week of",due:"2026-09-21",notes:"Zelle to 518.822.7500 or check to 21 Green Street Hudson NY 12534"},
+  {id:"cp5",task:"Photography balance $4,000",status:"Due Sep 26",due:"2026-09-26",notes:"Ibarra Studios — due day of"},
+  {id:"cp6",task:"Avalon Lounge $3,000",status:"Due Sep 26",due:"2026-09-26",notes:"Due day of"}
 ];
 // ── CONFIG ────────────────────────────────────────────────────────
-const SK = "kw-v14";
+const SK = "kw-v30";
 const API = "https://api.anthropic.com/v1/messages";
 const WEDDING = new Date("2026-09-26");
-const TODAY = new Date("2026-07-21");
+const TODAY = new Date(); TODAY.setHours(0,0,0,0);
 const DAYS_LEFT = Math.ceil((WEDDING - TODAY) / 86400000);
 
 const STATUS = {
@@ -279,7 +327,7 @@ const STATUS = {
 const OWNERS = ["Suzanne","Robbie","Both"];
 const MONTHS = ["Jul 2026","Aug 2026","Sep 2026"];
 const PROJ_NAMES = [...new Set(SEED.map(t=>t.project))].sort();
-const VIEWS = [["dash","This Week"],["july","July"],["august","August"],["sept","September"],["beadwork","Beadwork"],["builds","Builds"],["chat","✦ Assistant"],["tasks","All Tasks"],["robbie","Robbie"]];
+const VIEWS = [["dash","This Week"],["july","July"],["august","August"],["sept","September"],["beadwork","Beadwork"],["builds","Builds"],["chat","✦ Assistant"],["tasks","All Tasks"],["robbie","Robbie"],["coord","Danielle"],["wp","Wedding Party"]];
 
 // ── STATE ─────────────────────────────────────────────────────────
 let tasks=[], view="dash", editId=null;
@@ -391,27 +439,23 @@ function stats(){
 function divider(){return`<div class="divider"><div class="divider-line l"></div><svg width="12" height="12" viewBox="0 0 100 100" fill="none" style="opacity:0.6"><path d="M50 80 C30 75 10 60 8 40 C6 20 20 10 35 15 C42 17 48 22 50 28 C52 22 58 17 65 15 C80 10 94 20 92 40 C90 60 70 75 50 80Z M50 80 C50 80 45 90 42 95 C39 98 44 100 50 98 C56 100 61 98 58 95 C55 90 50 80 50 80Z" fill="#5a7a4a"/></svg><div class="divider-line r"></div></div>`}
 
 function renderDash(){
-  const s=stats();
-  // This week = Jul 21-27, urgent = due by Jul 27 not done
-  const urgent=tasks.filter(t=>t.status!=="Done"&&t.due>=""&&t.due<="2026-07-27").sort((a,b)=>a.due.localeCompare(b.due));
-  const inprog=tasks.filter(t=>t.status==="In progress");
-
-  let html=`<div class="pg-title">This Week</div>
-  <div class="pg-sub">July 21–27 · ${DAYS_LEFT} days to wedding · ${urgent.length} tasks need attention</div>
-  <div class="stat-grid">
-    ${[{n:DAYS_LEFT,l:"days left",c:"var(--danger)"},{n:s.total,l:"total tasks",c:"var(--sage)"},{n:s.done,l:"done",c:"var(--success)"},{n:s.ip,l:"in progress",c:"var(--warn)"},{n:urgent.length,l:"this week",c:"var(--danger)"}].map(({n,l,c})=>`<div class="stat-card" style="border-top:2px solid ${c}"><div class="stat-n" style="color:${c}">${n}</div><div class="stat-l">${l}</div></div>`).join("")}
-  </div>
-  <div class="prog-wrap"><div class="prog-labels"><span>Overall progress</span><span>${s.pct}%</span></div><div class="prog-track"><div class="prog-fill" style="width:${s.pct}%"></div></div></div>
-  ${divider()}
-  <div class="sec-head">🔴 Must do this week</div>`;
-
-  if(!urgent.length){html+=`<div style="font-size:12px;color:var(--success);font-family:'Cormorant Garamond',serif;font-style:italic;padding:8px 0">All this week's tasks complete ✦</div>`;}
-  else{html+=urgent.map(t=>taskCard(t,expandedTasks.has(t.id))).join("");}
-
-  if(inprog.length){
-    html+=`${divider()}<div class="sec-head">⏳ In progress</div>`;
-    html+=inprog.map(t=>taskCard(t,expandedTasks.has(t.id))).join("");
-  }
+  var s=stats();
+  var weekEnd=new Date(TODAY); weekEnd.setDate(weekEnd.getDate()+7);
+  var weekEndStr=weekEnd.toISOString().slice(0,10);
+  var urgent=tasks.filter(function(t){return t.status!="Done"&&t.due&&t.due<=weekEndStr;}).sort(function(a,b){return a.due.localeCompare(b.due);});
+  var inprog=tasks.filter(function(t){return t.status=="In progress";});
+  var wl=TODAY.toLocaleString("en-US",{month:"long",day:"numeric"})+" - "+weekEnd.toLocaleString("en-US",{month:"long",day:"numeric"});
+  var cards=[{n:DAYS_LEFT,l:"days left",c:"var(--danger)"},{n:s.total,l:"total tasks",c:"var(--sage)"},{n:s.done,l:"done",c:"var(--success)"},{n:s.ip,l:"in progress",c:"var(--warn)"},{n:urgent.length,l:"this week",c:"var(--danger)"}];
+  var cardHtml=cards.map(function(x){return '<div class="stat-card" style="border-top:2px solid '+x.c+'"><div class="stat-n" style="color:'+x.c+'">'+x.n+'</div><div class="stat-l">'+x.l+'</div></div>';}).join("");
+  var html='<div class="pg-title">This Week</div>'
+    +'<div class="pg-sub">'+wl+' &middot; '+DAYS_LEFT+' days to wedding &middot; '+urgent.length+' tasks need attention</div>'
+    +'<div class="stat-grid">'+cardHtml+'</div>'
+    +'<div class="prog-wrap"><div class="prog-labels"><span>Overall progress</span><span>'+s.pct+'%</span></div><div class="prog-track"><div class="prog-fill" style="width:'+s.pct+'%"></div></div></div>'
+    +divider()
+    +'<div class="sec-head">Must do this week</div>';
+  if(!urgent.length){html+='<div style="font-size:12px;color:var(--success);font-family:Cormorant Garamond,serif;font-style:italic;padding:8px 0">All this week tasks complete</div>';}
+  else{urgent.forEach(function(t){html+=taskCard(t,expandedTasks.has(t.id));});}
+  if(inprog.length){html+=divider()+'<div class="sec-head">In progress</div>';inprog.forEach(function(t){html+=taskCard(t,expandedTasks.has(t.id));});}
   return html;
 }
 
@@ -514,6 +558,116 @@ function renderTasks(){
   ${filtered.map(t=>taskCard(t,expandedTasks.has(t.id))).join("")||'<div style="font-size:13px;color:var(--muted);text-align:center;padding:40px 0;font-family:\'Cormorant Garamond\',serif;font-style:italic">No tasks match.</div>'}`;
 }
 
+
+
+function renderWeddingParty(){
+  var sect=window._wpSection||"fairies";
+  var sageBtn='flex:1;padding:9px;border-radius:6px;font-family:Jost,sans-serif;font-size:12px;cursor:pointer;';
+  var html='<div class="pg-title">Wedding Party</div>'
+    +'<div style="display:flex;gap:8px;margin-bottom:16px">'
+    +'<button onclick="window._wpSection=\'fairies\';render()" style="'+sageBtn+'border:1px solid '+(sect=="fairies"?"var(--sage)":"var(--border)")+';background:'+(sect=="fairies"?"#e8f0e4":"transparent")+';color:'+(sect=="fairies"?"var(--sage-d)":"var(--muted)")+';font-weight:'+(sect=="fairies"?"500":"300")+'">The Court</button>'
+    +'<button onclick="window._wpSection=\'groomsmen\';render()" style="'+sageBtn+'border:1px solid '+(sect=="groomsmen"?"#3a5a3a":"var(--border)")+';background:'+(sect=="groomsmen"?"#e4f0e4":"transparent")+';color:'+(sect=="groomsmen"?"#3a5a3a":"var(--muted)")+';font-weight:'+(sect=="groomsmen"?"500":"300")+'">Groomsmen</button>'
+    +'</div>';
+
+  if(sect==="fairies"){
+    html+='<div class="pg-sub" style="margin-bottom:12px">Seven fairies &middot; Tap a card to reveal their duties</div>';
+    for(var i=0;i<FAIRIES.length;i++){
+      var f=FAIRIES[i];
+      var name=f.name||"Name TBD";
+      var duties=f.duties.map(function(d){return '<div style="display:flex;align-items:center;gap:8px;padding:4px 0"><div style="width:5px;height:5px;border-radius:50%;background:'+f.color+';flex-shrink:0"></div><div style="font-size:12px;color:#555;font-weight:300">'+esc(d)+'</div></div>';}).join("");
+      html+='<div class="wp-fairy-card" data-fi="'+i+'" onclick="wpToggle(this)" style="background:'+f.bg+';border:1px solid '+f.color+'33;border-left:3px solid '+f.color+';border-radius:8px;padding:12px 14px;margin-bottom:10px;cursor:pointer">'
+        +'<div style="display:flex;align-items:center;gap:10px">'
+        +'<div style="font-size:24px;line-height:1">'+f.emoji+'</div>'
+        +'<div style="flex:1">'
+        +'<div style="font-family:Pinyon Script,cursive;font-size:22px;color:'+f.color+';line-height:1.1">'+esc(f.title)+'</div>'
+        +'<div style="font-size:10px;color:'+f.color+';letter-spacing:2px;text-transform:uppercase;opacity:0.75;margin-top:2px">'+esc(f.subtitle)+'</div>'
+        +'</div>'
+        +'<div style="font-size:10px;color:#999;padding:2px 8px;border-radius:8px;border:1px solid #e8e4dc;background:white;flex-shrink:0">'+esc(name)+'</div>'
+        +'</div>'
+        +'<div style="font-size:11px;color:'+f.color+';font-style:italic;font-family:Cormorant Garamond,serif;margin-top:8px;line-height:1.6;opacity:0.85">'+esc(f.blessing)+'</div>'
+        +'<div class="wp-duties" style="display:none;margin-top:10px;padding-top:8px;border-top:1px solid '+f.color+'22">'+duties
+        +'<button onclick="wpAssign(event,\'fairy\','+i+')" style="margin-top:8px;font-size:10px;padding:4px 12px;border-radius:6px;border:1px solid '+f.color+';background:transparent;color:'+f.color+';cursor:pointer;font-family:Jost,sans-serif">Assign name</button>'
+        +'</div></div>';
+    }
+  } else {
+    html+='<div class="pg-sub" style="margin-bottom:12px">Six groomsmen &middot; Tap to see their role</div>';
+    for(var j=0;j<GROOMSMEN.length;j++){
+      var g=GROOMSMEN[j];
+      var gname=g.name||"Name TBD";
+      var gduties=g.duties.map(function(d){return '<div style="display:flex;align-items:center;gap:8px;padding:4px 0"><div style="width:5px;height:5px;border-radius:50%;background:'+g.color+';flex-shrink:0"></div><div style="font-size:12px;color:#555;font-weight:300">'+esc(d)+'</div></div>';}).join("");
+      html+='<div class="wp-fairy-card" onclick="wpToggle(this)" style="background:#f4f6f4;border:1px solid '+g.color+'44;border-left:3px solid '+g.color+';border-radius:8px;padding:12px 14px;margin-bottom:10px;cursor:pointer">'
+        +'<div style="display:flex;align-items:center;gap:10px">'
+        +'<div style="width:34px;height:34px;border-radius:50%;background:'+g.color+'18;border:1px solid '+g.color+'44;display:flex;align-items:center;justify-content:center;font-size:13px;color:'+g.color+';font-weight:600;flex-shrink:0">'+g.icon+'</div>'
+        +'<div style="flex:1"><div style="font-family:Cormorant Garamond,serif;font-size:18px;color:'+g.color+';font-weight:600">'+esc(g.role)+'</div></div>'
+        +'<div style="font-size:10px;color:#999;padding:2px 8px;border-radius:8px;border:1px solid #e8e4dc;background:white;flex-shrink:0">'+esc(gname)+'</div>'
+        +'</div>'
+        +'<div class="wp-duties" style="display:none;margin-top:10px;padding-top:8px;border-top:1px solid '+g.color+'22">'+gduties
+        +'<button onclick="wpAssign(event,\'groom\','+j+')" style="margin-top:8px;font-size:10px;padding:4px 12px;border-radius:6px;border:1px solid '+g.color+';background:transparent;color:'+g.color+';cursor:pointer;font-family:Jost,sans-serif">Assign name</button>'
+        +'</div></div>';
+    }
+  }
+  return html;
+}
+
+function wpToggle(el){
+  var d=el.querySelector(".wp-duties");
+  if(d) d.style.display=d.style.display==="none"?"block":"none";
+}
+
+function wpAssign(e,type,idx){
+  e.stopPropagation();
+  if(type==="fairy"){
+    var n=prompt("Name for "+FAIRIES[idx].title+":");
+    if(n!==null){FAIRIES[idx].name=n.trim();render();}
+  } else {
+    var n=prompt("Name for "+GROOMSMEN[idx].role+":");
+    if(n!==null){GROOMSMEN[idx].name=n.trim();render();}
+  }
+}
+
+// Keep these as no-ops for backward compat
+function toggleFairy(){}
+function toggleGroomsman(){}
+function assignFairy(){}
+function assignGroomsman(){}
+
+function toggleGroomsman(idx){var el=document.getElementById("gd"+idx);if(el)el.style.display=el.style.display==="none"?"block":"none";}
+function assignGroomsman(idx,e){e.stopPropagation();var n=prompt("Name for "+GROOMSMEN[idx].role+":");if(n!==null){GROOMSMEN[idx].name=n.trim();render();}}
+
+function toggleFairy(idx){var el=document.getElementById("fd"+idx);if(el)el.style.display=el.style.display==="none"?"block":"none";}
+function assignFairy(idx,e){e.stopPropagation();var n=prompt("Name for "+FAIRIES[idx].title+":");if(n!==null){FAIRIES[idx].name=n.trim();render();}}
+
+function toggleFairy(idx){
+  var el=document.getElementById('fairy-duties-'+idx);
+  if(!el)return;
+  el.style.display=el.style.display==='none'?'block':'none';
+}
+function editFairyName(idx,e){
+  e.stopPropagation();
+  var name=prompt('Assign a name to '+FAIRIES[idx].title+':');
+  if(name===null)return;
+  FAIRIES[idx].name=name.trim();
+  render();
+}
+
+function renderCoord(){
+  var paymentsHtml = COORD_PAYMENTS.map(function(p){
+    var paid = p.status==="Paid";
+    return '<div class="task-card" style="border-left:3px solid '+(paid?'var(--success)':'var(--danger)')+'"><div style="display:flex;align-items:center;gap:8px"><div style="font-size:13px;color:var(--text);flex:1;font-weight:300">'+esc(p.task)+'</div><span style="font-size:10px;padding:2px 10px;border-radius:10px;background:'+(paid?'#eaf4ee':'#faeaea')+';color:'+(paid?'var(--success)':'var(--danger)')+'">'+esc(p.status)+'</span></div><div class="task-note">'+esc(p.notes)+'</div></div>';
+  }).join('');
+  var respHtml = COORDINATOR.map(function(t){
+    return '<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f0ede4"><div style="width:6px;height:6px;border-radius:50%;background:var(--sage);flex-shrink:0;margin-top:5px"></div><div style="flex:1"><div style="font-size:12px;color:var(--text-d);font-weight:300">'+esc(t.task)+'</div><div style="font-size:10px;color:var(--muted);margin-top:2px;font-style:italic">'+esc(t.notes)+'</div></div></div>';
+  }).join('');
+  return '<div class="pg-title">Danielle</div>'
+    +'<div class="pg-sub">Hudson Valley Trendsetters · (845)706-2535 · Hvtrendsetters@gmail.com</div>'
+    +'<div style="background:#f0f4f0;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-size:12px;color:var(--text-d);line-height:1.7"><strong style="color:var(--sage-d)">Contract: Partial Planning + Multiple Locations</strong><br>30hrs total · 15hrs pre-planning + vendor comms · 15hrs rehearsal + wedding day<br>These items are off your list — Danielle handles them.</div>'
+    +'<div class="sec-head">Payments</div>'+paymentsHtml
+    +'<div class="sec-head">Her responsibilities</div>'+respHtml
+    +'<div class="sec-head" style="margin-top:16px">Sprig &amp; Social — Florist</div>'
+    +'<div style="background:#f4f8f0;border:1px solid #c8d8b8;border-radius:8px;padding:12px 14px;margin-bottom:8px;font-size:12px;color:var(--text-d);line-height:1.7"><strong style="color:#3a6a2a">Michael Moeller · info@sprigandsocial.com · 518.822.7500</strong><br>21 Green Street, Hudson NY 12534 · Delivers and installs day of Sep 26 · Breakdown late night or morning after<br><span style="color:var(--danger);font-weight:500">⚠ Confirm bridesmaids bouquet count: contract says 5, you have 7</span></div>'
+    +COORDINATOR.filter(function(t){return t.id&&t.id.indexOf("ss")===0;}).map(function(t){return '<div style="display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid #f0ede4"><div style="width:6px;height:6px;border-radius:50%;background:#5a8a3a;flex-shrink:0;margin-top:5px"></div><div style="flex:1"><div style="font-size:12px;color:var(--text-d);font-weight:300">'+esc(t.task)+'</div><div style="font-size:10px;color:var(--muted);margin-top:2px;font-style:italic">'+esc(t.notes)+'</div></div></div>';}).join('');
+}
+
 // ── RENDER ENGINE ─────────────────────────────────────────────────
 function setView(v){view=v;render();window.scrollTo(0,0)}
 function render(){
@@ -530,6 +684,8 @@ function render(){
     case"chat":    page.innerHTML=renderChat();setTimeout(()=>{const e=document.getElementById("chat-msgs");if(e)e.scrollTop=e.scrollHeight},50);break;
     case"tasks":   page.innerHTML=renderTasks();break;
     case"robbie":  page.innerHTML=renderRobbie();break;
+    case"coord":   page.innerHTML=renderCoord();break;
+    case"wp":      page.innerHTML=renderWeddingParty();break;
   }
   const dp=document.getElementById("days-pill");
   if(dp)dp.textContent=DAYS_LEFT+" days";
@@ -599,7 +755,7 @@ async function sendChat(){
   try{
     const res=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
       model:"claude-sonnet-4-20250514",max_tokens:1000,
-      system:`You are a wedding assistant for Suzanne Kite and Robert Wing, wedding September 26 2026, 67 days away. Today is July 21 2026.
+      system:`You are a wedding assistant for Suzanne Kite and Robert Wing, wedding September 26 2026, ${DAYS_LEFT} days away. Today is ${TODAY.toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"})}.
 Key context: Nothing on the critical list is done — no beadwork started, no admin closed, no interior rooms painted, no ceremony scripts written. Urgency is high.
 Valid projects: ${PROJ_NAMES.join(", ")}
 Valid owners: Suzanne, Robbie, Both
@@ -635,22 +791,9 @@ For questions: plain text, warm and direct. No markdown. Be honest about urgency
   chatLoading=false;render();
 }
 
-// ── RESET ────────────────────────────────────────────────────────
-function resetApp(){
-  if(!confirm("Reset to the clean July task list? This clears all old data.")) return;
-  localStorage.removeItem(SK);
-  // Also clear any old keys
-  ["kw-v1","kw-v2","kw-v3","kw-v4","kw-v5","kw-v6","kw-v7","kw-v8","kw-v9","kw-v10","kw-v11","kw-v12"].forEach(k=>localStorage.removeItem(k));
-  tasks = SEED.map(t=>({...t, substeps:(t.substeps||[]).map(s=>({...s}))}));
-  save();
-  render();
-  alert("Done — loaded " + tasks.length + " tasks.");
-}
-
 // ── INIT ──────────────────────────────────────────────────────────
 load();render();
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){document.getElementById("edit-modal").style.display="none";document.getElementById("add-modal").style.display="none";}});
 </script>
 </body>
 </html>
-
