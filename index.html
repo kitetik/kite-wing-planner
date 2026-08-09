@@ -141,7 +141,9 @@ nav button.active{color:var(--sage-d);border-bottom-color:var(--sage);font-weigh
     <div><div class="logo">Kite + Wing</div><div class="logo-sub">Sept 26, 2026 · Catskill, NY</div></div>
     <div style="display:flex;align-items:center;gap:8px">
       <div class="days-pill" id="days-pill">67 days</div>
-      <span style="font-size:10px;color:var(--muted)" id="save-status">saved</span>
+      <span style="font-size:10px;color:var(--muted)" id="save-status">syncing</span>
+      <button onclick="manualRefresh()" title="Refresh" style="font-size:11px;padding:2px 7px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:'Jost',sans-serif">&#8635;</button>
+      <button onclick="setMe()" id="who-btn" title="Set your name" style="font-size:9px;padding:2px 8px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:'Jost',sans-serif">who?</button>
     </div>
   </div>
   <nav id="nav"></nav>
@@ -156,7 +158,7 @@ const SEED = [
   {id:"uw4",project:"Wedding Dress Beadwork",task:"START dress bodice beadwork — first session",owner:"Suzanne",due:"2026-07-25",month:"Jul 2026",status:"Not started",notes:"June 15 deadline has passed. Start immediately.",substeps:[{text:"Lay out dress and supplies",done:false},{text:"Choose first section to bead",done:false},{text:"Complete first 2hr session this week",done:false},{text:"Set recurring weekly schedule",done:false}]},
   {id:"uw5",project:"Public Ceremony",task:"Meet with coordinator — schedule now",owner:"Both",due:"2026-07-25",month:"Jul 2026",status:"Not started",notes:"Needs to happen before August",substeps:[{text:"Text or email coordinator today",done:false},{text:"Propose 2 dates in next 2 weeks",done:false},{text:"Confirm location — house walkthrough",done:false}]},
   {id:"uw6",project:"Vow Writing",task:"Write vow first draft",owner:"Both",due:"2026-07-27",month:"Jul 2026",status:"Not started",notes:"67 days sounds like a lot — it isn't",substeps:[{text:"Set aside 1hr alone this week",done:false},{text:"Write bullet points of what you want to say",done:false},{text:"Don't edit — just get it out",done:false},{text:"Share drafts with each other by Aug 1",done:false}]},
-  {id:"uw7",project:"Guest List + RSVPs",task:"Close RSVPs and confirm final headcount",owner:"Both",due:"2026-07-21",month:"Jul 2026",status:"Not started",notes:"Deadline was Jun 26 — chase stragglers now",substeps:[{text:"Check who hasn't responded",done:false},{text:"Text or call non-responders this week",done:false},{text:"Confirm final number with Scott",done:false},{text:"Update seating chart",done:false}]},
+  {id:"uw7",project:"Guest List + RSVPs",task:"Close RSVPs and confirm final headcount",owner:"Both",due:"2026-07-21",month:"Jul 2026",status:"Done",notes:"Deadline was Jun 26 — chase stragglers now",substeps:[{text:"Check who hasn't responded",done:false},{text:"Text or call non-responders this week",done:false},{text:"Confirm final number with Scott",done:false},{text:"Update seating chart",done:false}]},
   {id:"uw8",project:"Hair + Makeup",task:"Book hair and makeup trials",owner:"Suzanne",due:"2026-07-25",month:"Jul 2026",status:"Done",notes:"Need multiple practice runs before September",substeps:[{text:"Research stylists in area",done:false},{text:"Book trial #1 for early August",done:false},{text:"Book trial #2 for late August",done:false},{text:"Add to calendar",done:false}]},
   {id:"b1",project:"Lawn + Yard Prep",task:"Finish staining and sealing deck",owner:"Robbie",due:"2026-07-28",month:"Jul 2026",status:"In progress",notes:"Nearly done — finish this week",substeps:[{text:"Apply final coat stain",done:false},{text:"Seal entire surface",done:false},{text:"Let dry 48hrs before furniture",done:false},{text:"Move furniture back",done:false}]},
   {id:"b2",project:"Ceremony Arch",task:"Build arbor",owner:"Robbie",due:"2026-07-31",month:"Jul 2026",status:"Not started",notes:"Large willow + wire — needs to be up before flowers go on",substeps:[{text:"Gather willow branches and dead sticks",done:false},{text:"Bend and wire main arch shape",done:false},{text:"Reinforce base with stakes",done:false},{text:"Test for stability with weight",done:false}]},
@@ -202,15 +204,15 @@ const SEED = [
   {id:"ce7",project:"Public Ceremony",task:"Bubbles for send-off",owner:"Suzanne",due:"2026-08-31",month:"Aug 2026",status:"Not started",notes:"",substeps:[{text:"Order individual bubble wands — one per guest",done:false},{text:"Plan distribution — pre-set at seats or handed out",done:false},{text:"Assign someone to manage",done:false}]},
   {id:"dc1",project:"Linens + Tabletop",task:"Design full tablescape plan",owner:"Suzanne",due:"2026-07-31",month:"Jul 2026",status:"Not started",notes:"",substeps:[{text:"Sketch table layout — how many of each size",done:false},{text:"Choose linen colors per table",done:false},{text:"Decide centerpiece height and style",done:false},{text:"Plan place setting arrangement",done:false},{text:"Mock up one full table",done:false}]},
   {id:"dc2",project:"Linens + Tabletop",task:"Visit Columbia Tent showroom — mock tablescape",owner:"Both",due:"2026-07-31",month:"Jul 2026",status:"Not started",notes:"",substeps:[{text:"Call to schedule visit",done:false},{text:"Bring linen swatches and decor pieces",done:false},{text:"Set up one full mock table",done:false},{text:"Photograph the result",done:false},{text:"Confirm linen order additions",done:false}]},
-  {id:"dc3",project:"Large Cut-Out Decor",task:"Get scanner + scan books for cut-out art",owner:"Suzanne",due:"2026-07-25",month:"Jul 2026",status:"Not started",notes:"Night Rainbow school reference",substeps:[{text:"Borrow or buy scanner",done:false},{text:"Scan all relevant reference pages",done:false},{text:"Save high-res files",done:false},{text:"Send to fabricator or print shop",done:false}]},
-  {id:"dc4",project:"Large Cut-Out Decor",task:"Order cut-outs and paint large after-party decor",owner:"Suzanne",due:"2026-08-01",month:"Aug 2026",status:"Not started",notes:"",substeps:[{text:"Finalize designs from scans",done:false},{text:"Get quote from fabricator",done:false},{text:"Place order — allow 3–4 weeks",done:false},{text:"Prime and paint when they arrive",done:false},{text:"Seal finished pieces",done:false}]},
+  {id:"dc3",project:"Large Cut-Out Decor",task:"Get scanner + scan books for cut-out art",owner:"Suzanne",due:"2026-07-25",month:"Jul 2026",status:"Done",notes:"Night Rainbow school reference",substeps:[{text:"Borrow or buy scanner",done:false},{text:"Scan all relevant reference pages",done:false},{text:"Save high-res files",done:false},{text:"Send to fabricator or print shop",done:false}]},
+  {id:"dc4",project:"Large Cut-Out Decor",task:"Order cut-outs and paint large after-party decor",owner:"Suzanne",due:"2026-08-01",month:"Aug 2026",status:"Done",notes:"",substeps:[{text:"Finalize designs from scans",done:false},{text:"Get quote from fabricator",done:false},{text:"Place order — allow 3–4 weeks",done:false},{text:"Prime and paint when they arrive",done:false},{text:"Seal finished pieces",done:false}]},
   {id:"dc5",project:"Decor + Large Cut-Outs",task:"Make animal masks — full set",owner:"Suzanne",due:"2026-08-15",month:"Aug 2026",status:"Not started",notes:"Studio session with group",substeps:[{text:"Decide all animal species",done:false},{text:"Source blank mask bases",done:false},{text:"Paint base colors",done:false},{text:"Add details and embellishments",done:false},{text:"Attach elastic or stick",done:false}]},
   {id:"dc6",project:"Decor + Large Cut-Outs",task:"Drill holes in bowls and place lights",owner:"Suzanne",due:"2026-08-15",month:"Aug 2026",status:"Not started",notes:"",substeps:[{text:"Gather bowls",done:false},{text:"Mark drill points",done:false},{text:"Drill with correct bit",done:false},{text:"Thread LED lights through",done:false},{text:"Test effect in dark",done:false}]},
   {id:"dc7",project:"Linens + Tabletop",task:"Make table numbers",owner:"Suzanne",due:"2026-08-20",month:"Aug 2026",status:"Not started",notes:"",substeps:[{text:"Decide format — printed, painted, beaded?",done:false},{text:"Design or source",done:false},{text:"Make or print full set",done:false},{text:"Test that they're readable at distance",done:false}]},
   {id:"dc8",project:"Linens + Tabletop",task:"Make or source table skirts",owner:"Suzanne",due:"2026-08-20",month:"Aug 2026",status:"Not started",notes:"",substeps:[{text:"Measure all tables needing skirts",done:false},{text:"Choose fabric",done:false},{text:"Cut and hem",done:false},{text:"Attach clips or velcro",done:false}]},
-  {id:"dc9",project:"Day-Of Paper",task:"Design and print all day-of paper goods",owner:"Suzanne",due:"2026-08-31",month:"Aug 2026",status:"Not started",notes:"Programs, menus, escort cards, food labels",substeps:[{text:"List every paper item needed",done:false},{text:"Design each piece",done:false},{text:"Print test copies",done:false},{text:"Final print run",done:false},{text:"Cut and assemble",done:false}]},
+  {id:"dc9",project:"Day-Of Paper",task:"Design and print all day-of paper goods",owner:"Suzanne",due:"2026-08-31",month:"Aug 2026",status:"Done",notes:"Programs, menus, escort cards, food labels",substeps:[{text:"List every paper item needed",done:false},{text:"Design each piece",done:false},{text:"Print test copies",done:false},{text:"Final print run",done:false},{text:"Cut and assemble",done:false}]},
   {id:"dc10",project:"Linens + Tabletop",task:"Write place-setting notes",owner:"Suzanne",due:"2026-08-31",month:"Aug 2026",status:"Not started",notes:"Personal note at each place",substeps:[{text:"Decide what the note says",done:false},{text:"Decide format — printed card or handwritten",done:false},{text:"Write or design all notes",done:false},{text:"Print or write full set",done:false}]},
-  {id:"dc11",project:"General Repairs + Paint",task:"Design aprons — bird motif",owner:"Suzanne",due:"2026-07-31",month:"Jul 2026",status:"Not started",notes:"For servers and Scott",substeps:[{text:"Sketch bird design",done:false},{text:"Finalize on computer",done:false},{text:"Source plain aprons",done:false},{text:"Print or embroider design",done:false},{text:"Test one before making all",done:false}]},
+  {id:"dc11",project:"General Repairs + Paint",task:"Design aprons — bird motif",owner:"Suzanne",due:"2026-07-31",month:"Jul 2026",status:"Done",notes:"For servers and Scott",substeps:[{text:"Sketch bird design",done:false},{text:"Finalize on computer",done:false},{text:"Source plain aprons",done:false},{text:"Print or embroider design",done:false},{text:"Test one before making all",done:false}]},
   {id:"dc12",project:"Large Cut-Out Decor",task:"Fill picture frames with signage",owner:"Suzanne",due:"2026-08-31",month:"Aug 2026",status:"Not started",notes:"",substeps:[{text:"List all signs needed",done:false},{text:"Design each sign",done:false},{text:"Print at studio",done:false},{text:"Mat and frame",done:false},{text:"Plan placement at venue",done:false}]},
   {id:"dc13",project:"Decor + Large Cut-Outs",task:"Make matchbox stickers + stars on wire for centerpieces",owner:"Suzanne",due:"2026-08-31",month:"Aug 2026",status:"Not started",notes:"",substeps:[{text:"Design matchbox sticker art",done:false},{text:"Print and cut stickers",done:false},{text:"Affix to matchboxes",done:false},{text:"Make wire star frames",done:false},{text:"Bead stars",done:false},{text:"Combine in centerpiece arrangement",done:false}]},
   {id:"fd1",project:"Catering — Native Dinner",task:"Confirm full menu with Scott",owner:"Both",due:"2026-07-28",month:"Jul 2026",status:"Not started",notes:"",substeps:[{text:"Meet or call Scott this week",done:false},{text:"Finalize every dish",done:false},{text:"Confirm quantities for headcount",done:false},{text:"Agree on prep days — Sep 24 and 25",done:false},{text:"Confirm his equipment needs",done:false}]},
@@ -312,7 +314,7 @@ const COORD_PAYMENTS = [
   {id:"cp6",task:"Avalon Lounge $3,000",status:"Due Sep 26",due:"2026-09-26",notes:"Due day of"}
 ];
 // ── CONFIG ────────────────────────────────────────────────────────
-const SK = "kw-v37";
+const SK = "kw-v40-sb";
 const API = "https://api.anthropic.com/v1/messages";
 const WEDDING = new Date("2026-09-26");
 const TODAY = new Date(); TODAY.setHours(0,0,0,0);
@@ -335,23 +337,95 @@ let fProj="all",fOwner="all",fMonth="all",fStatus="all",fSearch="";
 let chatMsgs=[{role:"assistant",text:"I know every task and substep. Try: 'mark cake order as in progress', 'what must happen this week', 'add task: order flowers by Aug 1 — Suzanne', or 'what is Robbie doing in August'"}];
 let chatLoading=false;
 
-// ── STORAGE ───────────────────────────────────────────────────────
-function load(){
+// ── SUPABASE SHARED STORAGE ───────────────────────────────────────
+const SB_URL  = "https://hssfriqjbvuivsjbmiqe.supabase.co";
+const SB_KEY  = "sb_publishable_-oVXBvcootPkauAiSG7rkQ_qpLhyuuh";
+const SB_HEAD = {
+  "apikey": SB_KEY,
+  "Authorization": "Bearer " + SB_KEY,
+  "Content-Type": "application/json",
+  "Prefer": "resolution=merge-duplicates"
+};
+
+let ME = "";
+try { ME = localStorage.getItem("kw-who") || ""; } catch(e) {}
+
+function setMe(){
+  const n = prompt("Your name? So everyone can see who checked things off.", ME || "");
+  if (n === null) return;
+  ME = n.trim();
+  try { localStorage.setItem("kw-who", ME); } catch(e) {}
+  render();
+}
+
+function setSS(s){ const e=document.getElementById("save-status"); if(e) e.textContent=s; }
+
+function cacheSave(){ try{ localStorage.setItem(SK, JSON.stringify(tasks)); }catch(e){} }
+function cacheLoad(){
+  try { const s=localStorage.getItem(SK); if(s){ tasks=JSON.parse(s); return true; } } catch(e){}
+  return false;
+}
+function seedTasks(){
+  tasks = SEED.map(t => ({...t, substeps:(t.substeps||[]).map(s=>({...s}))}));
+}
+function save(){ cacheSave(); }
+
+async function pullState(){
+  setSS("syncing");
+  try {
+    const [tRes,sRes] = await Promise.all([
+      fetch(SB_URL+"/rest/v1/task_state?select=*",    {headers:SB_HEAD}),
+      fetch(SB_URL+"/rest/v1/substep_state?select=*", {headers:SB_HEAD})
+    ]);
+    if(!tRes.ok||!sRes.ok) throw new Error("fetch failed");
+    const tRows=await tRes.json(), sRows=await sRes.json();
+    const tMap={}; tRows.forEach(r=>{tMap[r.id]=r;});
+    const sMap={}; sRows.forEach(r=>{sMap[r.task_id+"|"+r.step_index]=r;});
+    tasks.forEach(t=>{
+      const row=tMap[t.id];
+      if(row){ t.status=row.status; t._by=row.updated_by||""; }
+      (t.substeps||[]).forEach((st,i)=>{
+        const sr=sMap[t.id+"|"+i];
+        if(sr) st.done=sr.done;
+      });
+    });
+    cacheSave();
+    setSS("synced");
+    return true;
+  } catch(e){ setSS("offline"); return false; }
+}
+
+async function pushTask(t){
   try{
-    const s=localStorage.getItem(SK);
-    if(s){tasks=JSON.parse(s);}
-    else{tasks=SEED.map(t=>({...t,substeps:(t.substeps||[]).map(s=>({...s}))}));save();}
-  }catch{tasks=SEED.map(t=>({...t,substeps:(t.substeps||[]).map(s=>({...s}))}))}
+    await fetch(SB_URL+"/rest/v1/task_state",{method:"POST",headers:SB_HEAD,
+      body:JSON.stringify({id:t.id,status:t.status,updated_by:ME||null,updated_at:new Date().toISOString()})});
+    setSS("synced");
+  }catch(e){ setSS("offline"); }
 }
-let saveTimer;
-function save(){
-  clearTimeout(saveTimer);
-  saveTimer=setTimeout(()=>{
-    try{localStorage.setItem(SK,JSON.stringify(tasks));setSS("saved")}catch{setSS("error")}
-  },300);
-  setSS("saving…");
+
+async function pushSubstep(taskId,idx,done){
+  try{
+    await fetch(SB_URL+"/rest/v1/substep_state",{method:"POST",headers:SB_HEAD,
+      body:JSON.stringify({id:taskId+"|"+idx,task_id:taskId,step_index:idx,done:done,updated_by:ME||null,updated_at:new Date().toISOString()})});
+    setSS("synced");
+  }catch(e){ setSS("offline"); }
 }
-function setSS(s){const e=document.getElementById("save-status");if(e)e.textContent=s}
+
+async function load(){
+  seedTasks();
+  cacheLoad();
+  render();
+  await pullState();
+  render();
+  if(!ME) setTimeout(setMe, 600);
+}
+
+async function manualRefresh(){ await pullState(); render(); }
+
+setInterval(async()=>{ if(!document.hidden){ await pullState(); render(); } }, 45000);
+document.addEventListener("visibilitychange", async()=>{
+  if(!document.hidden){ await pullState(); render(); }
+});
 
 // ── HELPERS ───────────────────────────────────────────────────────
 function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
@@ -368,16 +442,21 @@ function cycleStatus(id){
   const order=["Not started","In progress","Done","Blocked"];
   const t=tasks.find(t=>t.id===id);if(!t)return;
   t.status=order[(order.indexOf(t.status)+1)%order.length];
+  t._by=ME;
   save();render();
+  pushTask(t);
 }
 function toggleSubstep(taskId,idx){
   const t=tasks.find(t=>t.id===taskId);if(!t||!t.substeps)return;
   t.substeps[idx].done=!t.substeps[idx].done;
-  // Auto-advance status
   const total=t.substeps.length,done=t.substeps.filter(s=>s.done).length;
+  const before=t.status;
   if(done===total&&t.status!=="Done")t.status="Done";
   else if(done>0&&t.status==="Not started")t.status="In progress";
+  t._by=ME;
   save();render();
+  pushSubstep(taskId,idx,t.substeps[idx].done);
+  if(t.status!==before) pushTask(t);
 }
 
 // ── TASK CARD HTML ────────────────────────────────────────────────
@@ -415,6 +494,7 @@ function taskCard(t,showSubsteps=false){
       <button class="edit-btn" onclick="openEdit('${esc(t.id)}')">edit</button>
     </div>
     ${t.notes?`<div class="task-note">${esc(t.notes)}</div>`:""}
+    ${t._by?`<div style="font-size:9px;color:#bbb;margin-top:4px;letter-spacing:0.5px">last touched by ${esc(t._by)}</div>`:""}
     ${subsHtml}
   </div>`;
 }
@@ -689,6 +769,8 @@ function render(){
   }
   const dp=document.getElementById("days-pill");
   if(dp)dp.textContent=DAYS_LEFT+" days";
+  const wb=document.getElementById("who-btn");
+  if(wb) wb.textContent = ME ? ME : "who?";
 }
 
 // ── EDIT / ADD ────────────────────────────────────────────────────
